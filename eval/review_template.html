@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>@@TITLE@@</title>
+<style>
+body{font:14px/1.45 system-ui,sans-serif;margin:0;color:#1b1b1b;background:#f6f7f9}
+.top{position:sticky;top:0;background:#162e51;color:#fff;padding:10px 20px;z-index:2}
+.top h1{font-size:18px;margin:0} .top p{margin:2px 0 6px;opacity:.85}
+nav a{color:#fff;margin-right:6px;padding:1px 6px;border-radius:3px;text-decoration:none;background:#2c4b7a;font-size:12px}
+nav a.scored{background:#00a91c}
+main{padding:16px 20px;max-width:1500px}
+.run,.ref{background:#fff;border:1px solid #dfe1e2;border-radius:6px;margin:0 0 18px;padding:12px 16px}
+.run header{display:flex;justify-content:space-between;align-items:center}
+h2{margin:4px 0;font-size:17px} h2 small{font-weight:normal;color:#565c65}
+.cols{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.answer{border-right:1px solid #eee;padding-right:16px;overflow:auto;max-height:640px}
+.side{overflow:auto;max-height:640px}
+table{border-collapse:collapse;font-size:12px;margin:6px 0} td,th{border:1px solid #dfe1e2;padding:2px 6px;text-align:left}
+th{background:#f0f0f0} td{word-break:break-all;max-width:420px}
+.answer h1{font-size:18px} .answer h2{font-size:16px} .answer h3{font-size:15px} pre{background:#f6f6f6;padding:6px;overflow:auto;font-size:11px;max-height:320px}
+.auto{padding:2px 8px;border-radius:10px;font-weight:600;font-size:12px}
+.pass{background:#ecf3ec;color:#154c21} .fail{background:#f4e3db;color:#6f3331}
+.warn{background:#faf3d1;color:#5c4809} .info{background:#e7f6f8;color:#00687d}
+ul.checks{list-style:none;padding:0} ul.checks li{margin:3px 0;padding:3px 6px;border-radius:3px}
+.score{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.score label{display:flex;flex-direction:column;font-size:12px;color:#565c65}
+.score .notes{grid-column:1/-1} details{margin:4px 0} summary{cursor:pointer}
+button{margin:4px 6px 0 0}
+</style></head><body>
+<div class="top"><h1>@@TITLE@@</h1><p>@@META@@ · <span id="progress"></span></p>
+<nav>@@NAV@@</nav>
+<div><button id="export">Export scores JSON</button><button id="import">Import scores</button>
+<input type="file" id="file" accept="application/json" hidden>
+<label><input type="checkbox" id="onlyflag"> show only runs with failed/warn checks</label></div></div>
+<main>
+<section class="ref"><h2>Independent reference data</h2>
+<p>Computed by this report from the reviewed snapshot file, not from server code. Rates are
+percent of civilian labor force; population change is percent, unemployment change is
+percentage points.</p>@@REFERENCE@@<h3>Sources</h3>@@SOURCES@@</section>
+@@CARDS@@
+</main>
+<script>
+const KEY = @@STORAGE_KEY@@, PANEL = @@PANEL_NAME@@;
+const scores = JSON.parse(localStorage.getItem(KEY) || "{}");
+function sync() {
+  let done = 0;
+  document.querySelectorAll(".run").forEach(s => {
+    const id = s.dataset.run, v = scores[id] || {};
+    s.querySelectorAll("[data-key]").forEach(el => { el.value = v[el.dataset.key] || ""; });
+    const ok = !!v.overall; if (ok) done++;
+    document.querySelector(`[data-nav="${CSS.escape(id)}"]`).classList.toggle("scored", ok);
+  });
+  document.getElementById("progress").textContent = `${done} / ${document.querySelectorAll(".run").length} scored`;
+}
+document.addEventListener("input", e => {
+  const s = e.target.closest(".run"); if (!s || !e.target.dataset.key) return;
+  const id = s.dataset.run; scores[id] = scores[id] || {};
+  scores[id][e.target.dataset.key] = e.target.value;
+  localStorage.setItem(KEY, JSON.stringify(scores)); sync();
+});
+document.getElementById("export").onclick = () => {
+  const blob = new Blob([JSON.stringify({panel: PANEL, scores}, null, 1)], {type: "application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = PANEL.replace("-eval-panel.json", "-eval-scores.json"); a.click();
+};
+document.getElementById("import").onclick = () => document.getElementById("file").click();
+document.getElementById("file").onchange = async e => {
+  const data = JSON.parse(await e.target.files[0].text());
+  Object.assign(scores, data.scores || {}); localStorage.setItem(KEY, JSON.stringify(scores)); sync();
+};
+document.getElementById("onlyflag").onchange = e => document.querySelectorAll(".run").forEach(s => {
+  s.hidden = e.target.checked && s.dataset.auto === "pass";
+});
+sync();
+</script></body></html>

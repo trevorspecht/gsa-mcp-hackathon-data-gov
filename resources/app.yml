@@ -1,0 +1,26 @@
+resources:
+  apps:
+    datagov_mcp:
+      name: ${var.app_name}
+      description: Public data discovery and reviewed county indicator comparisons
+      source_code_path: ../.local/app
+      resources:
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+      config:
+        command: ['python', '-m', 'datagov_mcp.app']
+        env:
+          - name: DATABRICKS_WAREHOUSE_ID
+            value: ${var.warehouse_id}
+          - name: DATABRICKS_CATALOG
+            value: ${var.catalog}
+          - name: DATABRICKS_SCHEMA
+            value: ${var.schema}
+          - name: DATABRICKS_TABLE
+            value: county_indicators
+          - name: ANALYTICS_MANIFEST
+            value: manifest.json
+          - name: CATALOG_INTERFACE
+            value: direct

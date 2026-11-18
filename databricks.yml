@@ -1,0 +1,35 @@
+bundle:
+  name: datagov-semantic-mcp
+
+variables:
+  app_name:
+    description: Private sandbox App name (mcp- prefix enables discovery)
+    default: mcp-datagov-semantic
+  warehouse_id:
+    description: Existing SQL warehouse ID
+  catalog:
+    description: Existing Unity Catalog catalog
+  schema:
+    description: Existing schema for the reviewed snapshot
+
+include:
+  - resources/*.yml
+
+sync:
+  include:
+    - .local/app/**
+  exclude:
+    - .env
+    - .env.*
+    - handoff/**
+    - .local/data/**
+    - .local/evidence/**
+    - .local/verification/**
+    - .local/tools/**
+    - .venv/**
+    - '*.tgz'
+
+targets:
+  sandbox:
+    default: true
+    mode: development

@@ -1,0 +1,56 @@
+[project]
+name = "datagov-semantic-mcp"
+version = "0.1.0"
+description = "Broad Data.gov discovery and evidence-backed curated comparisons"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastmcp==4.2.1",
+  "httpx==0.28.1",
+  "pydantic==2.14.3",
+  "pydantic-settings==2.16.3",
+  "databricks-sdk==0.167.0",
+  "truststore==0.10.5",
+]
+
+[project.scripts]
+datagov-mcp = "datagov_mcp.app:main"
+datagov-setup-check = "datagov_mcp.setup_check:main"
+datagov-prepare = "datagov_mcp.ingestion:main"
+datagov-load = "datagov_mcp.load:main"
+datagov-agent = "datagov_mcp.agent:main"
+
+[build-system]
+requires = ["hatchling==1.33.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/datagov_mcp"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"registry/metrics.json" = "datagov_mcp/data/metrics.json"
+"sql/compare.sql" = "datagov_mcp/data/compare.sql"
+
+[dependency-groups]
+dev = [
+  "pytest==9.2.0",
+  "pytest-asyncio==1.5.0",
+  "ruff==0.17.5",
+  "bandit==1.9.4",
+  "pip-audit==2.10.1",
+  "detect-secrets==1.5.0",
+  "pre-commit==4.7.0",
+  "markdown-it-py==4.3.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
