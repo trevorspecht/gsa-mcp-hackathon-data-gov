@@ -1,0 +1,76 @@
+---
+title: "Data.gov Semantic MCP"
+description: "Discover public datasets and compare reviewed county indicators with evidence"
+status: draft
+tier: 1
+last_updated: "2026-11-18"
+related_files: ["PROJECT_PLAN.md", "docs/decisions/0001-semantic-registry.md"]
+---
+
+# Data.gov Semantic MCP
+
+An AI-assisted GSA hackathon prototype: broad live Data.gov metadata discovery,
+reviewed semantic definitions, and bounded Census/BLS comparisons in Databricks.
+Public government data only; hosted use is confined to an authenticated sandbox.
+
+## Start
+
+Requires Python 3.12+ and `uv`. From this directory:
+
+```sh
+make setup
+uv run datagov-setup-check
+uv run datagov-mcp
+```
+
+The default server uses **stdio**: an MCP client launches it and exchanges JSON-RPC
+through standard input/output. Waiting silently for client input is normal.
+Copy `.env.example` to `.env` only if `.env` does not already exist. Fill in
+Databricks values there; never put credentials in client JSON or commit them.
+The documented public direct catalog interface works without an API key.
+Select `CATALOG_INTERFACE=gateway` and supply `DATA_GOV_API_KEY` to use v4 instead.
+Transport selection is explicit; quota errors never trigger interface switching.
+
+## Verify
+
+```sh
+make check  # lint, tests, documentation, secrets, SAST, dependency audit, build
+make live   # bounded real catalog calls through an MCP subprocess
+```
+
+Live checks write timestamped observations under `.local/verification/`.
+Live warehouse, hosted App and agent evidence: see [verification](docs/VERIFICATION.md).
+CI runs `make check` on pushes and pull requests (`.github/workflows/check.yml`).
+To review agent answers visually, see [evaluation](docs/EVALUATION.md#run-and-review).
+
+## Databricks agent
+
+The selected client is a Databricks-hosted tool-calling model. See
+[workspace and agent setup](docs/DATABRICKS.md) and [source preparation](docs/DATA.md).
+After the authenticated MCP App exists and `.env` is populated:
+
+```sh
+uv run datagov-agent "Find federal water quality datasets and inspect one."
+```
+
+The runner returns the model answer and actual tool trace. App calls require
+OAuth; a local warehouse PAT cannot authenticate to a Databricks App.
+
+## Tools
+
+- `find_data_for_question`: bounded keyword/filter search with semantic suggestions.
+- `inspect_dataset`: inspect a harvest record with per-distribution terms.
+- `suggest_search_filters`: resolve publisher, topic, and location vocabulary.
+- `assess_comparison`: check registered measures, geography, periods and readiness.
+- `compare_public_indicators`: execute a registered two-source comparison.
+- `get_analysis_evidence`: retrieve the saved query, parameters, sources and result.
+
+The resource `data.gov://capabilities` describes supported measures and setup status.
+Search terms are chosen by the calling agent; this server does not need another LLM
+or embedding service. Synonym suggestions are transparent and never silently change
+search parameters. A catalog match is not proof of analytic compatibility.
+
+## Status and ownership
+
+See `PROJECT_PLAN.md` for live task state. AI-generated code requires human review
+before deployment. No remote repository or workspace resource is created by setup.

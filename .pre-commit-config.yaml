@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: secrets
+        name: Scan project sources for secrets
+        entry: uv run python scripts/check_secrets.py
+        language: system
+        pass_filenames: false
+      - id: ruff
+        name: Ruff lint
+        entry: uv run ruff check
+        language: system
+        types: [python]
