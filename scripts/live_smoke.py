@@ -27,8 +27,8 @@ async def main():
         async with Client(transport, timeout=60) as client:
             tools = [t.name for t in await client.list_tools()]
             transcript["tools"] = tools
-            if len(tools) != 6:
-                raise RuntimeError("Expected six tools")
+            if len(tools) != 8:
+                raise RuntimeError("Expected eight tools")
 
             async def call(name, args):
                 started = time.monotonic()

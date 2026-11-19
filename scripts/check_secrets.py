@@ -1,6 +1,8 @@
 """Scan publishable sources; never read ignored credentials or historical exports."""
 
+import re
 import subprocess
+from pathlib import Path
 
 from detect_secrets import SecretsCollection
 from detect_secrets.settings import default_settings
@@ -20,6 +22,22 @@ with default_settings():
         if path and path != "uv.lock":
             secrets.scan_file(path)
 findings = secrets.json()
+# Only these generated public-file checksum fields are reviewed non-secret values.
+if "registry/science.json" in findings:
+    lines = Path("registry/science.json").read_text().splitlines()
+    findings["registry/science.json"] = [
+        item
+        for item in findings["registry/science.json"]
+        if not (
+            item["type"] == "Hex High Entropy String"
+            and re.fullmatch(
+                r'\s*"(?:sha256|methodology_sha256)": "[a-f0-9]{64}",?',
+                lines[item["line_number"] - 1],
+            )
+        )
+    ]
+    if not findings["registry/science.json"]:
+        del findings["registry/science.json"]
 if findings:
     for path, entries in findings.items():
         for entry in entries:

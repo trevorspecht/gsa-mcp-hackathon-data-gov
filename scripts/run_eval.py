@@ -21,12 +21,13 @@ REPEATED = ("A1", "M1", "U3")
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--only", nargs="*", help="Question IDs to run")
+    parser.add_argument("--questions", type=Path, default=ROOT / "eval/questions.json")
     parser.add_argument("--repeats", type=int, default=3)
     args = parser.parse_args()
     if not 1 <= args.repeats <= 3:
         parser.error("--repeats must be between 1 and 3")
     settings = AgentSettings()
-    questions = json.loads((ROOT / "eval/questions.json").read_text())
+    questions = json.loads(args.questions.read_text())
     if args.only and set(args.only) - {q["id"] for q in questions}:
         parser.error("Unknown question ID")
     if args.only:
@@ -54,6 +55,7 @@ def main():
         "model_endpoint": settings.databricks_model_endpoint,
         "mcp_url": settings.databricks_mcp_url,
         "snapshot_id": manifest["snapshot_id"],
+        "science_snapshot": json.loads((ROOT / "registry/science.json").read_text()),
         "runs": [],
     }
     path = ROOT / ".local/verification" / f"{stamp}-eval-panel.json"

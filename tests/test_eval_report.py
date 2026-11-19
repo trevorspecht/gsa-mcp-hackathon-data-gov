@@ -114,3 +114,8 @@ def test_incomplete_answer_flagged_even_if_exit_was_zero():
         {"exit": 0, "status": "incomplete", "trace": []}, reference()
     )
     assert ("fail", "Model run status: incomplete") in checks
+
+
+def test_science_values_keep_fractional_precision_above_thousand():
+    assert eval_report.fmt(1770.5665) == "1,770.5665"
+    assert eval_report.fmt(570663.0) == "570,663"

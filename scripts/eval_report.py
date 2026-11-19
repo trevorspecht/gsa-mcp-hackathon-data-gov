@@ -188,7 +188,7 @@ class Reference:
         return rows[: request.get("limit", 24)], summary
 
 
-def check_run(run, reference):
+def check_run(run, reference, science=None):
     checks = []
     trace = run.get("trace", [])
     if run.get("status") not in (None, "complete"):
@@ -199,6 +199,36 @@ def check_run(run, reference):
         result = step.get("result")
         if isinstance(result, dict) and (result.get("error") or result.get("is_error")):
             checks.append(("warn", f"{step['tool']} returned an error"))
+        if step["tool"] == "query_science_series" and isinstance(result, dict):
+            if science and result.get("status") == "complete":
+                request = step["arguments"]["request"]
+                dataset = next(
+                    d for d in science["datasets"] if d["id"] == request["dataset_id"]
+                )
+                expected = [
+                    r
+                    for r in dataset["observations"]
+                    if request.get("start_year", 1985)
+                    <= r["year"]
+                    <= request.get("end_year", 2012)
+                ]
+                matches = (
+                    result.get("rows") == expected
+                    and result.get("unit") == dataset["unit"]
+                    and result.get("snapshot_id") == science["snapshot_id"]
+                )
+                checks.append(
+                    (
+                        "pass" if matches else "fail",
+                        "Science rows, units and snapshot match frozen reference"
+                        if matches
+                        else "Science reference mismatch",
+                    )
+                )
+            else:
+                checks.append(
+                    ("info", "Science query: inspect available years and evidence")
+                )
         if step["tool"] != "compare_public_indicators" or not isinstance(result, dict):
             continue
         if result.get("status") != "complete":
@@ -254,18 +284,14 @@ def table(rows, columns):
 
 def fmt(value):
     if isinstance(value, float):
-        return (
-            f"{value:,.4f}".rstrip("0").rstrip(".")
-            if abs(value) < 1000
-            else f"{value:,.0f}"
-        )
+        return f"{value:,.4f}".rstrip("0").rstrip(".")
     if isinstance(value, int):
         return f"{value:,}"
     return "" if value is None else str(value)
 
 
-def run_card(index, run, question, reference, ai_review=None):
-    checks = check_run(run, reference)
+def run_card(index, run, question, reference, ai_review=None, science=None):
+    checks = check_run(run, reference, science)
     badges = "".join(
         f'<li class="{level}">{html.escape(level.upper())}: {html.escape(msg)}</li>'
         for level, msg in checks
@@ -375,7 +401,14 @@ def main():
         panel["runs"], key=lambda r: (list(questions).index(r["id"]), r["repeat"])
     )
     cards = "".join(
-        run_card(i, r, questions[r["id"]], reference, ai_review)
+        run_card(
+            i,
+            r,
+            questions[r["id"]],
+            reference,
+            ai_review,
+            panel.get("science_snapshot"),
+        )
         for i, r in enumerate(runs)
     )
     nav = "".join(

@@ -9,7 +9,26 @@ related_files: ["EVALUATION.md", "DATABRICKS.md"]
 
 # Demo
 
-## Sequence
+## Submission artifacts and end-user demo
+
+Deadline confirmed by owner: **11:59:59 p.m. US Eastern, November 20, 2026**.
+Organizer templates are in `.local/submission/templates/`. Run
+`uv run python scripts/build_submission.py` to produce the adapted 12-slide deck
+and evaluation DOCX in `.local/submission/`. Both are drafts requiring presenter
+review. The slide deck includes charts using verified values and keeps climate and
+practice geography separate.
+
+Use the private `datagov-research-ui` App for the end-user demonstration:
+
+1. Ask for a climate/agriculture dataset landscape; show cards, metadata and unknowns.
+2. Query Chesapeake cover-crop estimates; show sparse points, table and evidence.
+3. Ask whether Maryland climate caused adoption; show the geography/causality limit.
+4. Optionally demonstrate the verified Census/BLS county comparison as a second domain.
+
+A live science query and chart were verified in the authenticated UI. A video
+fallback still needs recording; do not describe the slide charts as a recorded demo.
+
+## Original county demo sequence
 
 1. Ask the Databricks agent to find and inspect water-quality datasets. Show actual
    tool calls and publisher references, demonstrating breadth beyond the seed domain.
@@ -28,7 +47,7 @@ unrehearsed scenario a working demo. Record a fallback only after a successful r
 1. **Problem:** government data is discoverable, but finding a dataset does not
    establish that two measures can be meaningfully compared.
 2. **Solution:** broad Data.gov search, reviewed meanings, controlled computation,
-   and reproducible evidence through six goal-oriented MCP tools.
+   and reproducible evidence through eight goal-oriented MCP tools.
 3. **Architecture:** Databricks agent → authenticated MCP App → catalog metadata
    or approved SQL warehouse snapshot; versioned registry and evidence artifacts.
 4. **Demonstration:** one discovery question, one cross-source comparison, one

@@ -9,6 +9,27 @@ related_files: ["../README.md", "DEMO.md"]
 
 # Evaluation
 
+## Climate/agriculture expansion — November 19
+
+`eval/climate-agriculture.json` adds nine cases: two deep dataset inventories,
+four scientific series, an incompatible causal join, a missing-year request and
+an arbitrary SQL/local-URL request. Run with `scripts/run_eval.py --questions
+eval/climate-agriculture.json --repeats 1`.
+
+Two actual rounds (`20261119T232056Z`, `20261119T232423Z`) completed 9/9 each.
+Each returned five scientific query responses (including a supported alternative
+for the missing-year question); all five per round independently matched raw NOAA
+CSV observations or Decimal sums of the 50,871-row USGS tables. Causal joins and
+interpolation were declined; no arbitrary SQL or localhost fetch was executed.
+Inventories used multiple searches and inspections and described result coverage,
+metadata uncertainties, measurements versus models/projections/code, and terms.
+
+These are successful execution and numeric checks, not a claim of comprehensive
+human correctness scoring. The first round did not embed the science snapshot;
+the second does, allowing the HTML to check rows/units/snapshot automatically.
+Both preserve exact questions, model settings and source hashes. Reports are in
+`.local/verification/`; no saved answers or human scores were replaced.
+
 ## Panel
 
 `eval/questions.json` defines 12 questions: three discovery, three methodology,

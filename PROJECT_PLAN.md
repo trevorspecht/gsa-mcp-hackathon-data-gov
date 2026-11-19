@@ -9,6 +9,37 @@ related_files: ["RESEARCH_LOG.md", "ACCESS_BLOCKERS.md", "README.md"]
 
 # Project plan: data.gov MCP server
 
+## Submission update — November 19
+
+Owner confirmed the submission deadline is **midnight at the end of November 20**
+(the transition to November 21, **US Eastern**). Use the organizer's
+PPTX and DOCX templates, downloaded to `.local/submission/templates/`. They are
+worked CDC PLACES examples, not requirements to adopt Phoenix or copy example
+scores. Adapt their sections using this project's actual evidence.
+
+Next delivery scope requested: a private Databricks end-user App with appropriate
+visuals; stronger topic-discovery/dataset-inventory examples; investigate up to two
+scientific datasets for bounded supported queries; at least two additional evaluation
+runs; then technical-quality review and final template-based submission materials.
+Keep existing verified comparisons working, retain all evaluation attempts, and
+separate future features from demonstrated capabilities. Review concrete new
+workspace resources and grants before deployment. Preserve a portable archive
+before the temporary Databricks environment expires.
+
+## Latest delivery — November 19 evening
+
+- Separate private `datagov-research-ui` deployed; successful live scientific
+  question → MCP → answer/chart/table/download. No direct warehouse grants.
+- Eight MCP tools now include fixed reviewed science capabilities and queries:
+  NOAA Maryland climate plus USGS Chesapeake cover crops/tillage. Source methods,
+  units and mismatched geography are explicit; no causal join supported.
+- Additional rounds `20261119T232056Z` and `20261119T232423Z`: 9/9 completed each;
+  five scientific responses per round independently match raw publisher data.
+- Technical review: docs/TECHNICAL_REVIEW.md; 73 tests with UI extra, full checks
+  pass. Documents are local drafts, not evidence of organizer submission.
+- Submission deadline: 11:59:59 p.m. US Eastern November 20. Portable backup must
+  be copied off this machine before retiring the temporary environment.
+
 ## Active build — November 18
 
 The owner approved the three-day scoped implementation plan and project-local
@@ -36,7 +67,7 @@ refused before HTTP. User OAuth support exists but interactive login was not run
 | BUILD-05 | Configure warehouse and load curated snapshot | LIVE VERIFIED | Owner-approved load of 72 rows to `users.trevor_specht.county_indicators` (`*-load.txt`); stdio MCP comparison + evidence against real table (`*-stdio-warehouse-e2e.json`) |
 | BUILD-06 | Compare indicators and persist evidence | LIVE VERIFIED | Real-table comparisons via stdio and hosted App; SQL dialect check 0 mismatches vs independent Python |
 | BUILD-07 | Databricks App bundle and private deployment | LIVE VERIFIED | Owner-approved App `mcp-datagov-semantic` RUNNING; SP has USE SCHEMA + SELECT on table only. Fixes: uv-project staging (pip = Py3.11), bare App host normalization |
-| BUILD-08 | Evaluation, demo and submission materials | IN PROGRESS | `scripts/run_eval.py` + `scripts/eval_report.py` produce an offline HTML review page with independent reference checks and in-page scoring. Slides/submission pending |
+| BUILD-08 | Evaluation, demo and submission materials | DRAFTS READY | Private research UI verified; two climate/agriculture eval rounds 9/9 complete each. Organizer-template 12-slide PPTX + evaluation DOCX generated in .local/submission. Human proofreading, demo recording and final submission pending |
 | BUILD-09 | Remote repo, license choice and CI configuration | DONE | Pushed to public `trevorspecht/gsa-mcp-hackathon-data-gov` (GPL-3.0 kept from the repo). CI `check` run 44350605532 passed on `main` |
 | BUILD-10 | Live Databricks model-agent evaluation | SOL RUN COMPLETE; HUMAN REVIEW PENDING | Final Sol Responses panel `20261119T152023Z`: 18/18 complete, all 8 comparisons match reference, no incomplete outputs/tool errors. AI review: 13 correct / 5 correct abstentions; M2 citation criterion partial. New scored HTML ready. Earlier attempts and human Opus scores preserved; details in docs/EVALUATION.md |
 | BUILD-11 | Gateway and spatial-filter live contract checks | TODO | Direct discovery already verified; gateway requires personal key, spatial filter requires bounded real geometry test |

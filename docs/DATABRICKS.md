@@ -9,7 +9,7 @@ related_files: ["../README.md", "DATA.md"]
 
 # Databricks sandbox and agent setup
 
-Selected client: a **Databricks model agent**. The model calls our six MCP tools;
+Selected client: a **Databricks model agent**. The model calls our eight MCP tools;
 our MCP server runs in an authenticated Databricks App and queries curated data
 using the App service principal. This is shared access to public datasets, not
 per-user Unity Catalog identity propagation.
