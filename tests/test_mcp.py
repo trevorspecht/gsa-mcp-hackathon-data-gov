@@ -23,6 +23,8 @@ async def test_registered_protocol_tools_resources_and_setup_response(settings):
             "assess_comparison",
             "compare_public_indicators",
             "get_analysis_evidence",
+            "inspect_science_capabilities",
+            "query_science_series",
         }
         result = await client.call_tool(
             "find_data_for_question", {"request": {"query": "water"}}
