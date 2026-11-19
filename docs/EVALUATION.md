@@ -35,10 +35,76 @@ browser; **Export scores JSON** writes `<ts>-eval-scores.json`, which you can
 keep next to the panel. Automated checks cover numbers only, so a reviewer still
 judges interpretation, citations and limitations.
 
+New runs embed the exact question definitions, system prompt and hash, source-code
+hashes, API choice, token budget and reasoning effort. Individual results retain
+model completion metadata. The HTML uses the embedded questions; older runs use
+`eval/questions-v1.json`, so changing U2 cannot relabel historical answers.
+U2 now explicitly asks for California population/unemployment changes from 2020
+to 2024; no prior conversation is assumed. New reports expose model completion
+metadata and flag incomplete output even when its partial answer contains data.
+
 Score each separately for tool selection, parameters, returned data, interpretation,
 citations and limitations. Overall categories: correct, partially correct, wrong,
 correct abstention, erroneous refusal, or environment-blocked. Report the denominator
 and blocked cases explicitly. No LLM-generated grade replaces independent numbers.
+
+## Human review and next-run adjustments — November 19
+
+Human scores were exported from the review page to
+`.local/verification/20261118T161659Z-eval-human-scores.json`. The owner explicitly
+corrected all three U3 overall grades to **correct**, retaining individual rubric
+scores; the file preserves that correction history. Human totals are **16 correct,
+2 partially correct** (D3 and M3). AI scores remain separate, not averaged into a
+single grade. “Correct abstention” versus “correct” is not treated as a substantive
+disagreement for an unsupported question.
+
+Priorities informed by both reviews (implemented for the Sol runs below):
+
+1. Detect incomplete model output and retain completion status/finish reasons.
+   D2/D3/M3 have unfinished endings even though the process exited successfully.
+2. Make caveats explicit in the answer, rather than referring to hidden JSON
+   (“the caveats”), as the human M1 note requests. Keep methodology and catalog
+   availability claims within the evidence actually returned.
+3. Reconcile stale source-verification labels with verified snapshot readiness.
+4. Make U2 self-contained and freeze exact question text, prompt/model settings
+   and completion metadata with future runs. Preserve this baseline unchanged.
+
+The owner requested investigation of GPT-6.1 Responses support before applying
+these changes or starting a new panel; see [Databricks setup](DATABRICKS.md).
+
+## Separate AI reviewer scores
+
+The latest panel (`20261118T161659Z`) now has an advisory GPT-6 Astra review of
+all 18 saved answers and traces, distinct from the answering model (Claude Opus 5).
+Scores and a reason for each of the six rubric items are saved in
+`.local/verification/20261118T161659Z-eval-ai-scores.json`. The report generator
+automatically loads that sibling file, or accepts `--ai-review PATH`. It checks
+that the review matches the exact panel SHA-256, snapshot and all run IDs.
+
+The HTML shows **AI reviewer assessment** separately from **Your score**. It
+never fills or replaces human dropdowns, notes, browser storage or exports.
+Regenerate the same HTML path to retain existing human browser scores. This
+review is AI-assisted, not blind evaluation or human certification.
+
+The reviewer graded 9 runs correct, 3 correct abstentions and 6 partially correct
+(D2, D3, M2, M3, U1 and U3 repeat 1). All eight comparison outputs still match the
+independent numeric reference; the partial grades concern the answer text:
+
+- D2 and D3 end mid-sentence; M3 ends with an unfinished caveat heading. The saved
+  run does not retain a finish reason, so the cause is not established here.
+- D3 says “page 1 of 10,” although the trace reports ten records and a next cursor,
+  not a total page count.
+- M2 conflates harvest timing with vintage in one sentence despite its otherwise
+  correct observation-date explanation.
+- M3 adds unsupported methodology/weighting claims; U1 overstates absence from
+  two narrowly filtered searches as absence from the catalog.
+- U3 repeat 1 describes an inverse pattern as opposing the proposed inverse
+  relationship and asserts typical revision magnitudes without evidence.
+
+Some methodology responses quote stale “awaiting source download” source labels
+returned alongside `ready_to_execute=true`. These are inconsistent tool metadata,
+not model-fabricated blockers. Original panel outputs remain unchanged for audit;
+reviewing this run does not silently repair or rerun the evaluated system.
 
 ## Numerical reference
 
@@ -61,6 +127,35 @@ synthetic rows; Databricks dialect and publisher data still require live testing
 - Nov. 18 15:47 UTC panel run (`.local/verification/20261118T154713Z-eval-panel.json`):
   `datagov-agent` → `databricks-claude-opus-5` → hosted App `mcp-datagov-semantic`
   → warehouse table, snapshot `ad9580ad34ac9575d0867709`. 18/18 runs exited 0.
+
+## Final Sol evaluation — November 19
+
+Final run: `20261119T152023Z-eval-panel.json` with scored review page
+`20261119T152023Z-eval-review.html` under `.local/verification/`.
+Model: `system.ai.gpt-6-1-sol`, Responses API, low reasoning effort, maximum
+4,000 output tokens. All 18 runs exited 0 and every model turn reported completed.
+All eight analytical comparisons matched the independent reference and source
+hashes; no incomplete outputs or tool errors were observed. Mean duration was
+15.7 seconds per question in this small run, not a latency guarantee.
+
+AI-assisted review: 13 correct and 5 correct abstentions. M2's conceptual answer
+is correct but lacks an external citation/live example (citation criterion partial).
+Human review remains separate and pending. The HTML retains the no-tool warning
+for M2 rather than presenting it as MCP-backed. All repeated M1 answers checked
+registered definitions, A1 returned Worcester only, and U3 declined causation while
+correctly distinguishing county counts from statewide aggregate rates.
+
+Preserved iterations:
+
+- `20261119T150947Z`: all 18 completed, but several definition/refusal answers
+  skipped registry assessment; prompt tightened afterward.
+- `20261119T151545Z`: 17 completed; D3 failed with MCPError during redeployment.
+  Failure retained rather than replaced with a retry.
+- `20261119T152023Z`: full rerun against stable deployment, 18 completed.
+
+This is a system iteration, not a controlled claim that Sol alone improved scores:
+model, prompt, API/output budget, source-status handling and U2 wording changed.
+Historical Opus answers, human scores and AI scores remain unchanged.
 
 ## Panel run 2 — summary counts (16:16 UTC Nov. 18)
 

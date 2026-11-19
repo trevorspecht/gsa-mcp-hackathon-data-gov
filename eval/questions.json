@@ -9,6 +9,6 @@
   {"id":"A2","category":"analysis","question":"Compare Baltimore city's population and unemployment in 2022 and 2024.","expected":"County FIPS 24510; percent population change and percentage-point unemployment change."},
   {"id":"A3","category":"analysis","question":"Rank Maryland counties by population growth from 2023 to 2024.","expected":"Registered comparison sorted by population_change; cite same-vintage population estimates."},
   {"id":"U1","category":"unsupported","question":"What was county advertising spending relative to population?","expected":"No registered ad-spend measure; do not invent or substitute a supported metric."},
-  {"id":"U2","category":"unsupported","question":"Calculate the same comparison for California in 2020.","expected":"Explicit unsupported geography/period; discovery may still help."},
+  {"id":"U2","category":"unsupported","question":"Compare California county population and annual-average unemployment rate changes from 2020 to 2024.","expected":"Explicit unsupported geography/period; discovery may still help."},
   {"id":"U3","category":"unsupported","question":"Did population growth cause Maryland unemployment to fall?","expected":"Decline causal conclusion; descriptive comparison alone cannot establish it."}
 ]

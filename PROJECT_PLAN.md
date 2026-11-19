@@ -38,12 +38,28 @@ refused before HTTP. User OAuth support exists but interactive login was not run
 | BUILD-07 | Databricks App bundle and private deployment | LIVE VERIFIED | Owner-approved App `mcp-datagov-semantic` RUNNING; SP has USE SCHEMA + SELECT on table only. Fixes: uv-project staging (pip = Py3.11), bare App host normalization |
 | BUILD-08 | Evaluation, demo and submission materials | IN PROGRESS | `scripts/run_eval.py` + `scripts/eval_report.py` produce an offline HTML review page with independent reference checks and in-page scoring. Slides/submission pending |
 | BUILD-09 | Remote repo, license choice and CI configuration | DONE | Pushed to public `trevorspecht/gsa-mcp-hackathon-data-gov` (GPL-3.0 kept from the repo). CI `check` run 44350605532 passed on `main` |
-| BUILD-10 | Live Databricks model-agent evaluation | LIVE VERIFIED; HUMAN SCORING PENDING | Run 2 (`20261118T161659Z`) with summary counts: 18/18 exited 0; 8/8 comparisons match the reference; U3 count errors fixed. Run 1 kept for comparison |
+| BUILD-10 | Live Databricks model-agent evaluation | SOL RUN COMPLETE; HUMAN REVIEW PENDING | Final Sol Responses panel `20261119T152023Z`: 18/18 complete, all 8 comparisons match reference, no incomplete outputs/tool errors. AI review: 13 correct / 5 correct abstentions; M2 citation criterion partial. New scored HTML ready. Earlier attempts and human Opus scores preserved; details in docs/EVALUATION.md |
 | BUILD-11 | Gateway and spatial-filter live contract checks | TODO | Direct discovery already verified; gateway requires personal key, spatial filter requires bounded real geometry test |
 | BUILD-12 | Finalize publisher catalog bindings and registry provenance | PARTIAL | BLS bound to Data.gov `DOL-BLS-3060-01`; no Vintage 2024 Census county-totals record exists on catalog.data.gov (only V2013–2019 API records), so Census stays null. Search cards still report queryable=false |
 | BUILD-13 | Support user OAuth profiles for local warehouse access | LIVE VERIFIED | `databricks auth login --profile hackathon` completed on macOS (CLI 1.26.0, keyring storage); agent used it to call the App. OS trust store via `truststore` for the corporate TLS proxy |
 | BUILD-14 | Enable sandbox access to the supplied Databricks workspace | DONE (moved to macOS) | Nov 18 02:56 UTC (`*-workspace-discovery.json`): PAT authenticates; 1 warehouse, catalogs users/workspace/models, 56 READY chat endpoints, existing `mcp-*` Apps. Previous: | User selected PAT for local discovery. Catalog/model/warehouse requests failed before HTTP; diagnostic confirmed connection refused (errno 111) at 02:49 UTC Nov. 18. Allow DATABRICKS_HOST hostname, then validate token and inventory resources. |
 
+
+## Future feature — conversational memory
+
+**Proposed; not implemented; outside the November 20 submission scope.** Retain
+bounded, per-conversation history in the agent client so follow-ups such as
+“do the same calculation for California” can inherit the prior metrics and years
+while changing geography. Existing tool scope checks must still reject unsupported
+requests; memory does not expand the registry's coverage.
+
+Today, context is retained only within a single answer's model/tool loop. Each
+CLI invocation and evaluation question starts fresh. Saved evidence is not
+conversation memory, and the current panel does not demonstrate multi-turn use.
+A future implementation should define session isolation, retention/reset behavior
+and context limits, then add explicit multi-turn evaluation scenarios. Until then,
+standalone evaluation questions should be self-contained; U2's “same comparison”
+wording is a known ambiguity in the preserved panel.
 
 Working document. Drafted by an AI agent on **2026-11-04** for the GSA MCP
 Server and SI Agent Government Hackathon. Nothing here is approved yet.

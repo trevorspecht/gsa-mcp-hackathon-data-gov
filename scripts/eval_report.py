@@ -6,8 +6,10 @@ the reviewed snapshot. Reviewers score in the page and export scores as JSON.
 """
 
 import argparse
+import hashlib
 import html
 import json
+from collections import Counter
 from pathlib import Path
 
 from markdown_it import MarkdownIt
@@ -31,6 +33,80 @@ OVERALL = [
 ]
 TOLERANCE = 1e-6
 markdown = MarkdownIt("commonmark", {"html": False}).enable("table")
+
+
+def load_review(path: Path | None, panel_path: Path, panel: dict):
+    if path is None:
+        return None
+    review = json.loads(path.read_text())
+    if (
+        review.get("panel") != panel_path.name
+        or review.get("panel_sha256")
+        != hashlib.sha256(panel_path.read_bytes()).hexdigest()
+        or review.get("snapshot_id") != panel.get("snapshot_id")
+    ):
+        raise ValueError("AI review does not match this exact panel and snapshot")
+    expected = {f"{r['id']}#{r['repeat']}" for r in panel["runs"]}
+    if set(review["scores"]) != expected:
+        raise ValueError("AI review must score every panel run exactly once")
+    for score in review["scores"].values():
+        if score["overall"] not in OVERALL:
+            raise ValueError("Invalid AI overall score")
+        for key in RUBRIC:
+            if score[key] not in {"pass", "partial", "fail", "n/a"}:
+                raise ValueError("Invalid AI rubric score")
+            if not score["reasons"].get(key):
+                raise ValueError("AI rubric scores require explanations")
+    return review
+
+
+def review_card(review, key):
+    if review is None:
+        return ""
+    score = review["scores"][key]
+    rows = "".join(
+        "<tr>"
+        f"<th>{html.escape(k.replace('_', ' '))}</th>"
+        f"<td>{html.escape(score[k])}</td>"
+        f"<td>{html.escape(score['reasons'][k])}</td></tr>"
+        for k in RUBRIC
+    )
+    return (
+        '<section class="ai-review"><h3>AI reviewer assessment — '
+        f"{html.escape(review['reviewer'])}</h3>"
+        f"<p><b>Overall: {html.escape(score['overall'])}</b></p>"
+        f"<p>{html.escape(score['notes'])}</p>"
+        "<details><summary>All six rubric scores and reasons</summary>"
+        "<table><thead><tr><th>Criterion</th><th>AI score</th>"
+        f"<th>Reason</th></tr></thead><tbody>{rows}</tbody></table>"
+        "</details><p>Advisory AI assessment, not a human score. "
+        "Your scoring fields below are independent.</p></section>"
+    )
+
+
+def review_summary(review, runs):
+    if review is None:
+        return ""
+    counts = Counter(s["overall"] for s in review["scores"].values())
+    totals = "; ".join(f"{n} {label}" for label, n in sorted(counts.items()))
+    links = " ".join(
+        f'<a href="#run-{i}">{html.escape(r["id"])}·{r["repeat"]}</a>'
+        for i, r in enumerate(runs)
+        if review["scores"][f"{r['id']}#{r['repeat']}"]["overall"]
+        not in {"correct", "correct abstention"}
+    )
+    return (
+        '<section class="ref ai-overview"><h2>Separate AI review</h2>'
+        f"<p><b>{html.escape(review['reviewer'])}</b> · "
+        f"{html.escape(review['reviewed_at'])} · {len(runs)} runs scored.</p>"
+        f"<p>{html.escape(totals)}</p>"
+        f"<p>{html.escape(review['method'])}</p>"
+        f"<p><b>Start with flagged AI assessments:</b> {links}</p>"
+        "<p>Original answers and traces are unchanged. AI scores are read-only "
+        "and do not populate, replace or export as your human scores. "
+        "The automatic-check filter does not filter these AI assessments.</p>"
+        "</section>"
+    )
 
 
 def text_of(answer):
@@ -115,6 +191,8 @@ class Reference:
 def check_run(run, reference):
     checks = []
     trace = run.get("trace", [])
+    if run.get("status") not in (None, "complete"):
+        checks.append(("fail", f"Model run status: {run['status']}"))
     if run.get("exit") != 0:
         checks.append(("fail", f"Agent exited {run.get('exit')}"))
     for step in trace:
@@ -186,7 +264,7 @@ def fmt(value):
     return "" if value is None else str(value)
 
 
-def run_card(index, run, question, reference):
+def run_card(index, run, question, reference, ai_review=None):
     checks = check_run(run, reference)
     badges = "".join(
         f'<li class="{level}">{html.escape(level.upper())}: {html.escape(msg)}</li>'
@@ -245,6 +323,10 @@ def run_card(index, run, question, reference):
   <div class="cols">
     <div class="answer"><h3>Agent answer</h3>{answer}</div>
     <div class="side">
+      {review_card(ai_review, key)}
+      <details><summary>Model completion metadata</summary>
+      <pre>{html.escape(json.dumps(run.get("model_turns", []), indent=1))}</pre>
+      </details>
       <h3>Automated checks</h3><ul class="checks">{badges}</ul>
       <h3>Tool trace ({calls} calls)</h3>{"".join(steps)}
       <h3>Your score</h3><div class="score">{rubric}
@@ -263,15 +345,28 @@ def render(template, **values):
     return template
 
 
+def panel_questions(panel):
+    if "questions" in panel:
+        return {q["id"]: q for q in panel["questions"]}
+    return {
+        q["id"]: q for q in json.loads((ROOT / "eval/questions-v1.json").read_text())
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("panel", type=Path, help="*-eval-panel.json file")
     parser.add_argument("--data", type=Path, default=ROOT / ".local/data")
+    parser.add_argument("--ai-review", type=Path, help="Separate AI score JSON")
     args = parser.parse_args()
     panel = json.loads(args.panel.read_text())
-    questions = {
-        q["id"]: q for q in json.loads((ROOT / "eval/questions.json").read_text())
-    }
+    ai_path = args.ai_review or args.panel.with_name(
+        args.panel.stem.replace("-eval-panel", "-eval-ai-scores") + ".json"
+    )
+    ai_review = load_review(
+        ai_path if args.ai_review or ai_path.exists() else None, args.panel, panel
+    )
+    questions = panel_questions(panel)
     manifest = json.loads((args.data / "manifest.json").read_text())
     reference = Reference(json.loads((args.data / "indicators.json").read_text()))
     if manifest["snapshot_id"] != panel.get("snapshot_id"):
@@ -280,7 +375,8 @@ def main():
         panel["runs"], key=lambda r: (list(questions).index(r["id"]), r["repeat"])
     )
     cards = "".join(
-        run_card(i, r, questions[r["id"]], reference) for i, r in enumerate(runs)
+        run_card(i, r, questions[r["id"]], reference, ai_review)
+        for i, r in enumerate(runs)
     )
     nav = "".join(
         f'<a href="#run-{i}" data-nav="{html.escape(r["id"])}#{r["repeat"]}">'
@@ -321,6 +417,7 @@ def main():
         ),
         nav=nav,
         cards=cards,
+        ai_summary=review_summary(ai_review, runs),
         reference=ref_sections,
         sources=sources,
         storage_key=json.dumps(storage_key),
