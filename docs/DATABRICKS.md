@@ -135,6 +135,74 @@ For the fastest interactive demo, the Databricks guide also describes App discov
 in AI Playground: an App name beginning with `mcp-` enables recognition. UI and
 feature availability depend on the workspace.
 
+## Run GPT-6.1 Sol through Responses
+
+The agent supports explicit `AGENT_API=chat` (default) or `AGENT_API=responses`.
+For the verified GPT-6.1 model service, configure these non-secret fields:
+
+```dotenv
+DATABRICKS_MODEL_ENDPOINT=system.ai.gpt-6-1-sol
+AGENT_API=responses
+AGENT_MAX_OUTPUT_TOKENS=4000
+AGENT_REASONING_EFFORT=low
+```
+
+Use the existing user OAuth profile. If `.env` retains a PAT for operator tasks,
+clear it for this command only (do not expose or copy tokens):
+
+```sh
+DATABRICKS_TOKEN= DATABRICKS_CONFIG_PROFILE=hackathon uv run datagov-agent "Compare Baltimore city's population and unemployment in 2022 and 2024."
+DATABRICKS_TOKEN= DATABRICKS_CONFIG_PROFILE=hackathon uv run python scripts/run_eval.py
+```
+
+Responses uses client-held output items and `function_call_output` continuation,
+not server-stored responses. Only advertised MCP functions can execute. The same
+10-turn, 12-tool-call, 300-second and byte/context budgets apply to both APIs.
+Completion status, usage and reported model identity are saved for every turn.
+Incomplete/refused/empty output is not reported as a successful completed answer;
+an incomplete result retains the answer/trace and exits with code 2. The evaluation
+runner also preserves per-question timeouts and continues with the other questions.
+
+The November 19 Sol smoke test completed assessment, a real warehouse comparison
+and evidence retrieval through the deployed authenticated App. This is distinct
+from the earlier synthetic protocol checks below.
+
+## GPT-6.1 Responses investigation — November 19
+
+Historical investigation results below preceded the implemented adapter above.
+At investigation time the runner used Chat Completions only; protocol probes did
+not constitute a completed evaluation panel.
+
+Verified with user OAuth through this workspace:
+
+- Opus 5.5, Sonnet 5.5 and GPT-6 Astra serving endpoints return access-disabled 403s.
+- GPT-6.1 Chat Completions rejects reasoning plus function calls; setting reasoning
+  to `none` also fails for Sol. Do not silently strip reasoning to force compatibility.
+- The native Responses route is `/ai-gateway/openai/v1/responses`.
+  Old `databricks-gpt-6-1-*` endpoint names return a 403 directing callers to model
+  services. **`system.ai.gpt-6-1-sol` and `system.ai.gpt-6-1-terra` both work.**
+- Both model services completed a synthetic function-call/tool-result round trip
+  with `reasoning: {effort: low}` and an explicit output-token bound.
+- Sol accepted all six actual MCP tool schemas with `strict: false`, called the
+  authenticated App's `assess_comparison`, and summarized its real readiness result.
+  This was a readiness probe, not a warehouse comparison or full panel.
+
+Actual evidence: `.local/verification/20261119T050545Z-responses-roundtrip.json`
+(failed old names), `20261119T050607Z-responses-model-services.json` (successful
+protocol probes), and `20261119T050638Z-responses-mcp-readiness.json` (real MCP).
+
+A future adapter should select Chat Completions versus Responses explicitly,
+pass model-service names in the request body, translate MCP tools to Responses
+function definitions, retain output items and append `function_call_output` using
+its `call_id`. Preserve the local allowlist and existing tool/time/size budgets.
+Record response status, incomplete details, model identity and usage; an incomplete
+answer must not be scored as successful. Use client-held history within one answer:
+Databricks documents `store` and `previous_response_id` as unsupported for these
+pay-per-token models. This does not implement cross-question conversation memory.
+No new SDK dependency is required; the verified probes used the existing HTTP client.
+
+Source: [Databricks OpenAI Responses API](https://docs.databricks.com/aws/en/machine-learning/model-serving/query-openai-responses).
+
 ## Source documentation reviewed November 18
 
 - [Host an MCP server](https://docs.databricks.com/aws/en/agents/mcp-tools/custom-mcp)

@@ -54,13 +54,29 @@ class Registry:
         except (OSError, ValueError, TypeError):
             return None, "Snapshot manifest is invalid or unreadable"
 
+    def sources(self, manifest):
+        if not manifest:
+            return self.data["sources"]
+        verified = {s["id"]: s for s in manifest["sources"]}
+        return [
+            {
+                **source,
+                **verified[source["id"]],
+                "verification": (
+                    "Snapshot source schema/coverage checked; domain reviewed"
+                ),
+                "snapshot_id": manifest["snapshot_id"],
+            }
+            for source in self.data["sources"]
+        ]
+
     def capabilities(self):
         manifest, blocker = self.manifest()
         loaded = bool(
             manifest and manifest.get("loaded_table") == self.settings.table_name
         )
         return {
-            "registry": self.data,
+            "registry": {**self.data, "sources": self.sources(manifest)},
             "analytic_snapshot": manifest,
             "setup_blockers": ([blocker] if blocker else [])
             + self.settings.missing_warehouse_settings
@@ -111,7 +127,7 @@ class Registry:
             "comparison": request.model_dump(),
             "metrics": self.data["metrics"],
             "join": self.data["join"],
-            "sources": self.data["sources"],
+            "sources": self.sources(manifest),
             "snapshot_id": manifest["snapshot_id"] if manifest else None,
             "note": "Registered semantic compatibility and readiness are separate",
         }

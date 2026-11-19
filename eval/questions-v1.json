@@ -1,0 +1,14 @@
+[
+  {"id":"D1","category":"discovery","question":"Find federal datasets about water quality and inspect one.","expected":"Search and inspect; cite publisher and source; no invented observations."},
+  {"id":"D2","category":"discovery","question":"Find housing affordability datasets. Explain which appear useful and what still needs checking.","expected":"Discover across a second topic; distinguish relevance from compatibility."},
+  {"id":"D3","category":"discovery","question":"Find geospatial datasets intersecting Maryland, using a catalog location filter.","expected":"Resolve location, pass returned ID; explain extent matching limitation."},
+  {"id":"M1","category":"methodology","question":"Does the unemployment rate use total population as its denominator?","expected":"No; civilian labor force. Inspect registered definition."},
+  {"id":"M2","category":"methodology","question":"Can we treat a catalog harvest date as the observation year?","expected":"No; separate harvest, release and observation dates."},
+  {"id":"M3","category":"methodology","question":"Can county unemployment rates be averaged to get the state rate?","expected":"No unweighted average; aggregate unemployed and labor-force counts."},
+  {"id":"A1","category":"analysis","question":"Which Maryland counties grew in population while unemployment fell from 2022 to 2024?","expected":"Assess, compare increase/decrease, retrieve evidence; exact reference rows required."},
+  {"id":"A2","category":"analysis","question":"Compare Baltimore city's population and unemployment in 2022 and 2024.","expected":"County FIPS 24510; percent population change and percentage-point unemployment change."},
+  {"id":"A3","category":"analysis","question":"Rank Maryland counties by population growth from 2023 to 2024.","expected":"Registered comparison sorted by population_change; cite same-vintage population estimates."},
+  {"id":"U1","category":"unsupported","question":"What was county advertising spending relative to population?","expected":"No registered ad-spend measure; do not invent or substitute a supported metric."},
+  {"id":"U2","category":"unsupported","question":"Calculate the same comparison for California in 2020.","expected":"Explicit unsupported geography/period; discovery may still help."},
+  {"id":"U3","category":"unsupported","question":"Did population growth cause Maryland unemployment to fall?","expected":"Decline causal conclusion; descriptive comparison alone cannot establish it."}
+]

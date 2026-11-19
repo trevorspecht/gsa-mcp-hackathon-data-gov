@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import json
+from typing import Literal
 from urllib.parse import quote, urlsplit
 
 import httpx
@@ -26,13 +27,29 @@ SYSTEM = (
     "unemployment_rate in Maryland for 2022–2024 are registered. Explain unsupported "
     "questions and setup blockers. Distinguish percent from percentage points, "
     "observation periods from harvest dates, and association from causation. "
-    "Tool responses with an error are failures, not findings."
+    "Tool responses with an error are failures, not findings. "
+    "Keep answers concise and complete: normally under 500 words, with longer "
+    "tables only when requested. State relevant caveats explicitly in your answer; "
+    "do not refer vaguely to hidden tool JSON. No search hits means only that the "
+    "specific filters found no matches, not that a dataset does not exist. "
+    "A page size is not a total page count. Harvest timing does not establish "
+    "vintage or observation dates. Do not add unsupported methodology, revision "
+    "magnitude or weighting claims. For questions about registered metric "
+    "definitions, denominators or aggregation, call assess_comparison and cite "
+    "the returned definition/source rather than relying on memory. For an "
+    "unsupported metric or geography, call assess_comparison to establish the "
+    "boundary before refusing; do not offer calculations the tools cannot perform. "
+    "Separate causal uncertainty from evidence "
+    "of no effect, and county direction counts from statewide aggregate rates."
 )
 
 
 class AgentSettings(Settings):
     databricks_mcp_url: str = ""
     databricks_model_endpoint: str = Field(default="", pattern=r"^[A-Za-z0-9._-]*$")
+    agent_api: Literal["chat", "responses"] = "chat"
+    agent_max_output_tokens: int = Field(default=4000, ge=256, le=8000)
+    agent_reasoning_effort: Literal["low", "medium", "high"] = "low"
 
     @field_validator("databricks_mcp_url")
     @classmethod
@@ -94,30 +111,89 @@ def answer_text(content):
     return content
 
 
-async def model_turn(http, settings, workspace, messages, tools):
-    url = (
-        settings.databricks_host
-        + "/serving-endpoints/"
+def model_request(settings, messages, tools):
+    if settings.agent_api == "responses":
+        return "/ai-gateway/openai/v1/responses", {
+            "model": settings.databricks_model_endpoint,
+            "input": messages,
+            "tools": [
+                {"type": "function", **t["function"], "strict": False} for t in tools
+            ],
+            "max_output_tokens": settings.agent_max_output_tokens,
+            "reasoning": {"effort": settings.agent_reasoning_effort},
+        }
+    return (
+        "/serving-endpoints/"
         + quote(settings.databricks_model_endpoint, safe="")
-        + "/invocations"
-    )
-    headers = await asyncio.to_thread(workspace.config.authenticate)
-    async with http.stream(
-        "POST",
-        url,
-        headers=headers,
-        json={
+        + "/invocations",
+        {
             "messages": messages,
             "tools": tools,
-            "max_tokens": 1500,
+            "max_tokens": settings.agent_max_output_tokens,
             "stream": False,
         },
+    )
+
+
+def parse_turn(payload, api):
+    metadata = {
+        "api": api,
+        "model": payload.get("model"),
+        "usage": payload.get("usage"),
+    }
+    if api == "responses":
+        output = payload.get("output", [])
+        if not isinstance(output, list):
+            raise ValueError("Invalid Responses output")
+        metadata.update(
+            status=payload.get("status"),
+            incomplete_details=payload.get("incomplete_details"),
+        )
+        calls, text, refusal = [], [], False
+        for item in output:
+            if item.get("type") == "function_call":
+                calls.append(
+                    {
+                        "id": item["call_id"],
+                        "function": {
+                            "name": item["name"],
+                            "arguments": item["arguments"],
+                        },
+                    }
+                )
+            elif item.get("type") == "message":
+                for part in item.get("content", []):
+                    if part.get("type") == "output_text":
+                        text.append(part["text"])
+                    elif part.get("type") == "refusal":
+                        refusal = True
+        complete = payload.get("status") == "completed" and not refusal
+        return output, calls, "\n".join(text), complete, metadata
+    choices = payload.get("choices")
+    if not isinstance(choices, list) or not choices:
+        raise ValueError("Invalid model choices")
+    choice = choices[0]
+    message = choice.get("message")
+    if not isinstance(message, dict) or message.get("role") != "assistant":
+        raise ValueError("Invalid assistant response")
+    metadata["finish_reason"] = choice.get("finish_reason")
+    calls = message.get("tool_calls") or []
+    complete = choice.get("finish_reason") in ("stop", "tool_calls")
+    history = {k: message[k] for k in ("role", "content", "tool_calls") if k in message}
+    return [history], calls, answer_text(message.get("content")), complete, metadata
+
+
+async def model_turn(http, settings, workspace, messages, tools):
+    path, body = model_request(settings, messages, tools)
+    headers = await asyncio.to_thread(workspace.config.authenticate)
+    async with http.stream(
+        "POST", settings.databricks_host + path, headers=headers, json=body
     ) as response:
         if response.status_code != 200:
             raise ServiceError(
                 "MODEL_ERROR",
                 "Model endpoint rejected the request",
-                "Check tool-calling support and CAN QUERY permission",
+                "Check API selection, tool support and model permissions",
             )
         content = bytearray()
         async for chunk in response.aiter_bytes():
@@ -128,16 +204,7 @@ async def model_turn(http, settings, workspace, messages, tools):
                     "Model response is too large",
                     "Reduce the question scope",
                 )
-    payload = json.loads(content)
-    choices = payload.get("choices") if isinstance(payload, dict) else None
-    if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
-        raise ValueError("Invalid model choices")
-    message = choices[0].get("message")
-    if not isinstance(message, dict) or message.get("role") != "assistant":
-        raise ValueError("Invalid assistant response")
-    return {
-        key: message[key] for key in ("role", "content", "tool_calls") if key in message
-    }
+    return parse_turn(json.loads(content), settings.agent_api)
 
 
 async def run_agent(question, settings, workspace):
@@ -152,6 +219,7 @@ async def run_agent(question, settings, workspace):
         {"role": "user", "content": question},
     ]
     trace = []
+    model_turns = []
     async with Client(transport, timeout=60) as mcp:
         tools = tool_specs(await mcp.list_tools())
         allowed = {t["function"]["name"] for t in tools}
@@ -162,17 +230,26 @@ async def run_agent(question, settings, workspace):
                 for _ in range(10):
                     if len(json.dumps(messages).encode()) > 200_000:
                         raise ValueError("Agent context budget exceeded")
-                    message = await model_turn(
+                    history, calls, answer, complete, metadata = await model_turn(
                         http, settings, workspace, messages, tools
                     )
-                    messages.append(message)
-                    calls = message.get("tool_calls") or []
+                    model_turns.append(metadata)
+                    if not complete:
+                        return {
+                            "status": "incomplete",
+                            "answer": answer,
+                            "trace": trace,
+                            "model_turns": model_turns,
+                        }
+                    messages.extend(history)
                     if not isinstance(calls, list) or len(calls) > 6:
                         raise ValueError("Invalid model tool calls")
                     if not calls:
                         return {
-                            "answer": answer_text(message.get("content")),
+                            "status": "complete" if answer else "incomplete",
+                            "answer": answer,
                             "trace": trace,
+                            "model_turns": model_turns,
                         }
                     for call in calls:
                         function = call["function"]
@@ -200,6 +277,12 @@ async def run_agent(question, settings, workspace):
                         )
                         messages.append(
                             {
+                                "type": "function_call_output",
+                                "call_id": call["id"],
+                                "output": json.dumps(body),
+                            }
+                            if settings.agent_api == "responses"
+                            else {
                                 "role": "tool",
                                 "tool_call_id": call["id"],
                                 "content": json.dumps(body),
@@ -221,6 +304,8 @@ def main():
         workspace = agent_workspace(settings)
         result = asyncio.run(run_agent(args.question, settings, workspace))
         print(json.dumps(result, indent=2))
+        if result.get("status") != "complete":
+            raise SystemExit(2)
     except Exception as exc:
         if isinstance(exc, ServiceError):
             raise SystemExit(json.dumps(exc.as_dict())) from None

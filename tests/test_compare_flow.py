@@ -31,6 +31,16 @@ async def test_ready_comparison_calls_fixed_sql_and_retrieves_evidence(settings)
         ],
     }
     settings.analytics_manifest.write_text(json.dumps(manifest))
+    from datagov_mcp.models import CompareRequest
+    from datagov_mcp.registry import Registry
+
+    registry = Registry(settings)
+    assessment = registry.assess(CompareRequest())
+    assert assessment["ready_to_execute"]
+    assert all("domain reviewed" in s["verification"] for s in assessment["sources"])
+    assert all(s["sha256"] == "c" * 64 for s in assessment["sources"])
+    assert "awaiting" in registry.data["sources"][0]["verification"]
+    assert registry.capabilities()["registry"]["sources"] == assessment["sources"]
     calls = []
 
     def execute(sql, parameters):
