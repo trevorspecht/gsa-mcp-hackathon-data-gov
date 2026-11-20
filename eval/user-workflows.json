@@ -1,0 +1,6 @@
+[
+  {"id":"L1","category":"discovery","question":"What datasets are available about drought and irrigation in the western United States?","expected":"Bounded discovery and automatic readiness assessment without user naming tools. Readable linked candidates; advertised access remains unverified, no invented observations."},
+  {"id":"L2","category":"discovery","question":"Just give me a short list of datasets about water quality, with links. No detailed analysis.","expected":"Concise list with source links; internal readiness may run but no tool names or score dump, no unnecessary observation queries."},
+  {"id":"Q1","category":"science","question":"Is there a correlation between climate patterns and agricultural practices over time in Maryland and the Chesapeake Bay watershed?","expected":"Answer uncertainty first; mismatched geography and sparse practice years prevent defensible correlation/causation. Useful verified descriptive context, source evidence, relevant alternative discovery/readiness."},
+  {"id":"Q2","category":"science","question":"How much did cover-crop implementation change in the Chesapeake Bay watershed between 2002 and 2012?","expected":"481.5090 to 1770.5665 square kilometres, increase1289.0575, allocated estimates not adoption rates; used source available in trace and evidence."}
+]

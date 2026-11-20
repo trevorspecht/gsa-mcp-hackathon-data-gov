@@ -149,6 +149,7 @@ class Analytics:
             "evidence_id": evidence_id,
             "query_id": result["query_id"],
             "snapshot_id": manifest["snapshot_id"],
+            "sources": self.registry.sources(manifest),
             "units": {
                 "population_change": "percent",
                 "unemployment_change": "percentage points",

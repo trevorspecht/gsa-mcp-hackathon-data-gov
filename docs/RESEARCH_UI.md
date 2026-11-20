@@ -24,6 +24,23 @@ Workspace users CAN_USE remained intact. Keyword-score ties use alphabetical
 ordering; this is not semantic suitability ranking, and the answer must still
 explain geography, years and measure compatibility.
 
+## Answer-first workflow
+
+Users ask ordinary research questions or request dataset lists; they do not need
+to name ranking tools. The agent assesses candidate readiness internally and
+answers as far as verified observations allow, retaining explicit limitations.
+
+The **Answer & sources** tab shows the answer first, then sources actually used
+for completed data queries, other discovered candidates, and structured charts.
+Source cards contain readable descriptions, coverage, periods, access/use terms,
+formats, dictionary information and dataset links. Capability inspection alone
+is not counted as data use. Ready alternatives can still appear among other
+candidates; availability remains distinct from relevance. An optional names-and-
+links-only display reduces metadata detail for list requests.
+
+The **Evaluation & diagnostics** tab contains raw traces, ranking details and the
+answer/evidence JSON download. No raw JSON cards clutter the normal answer tab.
+
 The interface code provides:
 
 - Plain-language questions and examples; each question starts fresh.
