@@ -85,6 +85,7 @@ def distributions(data):
                 "download_url": safe_link(item.get("downloadURL")),
                 "access_url": safe_link(item.get("accessURL")),
                 "access_service": text(item.get("accessService"), 500),
+                "byte_size": text(item.get("byteSize"), 100),
                 "terms": rights(item),
             }
         )
@@ -109,6 +110,7 @@ def card(record, detail=False):
             2400 if detail else 700,
         ),
         "publisher": text(publisher, 200),
+        "keywords": text(data.get("keyword"), 1200),
         "organization": organization.get("slug")
         if isinstance(organization, dict)
         else None,

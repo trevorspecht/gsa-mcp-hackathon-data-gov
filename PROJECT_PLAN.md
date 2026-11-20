@@ -47,8 +47,36 @@ before the temporary Databricks environment expires.
   (owner update November 20). Portable backup must be copied off this machine
   before retiring the temporary environment.
 
+## Ranked discovery readiness — November 20
+
+- Ninth MCP tool assess_dataset_readiness inspects up to five harvest UUIDs,
+  ranks candidates by explicit keyword overlap and distinguishes exact reviewed
+  snapshot scopes from unverified API/file access routes. No generic retrieval.
+- UI cards show ranking, readiness, scope and setup blockers independently.
+- 94 tests and full make check passed. Live local MCP/catalog checks matched the
+  NOAA NClimDiv parent to the narrow Maryland climate snapshot; other climate and
+  water-quality records correctly remained access-unverified.
+- Local MCP App deployment attempted twice; both failed before startup because
+  Databricks could not authenticate the App for package repository settings.
+  Previous MCP deployment remains RUNNING/SUCCEEDED. UI release deliberately not
+  attempted because it depends on the new tool. Hosted readiness feature BLOCKED
+  by platform deployment failure; current UI remains RUNNING/SUCCEEDED.
+- Prior staging archived in .local/staging-archive/20261120-readiness; source,
+  tests, live observations and failing attempts retained. No App ownership change.
+
+## Judge access — November 20
+
+Owner-approved workspace `users` CAN_USE on the research UI App applied and
+verified through the permissions API. Owner/admin CAN_MANAGE preserved; no direct
+MCP/warehouse user grants added. Permission configuration is versioned in
+config/hackathon-ui-permissions.json. Actual judge sign-in remains untested.
+
 ## Portable configuration — November 20
 
+- Owner decision: keep configuration in versioned code and run approved deploys
+  locally for the current hackathon workspace. Defer CI deployment setup and
+  destination migration; the release workflow remains disabled. This decision
+  does not itself authorize a deployment or transfer App state ownership.
 - BUILD-15: Terraform prerequisites, portable bundle owning both Apps, explicit
   credential-free release settings and same-wheel staging implemented.
 - Main release workflow waits for successful checks on the exact main SHA and is

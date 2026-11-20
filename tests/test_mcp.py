@@ -19,6 +19,7 @@ async def test_registered_protocol_tools_resources_and_setup_response(settings):
         assert {t.name for t in tools} == {
             "find_data_for_question",
             "inspect_dataset",
+            "assess_dataset_readiness",
             "suggest_search_filters",
             "assess_comparison",
             "compare_public_indicators",

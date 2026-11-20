@@ -28,21 +28,35 @@ def display_result(result):
             continue
         for card in (
             value.get("datasets", [])
-            if step.get("tool") == "find_data_for_question"
+            if step.get("tool")
+            in ("find_data_for_question", "assess_dataset_readiness")
             else []
         ):
-            cards[
+            identity = (
                 card.get("identifier")
                 or card.get("harvest_record_id")
                 or card.get("title")
-            ] = card
+            )
+            previous = cards.get(identity, {})
+            cards[identity] = {**previous, **card}
+            if "readiness" in previous and "readiness" not in card:
+                for key in ("queryable", "queryability_reason"):
+                    cards[identity][key] = previous[key]
         if isinstance(value.get("dataset"), dict):
             card = value["dataset"]
-            cards[
+            identity = (
                 card.get("identifier")
                 or card.get("harvest_record_id")
                 or card.get("title")
-            ] = card
+            )
+            previous = cards.get(identity, {})
+            cards[identity] = {**previous, **card}
+            for key in ("readiness", "relevance", "candidate_rank"):
+                if key in previous:
+                    cards[identity][key] = previous[key]
+            if "readiness" in previous:
+                cards[identity]["queryable"] = previous["queryable"]
+                cards[identity]["queryability_reason"] = previous["queryability_reason"]
     if cards:
         st.subheader(f"Dataset inventory — {len(cards)} distinct returned records")
         st.caption(
@@ -52,8 +66,34 @@ def display_result(result):
                 "observations."
             )
         )
-        for card in cards.values():
-            with st.expander(card.get("title") or "Untitled dataset"):
+        ordered = sorted(
+            cards.values(),
+            key=lambda card: (
+                -card.get("relevance", {}).get("score", -1),
+                card.get("title") or "",
+            ),
+        )
+        for index, card in enumerate(ordered, 1):
+            label = card.get("readiness", {}).get("label", "Readiness not assessed")
+            with st.expander(
+                f"{index}. {card.get('title') or 'Untitled dataset'} — {label}"
+            ):
+                if "relevance" in card:
+                    st.caption(
+                        "Relevance score (keyword overlap, not confidence): "
+                        + str(card["relevance"]["score"])
+                    )
+                    st.json(card["relevance"], expanded=False)
+                if "readiness" in card:
+                    readiness = card["readiness"]
+                    st.write(readiness["label"])
+                    for blocker in readiness.get("blockers", []):
+                        st.caption("Setup: " + blocker)
+                    for scope in readiness.get("scopes", []):
+                        st.write(scope)
+                    st.caption(readiness["question_compatibility"])
+                    st.caption(readiness["wait_note"])
+                    st.json(readiness, expanded=False)
                 st.write(
                     {
                         k: card.get(k)
@@ -165,8 +205,9 @@ def main():
         "Dataset landscape": (
             "Find climate and agriculture datasets relevant "
             "to changing irrigation and cover-crop practices. "
-            "Inspect several promising records and describe "
-            "periods, geography, formats, access, "
+            "Rank several promising records with assess_dataset_readiness "
+            "and distinguish reviewed query scopes from unverified access routes. "
+            "Describe periods, geography, formats, access, "
             "dictionaries and what remains unknown."
         ),
         "Climate observations": (

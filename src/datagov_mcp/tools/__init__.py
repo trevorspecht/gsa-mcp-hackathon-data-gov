@@ -6,11 +6,21 @@ from datagov_mcp.tools import (
     evidence,
     filters,
     inspect,
+    readiness,
     science,
     search,
 )
 
 
 def register_tools(mcp, services):
-    for module in (search, inspect, filters, assess, compare, evidence, science):
+    for module in (
+        search,
+        inspect,
+        filters,
+        assess,
+        compare,
+        evidence,
+        science,
+        readiness,
+    ):
         module.register(mcp, services)
