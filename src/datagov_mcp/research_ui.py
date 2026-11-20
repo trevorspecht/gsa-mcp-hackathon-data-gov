@@ -14,13 +14,7 @@ def safe_link(url):
     return isinstance(url, str) and urlsplit(url).scheme == "https"
 
 
-def display_result(result):
-    if result.get("status") != "complete":
-        st.warning(
-            "This response did not complete. Treat any partial answer as incomplete."
-        )
-    st.markdown(result.get("answer") or "No answer returned.")
-    trace = result.get("trace", [])
+def source_cards(trace):
     cards = {}
     for step in trace:
         value = step.get("result", {})
@@ -57,70 +51,175 @@ def display_result(result):
             if "readiness" in previous:
                 cards[identity]["queryable"] = previous["queryable"]
                 cards[identity]["queryability_reason"] = previous["queryability_reason"]
-    if cards:
-        st.subheader(f"Dataset inventory — {len(cards)} distinct returned records")
-        st.caption(
-            (
-                "Bounded search results, not an exhaustive "
-                "inventory. Metadata is not verified "
-                "observations."
-            )
-        )
-        ordered = sorted(
-            cards.values(),
-            key=lambda card: (
-                -card.get("relevance", {}).get("score", -1),
-                card.get("title") or "",
-            ),
-        )
-        for index, card in enumerate(ordered, 1):
-            label = card.get("readiness", {}).get("label", "Readiness not assessed")
-            with st.expander(
-                f"{index}. {card.get('title') or 'Untitled dataset'} — {label}"
+    used = {}
+    for step in trace:
+        value = step.get("result", {})
+        if not isinstance(value, dict):
+            continue
+        if (
+            step.get("tool") == "query_science_series"
+            and value.get("status") == "complete"
+        ):
+            source = value["source"]
+            identity = source.get("catalog_identifier") or source["url"]
+            previous = cards.get(identity, {})
+            used[identity] = {
+                **previous,
+                "identifier": identity,
+                "title": previous.get("title") or value["title"],
+                "publisher": source.get("publisher"),
+                "description": value["method"],
+                "spatial_coverage": value["geography"],
+                "observation_period": (
+                    f"{value['rows'][0]['year']}–{value['rows'][-1]['year']}"
+                ),
+                "landing_page": previous.get("landing_page") or identity,
+                "source_url": source["url"],
+                "used": True,
+                "used_scopes": used.get(identity, {}).get("used_scopes", [])
+                + [f"{value['title']} ({value['unit']})"],
+            }
+        if step.get("tool") in ("get_analysis_evidence", "compare_public_indicators"):
+            if (
+                step.get("tool") == "compare_public_indicators"
+                and value.get("status") != "complete"
             ):
-                if "relevance" in card:
+                continue
+            evidence = value.get("evidence", value)
+            if not isinstance(evidence, dict):
+                continue
+            manifest = evidence.get(
+                "snapshot", {"sources": evidence.get("sources", [])}
+            )
+            if not isinstance(manifest, dict):
+                continue
+            for source in manifest.get("sources", []):
+                identity = source.get("catalog_identifier") or source["url"]
+                used[identity] = {
+                    **cards.get(identity, {}),
+                    "identifier": identity,
+                    "title": source.get("title") or source["id"],
+                    "publisher": source.get("publisher"),
+                    "description": (
+                        "Reviewed source used for the Maryland county comparison."
+                    ),
+                    "spatial_coverage": "Maryland counties and county equivalents",
+                    "observation_period": "2022–2024",
+                    "source_url": source["url"],
+                    "used": True,
+                }
+    remaining = [card for key, card in cards.items() if key not in used]
+    remaining.sort(
+        key=lambda card: (
+            -card.get("relevance", {}).get("score", -1),
+            card.get("title") or "",
+        )
+    )
+    return list(used.values()), remaining
+
+
+def display_card(card, index, concise=False):
+    title = card.get("title") or "Untitled dataset"
+    st.markdown(f"**{index}. {title}**")
+    link = card.get("landing_page")
+    if not safe_link(link):
+        identifier = card.get("identifier")
+        link = identifier if safe_link(identifier) else None
+    if not link and card.get("harvest_record_id"):
+        link = "https://catalog.data.gov/harvest_record/" + card["harvest_record_id"]
+    if not link:
+        link = card.get("source_url")
+    if safe_link(link):
+        st.link_button("Dataset information", link)
+    if concise:
+        return
+    st.caption("Publisher: " + (card.get("publisher") or "Not specified"))
+    st.write(card.get("description") or "Description not provided.")
+    st.caption(
+        "Coverage: "
+        + str(card.get("spatial_coverage") or "Geography not specified")
+        + " · Period: "
+        + str(card.get("observation_period") or "Not specified")
+    )
+    if card.get("used"):
+        st.caption(
+            "Used in this answer: "
+            + "; ".join(card.get("used_scopes", ["County comparison"]))
+        )
+    else:
+        readiness = card.get("readiness", {})
+        st.caption("Availability: " + readiness.get("label", "Not assessed"))
+        for blocker in readiness.get("blockers", []):
+            st.caption("Requires: " + blocker)
+        for scope in readiness.get("scopes", []):
+            st.caption(
+                "Supported scope: "
+                + str(scope.get("geography", ""))
+                + " · Years: "
+                + ", ".join(map(str, scope.get("available_years", [])))
+            )
+        matches = card.get("relevance", {}).get("title_matches", [])
+        if matches:
+            st.caption("Topic matches: " + ", ".join(matches))
+    distributions = card.get("distributions", [])
+    formats = sorted({str(d["format"]) for d in distributions if d.get("format")})
+    st.caption("Formats: " + (", ".join(formats) or "Not specified"))
+    terms = card.get("terms", {})
+    st.caption(
+        "Access/use terms: "
+        + (
+            "; ".join(f"{key}: {value}" for key, value in terms.items())
+            or "Not established; public metadata is not access permission"
+        )
+    )
+    dictionary = card.get("data_dictionary")
+    if dictionary:
+        st.caption("Data dictionary: " + str(dictionary))
+    else:
+        st.caption("Data dictionary: not specified")
+
+
+def display_result(result, concise=False):
+    answer_tab, diagnostics_tab = st.tabs(
+        ["Answer & sources", "Evaluation & diagnostics"]
+    )
+    trace = result.get("trace", [])
+    with diagnostics_tab:
+        st.caption(
+            "Actual tool calls, metadata ranking details "
+            "and source evidence for review."
+        )
+        st.json(trace)
+        st.download_button(
+            "Download answer and evidence JSON",
+            json.dumps(result, indent=2),
+            "research-evidence.json",
+            "application/json",
+        )
+    with answer_tab:
+        if result.get("status") != "complete":
+            st.warning(
+                "This response did not complete. Treat partial answers as incomplete."
+            )
+        st.markdown(result.get("answer") or "No answer returned.")
+        used, remaining = source_cards(trace)
+        for heading, cards in (
+            ("Sources used in this answer", used),
+            ("Other relevant datasets", remaining),
+        ):
+            if cards:
+                st.subheader(heading)
+                if heading == "Other relevant datasets":
                     st.caption(
-                        "Relevance score (keyword overlap, not confidence): "
-                        + str(card["relevance"]["score"])
+                        "Bounded candidates, not an exhaustive inventory. "
+                        "Availability is separate from relevance."
                     )
-                    st.json(card["relevance"], expanded=False)
-                if "readiness" in card:
-                    readiness = card["readiness"]
-                    st.write(readiness["label"])
-                    for blocker in readiness.get("blockers", []):
-                        st.caption("Setup: " + blocker)
-                    for scope in readiness.get("scopes", []):
-                        st.write(scope)
-                    st.caption(readiness["question_compatibility"])
-                    st.caption(readiness["wait_note"])
-                    st.json(readiness, expanded=False)
-                st.write(
-                    {
-                        k: card.get(k)
-                        for k in (
-                            "publisher",
-                            "identifier",
-                            "observation_period",
-                            "access_status",
-                            "queryable",
-                        )
-                    }
-                )
-                st.write(card.get("description", ""))
-                url = card.get("landing_page")
-                if safe_link(url):
-                    st.link_button("Publisher landing page", url)
-                st.json(
-                    {
-                        k: card.get(k)
-                        for k in (
-                            "terms",
-                            "data_dictionary",
-                            "distributions",
-                            "metadata_note",
-                        )
-                    }
-                )
+                for index, card in enumerate(cards, 1):
+                    display_card(card, index, concise)
+        display_charts(trace)
+
+
+def display_charts(trace):
     for index, step in enumerate(trace):
         value = step.get("result", {})
         if not isinstance(value, dict) or value.get("status") != "complete":
@@ -135,7 +234,10 @@ def display_result(result):
                     "causal inference."
                 )
             )
-            st.json(value.get("summary", {}), expanded=False)
+            st.caption(
+                "Counties compared: "
+                + str(value.get("summary", {}).get("counties_compared", "unknown"))
+            )
             for field, title in [
                 ("population_change", "Population change (%)"),
                 ("unemployment_change", "Unemployment rate change (percentage points)"),
@@ -173,14 +275,6 @@ def display_result(result):
                 st.caption(caveat)
         if value.get("evidence_id"):
             st.caption("Evidence ID: " + value["evidence_id"])
-    with st.expander("Full tool trace and source evidence"):
-        st.json(trace)
-    st.download_button(
-        "Download answer and evidence JSON",
-        json.dumps(result, indent=2),
-        "research-evidence.json",
-        "application/json",
-    )
 
 
 def main():
@@ -203,12 +297,8 @@ def main():
     )
     examples = {
         "Dataset landscape": (
-            "Find climate and agriculture datasets relevant "
-            "to changing irrigation and cover-crop practices. "
-            "Rank several promising records with assess_dataset_readiness "
-            "and distinguish reviewed query scopes from unverified access routes. "
-            "Describe periods, geography, formats, access, "
-            "dictionaries and what remains unknown."
+            "What datasets are available about climate, irrigation "
+            "and cover-crop practices?"
         ),
         "Climate observations": (
             "Show Maryland annual temperature and "
@@ -223,10 +313,9 @@ def main():
             "Show both series with sources."
         ),
         "Research limitations": (
-            "Do Maryland climate observations prove climate "
-            "change caused adoption of cover crops in the "
-            "Chesapeake Bay watershed? Check what the "
-            "registered data can support."
+            "Is there a correlation between climate patterns and "
+            "agricultural practices over time in Maryland "
+            "and the Chesapeake Bay watershed?"
         ),
         "County comparison": (
             "Which Maryland counties gained population while "
@@ -234,6 +323,7 @@ def main():
         ),
     }
     choice = st.selectbox("Example", list(examples))
+    concise = st.checkbox("Show dataset names and links only", value=False)
     with st.form("question"):
         question = st.text_area(
             "Question", value=examples[choice], max_chars=2000, height=110
@@ -256,7 +346,7 @@ def main():
                 )
                 st.session_state.pop("result", None)
     if "result" in st.session_state:
-        display_result(st.session_state["result"])
+        display_result(st.session_state["result"], concise=concise)
 
 
 if __name__ == "__main__":

@@ -47,6 +47,23 @@ before the temporary Databricks environment expires.
   (owner update November 20). Portable backup must be copied off this machine
   before retiring the temporary environment.
 
+## Answer-first user workflows — November 20
+
+- Natural questions/list requests no longer require tool names or ranking requests.
+  Agent uses readiness internally and keeps ranking mechanics out of normal prose.
+- UI Answer & sources tab: answer first, used dataset cards before alternatives,
+  readable linked metadata and charts. Evaluation & diagnostics tab isolates JSON
+  traces/downloads. Optional names-and-links-only display available.
+- Natural-input panel eval/user-workflows.json: first round 3/4 complete, Q1 had
+  generic agent ValueError; retained. Q1 retry complete. Second round
+  20261120T223719Z: 4/4 complete, automatic readiness in both list cases, Q1
+  returned descriptive observations/evidence plus alternatives; no correlation
+  coefficient invented. HTML evaluation reports generated; human scoring pending.
+- 96 tests/full checks and UI tests passed. Local MCP and UI releases succeeded.
+  Hosted natural relationship question completed; answer precedes used-source
+  cards and alternatives. Diagnostics tab selection/download visible verified;
+  download hidden on answer tab. No new grants/data loads or ownership changes.
+
 ## Ranked discovery readiness — November 20
 
 - Ninth MCP tool assess_dataset_readiness inspects up to five harvest UUIDs,

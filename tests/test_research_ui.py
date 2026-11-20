@@ -43,8 +43,72 @@ display_result({"status":"complete", "answer":"Example", "trace":[
 ]})
 """).run(timeout=20)
     assert not app.exception
-    assert app.expander[0].label.startswith("1. Water quality")
-    assert "unverified" in app.expander[0].label
-    assert app.expander[1].label.startswith("2. Climate")
-    assert "Ready within reviewed scope" in app.expander[1].label
-    assert app.subheader[0].value.endswith("2 distinct returned records")
+    assert [tab.label for tab in app.tabs] == [
+        "Answer & sources",
+        "Evaluation & diagnostics",
+    ]
+    assert app.subheader[0].value == "Other relevant datasets"
+    text = [item.value for item in app.markdown]
+    assert text.index("**1. Water quality**") < text.index("**2. Climate**")
+    assert any("Ready within reviewed scope" in item.value for item in app.caption)
+    assert not app.tabs[0].json
+    assert app.tabs[1].json
+
+
+def test_used_sources_precede_candidates_and_capabilities_are_not_usage():
+    from datagov_mcp.research_ui import source_cards
+
+    trace = [
+        {
+            "tool": "inspect_science_capabilities",
+            "result": {"datasets": [{"id": "unused", "title": "Not used"}]},
+        },
+        {
+            "tool": "query_science_series",
+            "result": {
+                "status": "complete",
+                "title": "Temperature",
+                "unit": "F",
+                "method": "Annual observations",
+                "geography": "Maryland",
+                "source": {
+                    "url": "https://example.gov/file.csv",
+                    "publisher": "NOAA",
+                    "catalog_identifier": "https://example.gov/catalog",
+                },
+                "rows": [{"year": 1985, "value": 1}, {"year": 2012, "value": 2}],
+            },
+        },
+        {
+            "tool": "find_data_for_question",
+            "result": {
+                "datasets": [
+                    {"identifier": "other", "title": "Other climate dataset"},
+                    {
+                        "identifier": "https://example.gov/catalog",
+                        "title": "Climate parent",
+                    },
+                ]
+            },
+        },
+    ]
+    used, other = source_cards(trace)
+    assert len(used) == 1 and used[0]["title"] == "Climate parent"
+    assert used[0]["used"]
+    assert [card["identifier"] for card in other] == ["other"]
+
+
+def test_concise_cards_keep_links_and_hide_metadata():
+    app = AppTest.from_string("""
+from datagov_mcp.research_ui import display_result
+display_result({"status":"complete", "answer":"Dataset list", "trace":[
+ {"tool":"find_data_for_question", "result":{"datasets":[{
+ "identifier":"https://example.gov/data", "title":"Example dataset",
+ "publisher":"Publisher detail", "description":"Long metadata detail"}]}}
+]}, concise=True)
+""").run(timeout=20)
+    assert not app.exception
+    assert not app.tabs[0].json
+    assert "Long metadata detail" not in str([m.value for m in app.markdown])
+    assert app.get("link_button")[0].proto.label == "Dataset information"
+    assert app.get("link_button")[0].proto.url == "https://example.gov/data"
