@@ -15,10 +15,14 @@ principal. CAN USE was granted on `mcp-datagov-semantic`; model invocation works
 through existing model-service access. An attempted extra model-service grant was
 rejected because the operator lacks MANAGE; no broader privilege was added.
 
-Ranked readiness is implemented and locally verified as of November 20, but is
-**not yet in the hosted UI**: two MCP redeploy attempts failed with Databricks App
-authentication errors while loading package-repository settings. The previous
-MCP/UI deployments remain running; the dependent UI release was not attempted.
+Ranked readiness is **live in the hosted UI** as of November 20, 22:15 UTC.
+Two initial MCP releases failed with Databricks App authentication errors while
+loading package-repository settings; a later owner retry succeeded. The dependent
+UI release then succeeded. A browser test completed UI → Sol → MCP readiness,
+showing a reviewed NOAA Maryland scope and a separate unverified access route.
+Workspace users CAN_USE remained intact. Keyword-score ties use alphabetical
+ordering; this is not semantic suitability ranking, and the answer must still
+explain geography, years and measure compatibility.
 
 The interface code provides:
 
