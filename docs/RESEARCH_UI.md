@@ -15,12 +15,22 @@ principal. CAN USE was granted on `mcp-datagov-semantic`; model invocation works
 through existing model-service access. An attempted extra model-service grant was
 rejected because the operator lacks MANAGE; no broader privilege was added.
 
-The interface provides:
+Ranked readiness is implemented and locally verified as of November 20, but is
+**not yet in the hosted UI**: two MCP redeploy attempts failed with Databricks App
+authentication errors while loading package-repository settings. The previous
+MCP/UI deployments remain running; the dependent UI release was not attempted.
+
+The interface code provides:
 
 - Plain-language questions and examples; each question starts fresh.
 - Answers with source links and explicitly stated limitations.
 - Deduplicated catalog cards with publisher, periods, access, dictionaries and
   distribution metadata. Curated capabilities are not mislabeled as search hits.
+- Ranked inspected candidates with visible relevance matches and readiness labels.
+  Ready applies only to exact reviewed snapshot scopes, not whole publisher datasets
+  or guaranteed question compatibility. Unassessed cards are explicitly labeled.
+- API/file links and advertised sizes remain unverified metadata. No generic
+  downloads, public-database queries or invented wait estimates are offered.
 - Separate county change bars (percent versus percentage points).
 - Annual climate line charts; sparse practice observations are unconnected points.
 - Accessible data tables and downloadable JSON containing the answer and evidence.
@@ -28,6 +38,27 @@ The interface provides:
 The interface does not execute model-generated plotting code. Chart values come
 only from structured tool results. No cross-geography climate/practice correlation
 or causal chart is produced. Source metadata remains untrusted.
+
+## Hackathon judge access
+
+On November 20, the owner approved and the operator verified `CAN_USE` for the
+workspace `users` group on `datagov-research-ui`. Owner and inherited admin
+`CAN_MANAGE` permissions were preserved. Judges who are members of this temporary
+workspace can sign in and use the App at:
+
+https://datagov-research-ui-7474654188777746.aws.databricksapps.com/
+
+The reviewed local configuration is `config/hackathon-ui-permissions.json`.
+Reapply only to this approved temporary workspace using an additive update:
+
+```sh
+databricks apps update-permissions datagov-research-ui -p hackathon --json @config/hackathon-ui-permissions.json
+```
+
+This does not grant direct MCP or warehouse permissions to workspace users.
+Research executes through the UI service principal. An actual judge-account
+session remains untested; workspace membership and App sign-in are required.
+Do not carry this workspace-wide grant into another workspace without review.
 
 ## Local use
 

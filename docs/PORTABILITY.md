@@ -15,6 +15,11 @@ with a restricted placeholder root on a mkdirs permission check. No further
 remote validation was attempted. Migration is deferred until after the hackathon.
 The current sandbox target and legacy staging commands remain available.
 
+**Current operating decision (November 20):** keep resource and agent configuration
+in versioned code, and execute reviewed deployments locally using operator OAuth.
+CI continues validation only; deployment enablement and destination setup are
+deferred. Do not switch ownership targets merely to perform a local release.
+
 ## Single ownership boundary
 
 | Component | Owner | Scope |

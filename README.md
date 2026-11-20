@@ -64,6 +64,9 @@ Deployment stays disabled until destination resources and identity are reviewed.
 
 - `find_data_for_question`: bounded keyword/filter search with semantic suggestions.
 - `inspect_dataset`: inspect a harvest record with per-distribution terms.
+- `assess_dataset_readiness`: rank up to five inspected candidates and distinguish
+  reviewed query scopes from unverified API/file access routes. Ranking is keyword
+  overlap, not a guarantee that a dataset can answer the question.
 - `suggest_search_filters`: resolve publisher, topic, and location vocabulary.
 - `assess_comparison`: check registered measures, geography, periods and readiness.
 - `compare_public_indicators`: execute a registered two-source comparison.
