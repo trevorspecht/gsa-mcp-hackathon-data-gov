@@ -58,9 +58,12 @@ before the temporary Databricks environment expires.
   water-quality records correctly remained access-unverified.
 - Local MCP App deployment attempted twice; both failed before startup because
   Databricks could not authenticate the App for package repository settings.
-  Previous MCP deployment remains RUNNING/SUCCEEDED. UI release deliberately not
-  attempted because it depends on the new tool. Hosted readiness feature BLOCKED
-  by platform deployment failure; current UI remains RUNNING/SUCCEEDED.
+  Initial UI release was held. Owner retry at 22:13 UTC succeeded; subsequent
+  UI local release succeeded. Both Apps RUNNING/SUCCEEDED; browser UI → Sol → MCP
+  readiness completed, showing reviewed NOAA Maryland scope vs unverified route.
+  Workspace users CAN_USE verified preserved. Initial failures retained; platform
+  root cause remains unknown. Keyword-score ties alphabetically order candidates,
+  so the agent must still assess actual geographic/temporal/measure suitability.
 - Prior staging archived in .local/staging-archive/20261120-readiness; source,
   tests, live observations and failing attempts retained. No App ownership change.
 
