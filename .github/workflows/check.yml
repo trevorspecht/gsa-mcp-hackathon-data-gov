@@ -26,3 +26,14 @@ jobs:
       - run: uv sync --locked --extra ui
       - run: make check
       - run: uv run --extra ui pytest -q tests/test_research_ui.py
+      - name: Validate Terraform without a backend or credentials
+        run: |
+          mkdir -p "$RUNNER_TEMP/terraform"
+          cd "$RUNNER_TEMP/terraform"
+          curl -fsSLO https://releases.hashicorp.com/terraform/1.17.2/terraform_1.17.2_linux_amd64.zip
+          curl -fsSLO https://releases.hashicorp.com/terraform/1.17.2/terraform_1.17.2_SHA256SUMS
+          grep 'terraform_1.17.2_linux_amd64.zip$' terraform_1.17.2_SHA256SUMS | sha256sum -c -
+          unzip terraform_1.17.2_linux_amd64.zip
+          ./terraform -chdir="$GITHUB_WORKSPACE/infra" fmt -check
+          ./terraform -chdir="$GITHUB_WORKSPACE/infra" init -backend=false -lockfile=readonly
+          ./terraform -chdir="$GITHUB_WORKSPACE/infra" validate

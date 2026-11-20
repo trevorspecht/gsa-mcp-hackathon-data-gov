@@ -14,6 +14,14 @@ our MCP server runs in an authenticated Databricks App and queries curated data
 using the App service principal. This is shared access to public datasets, not
 per-user Unity Catalog identity propagation.
 
+## Portable configuration and releases
+
+See [config-as-code and post-hackathon migration](PORTABILITY.md) for Terraform
+prerequisites, a bundle target owning both private Apps, versioned model settings
+and gated main-branch CI releases. No destination migration or deployment is
+approved during preparation. Keep the legacy sandbox target for its current App
+until its state ownership is explicitly transferred.
+
 ## Fill local configuration
 
 ### Email-code sign-in: local user OAuth

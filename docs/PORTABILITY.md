@@ -1,0 +1,175 @@
+---
+title: "Portable Databricks configuration"
+description: "Ownership, staging, protected release gates and post-hackathon migration"
+status: canonical
+tier: 1
+related_files: ["../databricks.yml", "../infra/main.tf", "../scripts/stage_release.py", "DATABRICKS.md"]
+---
+
+# Portable configuration — prepared, not migrated
+
+No Apps, grants, warehouse resources, data or live App releases were changed while
+preparing this configuration. An authenticated bundle validate can create workspace
+staging folders: validation initially succeeded with a shared root, then failed
+with a restricted placeholder root on a mkdirs permission check. No further
+remote validation was attempted. Migration is deferred until after the hackathon.
+The current sandbox target and legacy staging commands remain available.
+
+## Single ownership boundary
+
+| Component | Owner | Scope |
+| --- | --- | --- |
+| Existing workspace, catalog, warehouse | Operator; Terraform data sources | Reference, never recreate |
+| Optional research schema | Terraform | Off by default; import before adopting; prevent_destroy |
+| MCP App principal's catalog/schema/table grants | Terraform | Off by default; authoritative for that principal, not additive |
+| Both private Apps and App resource dependencies | Databricks bundle portable target | MCP gets warehouse CAN_USE; UI gets MCP CAN_USE, no warehouse grant |
+| Agent instructions and execution bounds | Versioned Python in the tested wheel | SYSTEM in agent.py; no mutable workspace prompt copy |
+| Model/API/token/reasoning selection | Versioned release JSON and bundle environment | No secrets; validates existing runtime schemas |
+| County table and load readiness | Separate reviewed bootstrap | Never loaded by ordinary release CI |
+| Scientific snapshot | Verified packaged public asset | Same wheel in both Apps |
+
+Terraform does not create App shells, table contents, model services, account
+resources, OAuth federation or all-principal permission lists. The model service
+EXECUTE grant is **not** managed here: destination model availability and access
+must be verified separately. The temporary operator lacked MANAGE on the model
+service; inherited access working here is not evidence of destination access.
+
+## Explicit release settings
+
+Copy [example.json](../config/releases/example.json) to a destination-named JSON
+file; use `config/releases/production.json` for the enabled CI environment. Commit
+only nonsecret operator-reviewed values. Credentials stay in the CLI keyring or
+GitHub-to-Databricks OIDC federation, not this file or the staged Apps.
+
+```sh
+uv run python scripts/stage_release.py config/releases/production.json
+```
+
+This builds one wheel and stages `.local/release/app` and `.local/release/ui`,
+with Python 3.12 and transitive dependency constraints from the root uv.lock.
+Generated App lockfiles and release metadata record the actual inputs. Existing
+staging directories are refused rather than silently replaced. Archive them
+before repeating. No .env, raw data, evidence or credentials are copied.
+Bundle configuration supplies App environments; the UI's staged app.yaml contains
+only its launch command. Release metadata includes wheel and SYSTEM hashes.
+
+The portable target requires explicit bundle variables matching release JSON.
+Locally set `BUNDLE_VAR_<key>` for each entry returned by Release.variables(),
+or use the CLI `--var` options; this does not set workspace authentication.
+Set `BUNDLE_VAR_release_root` to a reviewed **restricted** workspace folder and
+keep it identical for operator adoption and CI. Do not use broadly writable
+Workspace/Shared state or a CI identity-dependent default path.
+
+Without `manifest` and `snapshot_attestation`, discovery and packaged science
+remain available while county comparisons correctly report setup blockers.
+Never reuse a manifest solely because catalog/schema/table names match: another
+workspace can contain the same names without the same data.
+
+To include county analytics, first review publisher sources, explicitly load the
+snapshot in the destination with datagov-load, and independently verify rows,
+snapshot ID and values there. Then supply a manifest path and an operator-written
+attestation path, relative to the release JSON directory. Attestation has exactly:
+
+```json
+{
+  "workspace_host": "https://actual-workspace.cloud.databricks.com",
+  "loaded_table": "`research`.`public_data`.`county_indicators`",
+  "snapshot_id": "24-lowercase-hex-characters",
+  "manifest_sha256": "sha256-of-the-exact-manifest-bytes",
+  "row_count": 72
+}
+```
+
+This is an explicit operator assertion bound to destination and file digest,
+**not** an automated warehouse verification or cryptographic publisher signature.
+Retain the actual destination SQL/source verification evidence separately. Do not
+rewrite an old manifest's loaded_table to bypass the bootstrap.
+
+## Terraform prerequisite review
+
+Pinned Terraform 1.17.2 and provider 1.144.0 are locked. Copy
+[destination.tfvars.example](../infra/destination.tfvars.example) to an ignored
+local tfvars file. Authentication uses standard Databricks environment/profile
+configuration. Never add tokens to Terraform inputs. For syntax checks only:
+
+```sh
+terraform -chdir=infra init -backend=false -lockfile=readonly
+terraform -chdir=infra fmt -check
+terraform -chdir=infra validate
+```
+
+For actual management, configure the declared S3 backend with reviewed bucket,
+key, region, encryption and locking (`use_lockfile=true`), using an ignored
+backend configuration and short-lived AWS credentials. State is sensitive even
+when inputs contain no secrets; restrict read/write access, version and back it
+up. Remote backend setup and AWS identity are not provisioned by this project.
+
+Before enabling manage_schema for an existing schema, import its full name into
+`databricks_schema.research[0]`. Before enabling manage_reader_grants, inspect the
+MCP principal's entire existing privileges on each securable. A databricks_grant
+replaces that principal's privilege set; retain additional approved privileges
+in code or do not adopt it. Model and other principals' grants remain external.
+Set snapshot_loaded only after bootstrap verification. Review a saved plan;
+**there is no automatic Terraform apply in CI**.
+
+## Post-hackathon adoption sequence
+
+1. Read-only destination discovery: warehouse/catalog/schema, Apps, model service,
+   metastore privileges, network egress and deployment identity. Review concrete
+   resources and agree whether to reuse names or create new Apps.
+2. Configure protected remote Terraform state; review/import prerequisites and
+   grants before any approved apply. Leave optional controls off until reviewed.
+3. Fill release JSON and restricted bundle root; stage and validate. For new Apps,
+   deploy shells only after approval, inspect the resulting MCP URL and principals,
+   and update JSON before running the UI. Creation is not authorized now.
+4. For existing Apps, preserve current configuration, deployment and permissions.
+   Inspect bundle state before `databricks bundle deployment bind -t portable
+   datagov_mcp <existing-name>` and the equivalent datagov_ui bind. Bind support
+   and the resulting plan must be checked against the destination CLI/state.
+   The next deploy overwrites configuration: do not treat binding as a harmless
+   import. Never keep sandbox and portable targets managing the same App: retire
+   the old ownership/state only after reviewing the transfer; do not destroy it.
+5. Review the bundle plan, especially App resource/permission removal. Bootstrap
+   county data separately if required. Verify UI model access and MCP warehouse
+   access; UI must not receive direct warehouse access.
+6. Approve the first release manually, then run authenticated UI → model → MCP →
+   warehouse and science checks. Only then enable unattended main releases.
+
+## Gated main-branch release
+
+[deploy.yml](../.github/workflows/deploy.yml) runs only after the main push's
+`check` succeeds, and checks out that exact tested SHA. It does not consume a
+pull-request artifact or run after PR checks. Release jobs are serialized without
+cancelling an in-flight deployment. A stale main revision fails before deploy.
+
+The workflow is inert until the repository variable DATABRICKS_DEPLOY_ENABLED is
+exactly `true`. The protected `databricks-production` environment must additionally
+contain DATABRICKS_ADOPTION_COMPLETE=`true`, DATABRICKS_HOST,
+DATABRICKS_CLIENT_ID and DATABRICKS_BUNDLE_ROOT, plus the reviewed production JSON
+in the tested commit. Configure Databricks workload identity federation for this
+repository and the environment subject
+`repo:trevorspecht/gsa-mcp-hackathon-data-gov:environment:databricks-production`;
+restrict audience/issuer and service-principal permissions to concrete resources.
+Use environment deployment branch restrictions for main. Configure required
+reviewers if desired; that adds approval to otherwise automatic releases.
+
+No PAT fallback or federation credentials are created automatically. Once gates
+are enabled, successful main checks lead to bundle validate → plan → deploy →
+MCP run → UI run. This is code release only, not data load or Terraform apply.
+A successful deploy is not proof of answer quality: retain bounded live smoke
+and evaluation results after first adoption and materially changed releases.
+
+## Verification and remaining blockers
+
+Local checks cover release schema validation, ambient credential isolation,
+manifest destination/digest mismatch rejection, same-wheel staging, bundle App
+ownership and CI gates. Real example staging and bundle schema validation were
+performed without deployment; Terraform backend-free validate passed. The final
+restricted-root portable configuration is schema-checked offline: a live CLI
+validate needs a reviewed writable destination path and may create staging
+folders. Do not describe that CLI command as read-only.
+
+**BLOCKED:** destination selection/discovery, remote backend setup, OIDC identity,
+existing App/state adoption, model access, destination snapshot bootstrap, grants,
+first release and live migration verification. Nothing in this document claims
+those steps have occurred.

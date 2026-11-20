@@ -11,6 +11,30 @@ variables:
     description: Existing Unity Catalog catalog
   schema:
     description: Existing schema for the reviewed snapshot
+  table:
+    description: Operator-approved destination table (never supplied by a tool)
+    default: county_indicators
+  ui_app_name:
+    description: Private research UI App name
+    default: datagov-research-ui
+  mcp_url:
+    description: Destination MCP App HTTPS URL ending in /mcp
+    default: https://configure-destination.invalid/mcp
+  model:
+    description: Destination model service with approved access
+    default: system.ai.gpt-6-1-sol
+  agent_api:
+    description: Hosted model API adapter
+    default: responses
+  agent_max_output_tokens:
+    description: Maximum final/model-turn output tokens
+    default: '4000'
+  agent_reasoning_effort:
+    description: Hosted model reasoning effort
+    default: low
+  release_root:
+    description: Stable bundle state/source path shared by operator and CI identity
+    default: /Workspace/Users/configure-owner/datagov-release
 
 include:
   - resources/*.yml
@@ -18,6 +42,8 @@ include:
 sync:
   include:
     - .local/app/**
+    - .local/release/app/**
+    - .local/release/ui/**
   exclude:
     - .env
     - .env.*
@@ -33,3 +59,34 @@ targets:
   sandbox:
     default: true
     mode: development
+  portable:
+    mode: production
+    workspace:
+      root_path: ${var.release_root}
+    resources:
+      apps:
+        datagov_mcp:
+          name: ${var.app_name}
+          source_code_path: .local/release/app
+        datagov_ui:
+          name: ${var.ui_app_name}
+          description: Private evidence-backed public data research interface
+          source_code_path: .local/release/ui
+          resources:
+            - name: research-mcp
+              app:
+                name: ${resources.apps.datagov_mcp.name}
+                permission: CAN_USE
+          config:
+            command: ['python', 'launch.py']
+            env:
+              - name: DATABRICKS_MCP_URL
+                value: ${var.mcp_url}
+              - name: DATABRICKS_MODEL_ENDPOINT
+                value: ${var.model}
+              - name: AGENT_API
+                value: ${var.agent_api}
+              - name: AGENT_MAX_OUTPUT_TOKENS
+                value: ${var.agent_max_output_tokens}
+              - name: AGENT_REASONING_EFFORT
+                value: ${var.agent_reasoning_effort}

@@ -1,0 +1,7 @@
+workspace_host = "https://configure-destination.cloud.databricks.com"
+catalog = "research"
+schema_name = "public_data"
+warehouse_id = "configure_warehouse"
+manage_schema = false
+manage_reader_grants = false
+snapshot_loaded = false

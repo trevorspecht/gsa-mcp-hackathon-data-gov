@@ -56,6 +56,10 @@ uv run datagov-agent "Find federal water quality datasets and inspect one."
 The runner returns the model answer and actual tool trace. App calls require
 OAuth; a local warehouse PAT cannot authenticate to a Databricks App.
 
+For migration-ready Terraform prerequisites, both App bundle releases and gated
+main-branch deployment, see [portable configuration](docs/PORTABILITY.md).
+Deployment stays disabled until destination resources and identity are reviewed.
+
 ## Tools
 
 - `find_data_for_question`: bounded keyword/filter search with semantic suggestions.

@@ -11,7 +11,8 @@ related_files: ["EVALUATION.md", "DATABRICKS.md"]
 
 ## Submission artifacts and end-user demo
 
-Deadline confirmed by owner: **11:59:59 p.m. US Eastern, November 20, 2026**.
+Extended deadline reported by owner on November 20: **Monday, November 23, 2026,
+11:59 p.m. Eastern Time**. This supersedes the original November 20 deadline.
 Organizer templates are in `.local/submission/templates/`. Run
 `uv run python scripts/build_submission.py` to produce the adapted 12-slide deck
 and evaluation DOCX in `.local/submission/`. Both are drafts requiring presenter

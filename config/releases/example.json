@@ -1,0 +1,14 @@
+{
+  "workspace_host": "https://configure-destination.cloud.databricks.com",
+  "warehouse_id": "configure_warehouse",
+  "catalog": "research",
+  "schema_name": "public_data",
+  "table": "county_indicators",
+  "app_name": "mcp-datagov-semantic",
+  "ui_app_name": "datagov-research-ui",
+  "mcp_url": "https://configure-destination.aws.databricksapps.com/mcp",
+  "model": "system.ai.gpt-6-1-sol",
+  "api": "responses",
+  "max_output_tokens": 4000,
+  "reasoning_effort": "low"
+}
