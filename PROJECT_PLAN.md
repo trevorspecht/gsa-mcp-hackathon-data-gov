@@ -9,10 +9,16 @@ related_files: ["RESEARCH_LOG.md", "ACCESS_BLOCKERS.md", "README.md"]
 
 # Project plan: data.gov MCP server
 
-## Submission update — November 19
+## Submission update — November 20
 
-Owner confirmed the submission deadline is **midnight at the end of November 20**
-(the transition to November 21, **US Eastern**). Use the organizer's
+Owner reports the deadline has been extended to **Monday, November 23, 2026,
+11:59 p.m. Eastern Time**, superseding the November 20 deadline. The owner intends
+to use the additional time to extend the project; specific additional features
+remain to be selected. Preserve the verified baseline and rerun relevant evaluation
+and technical review after changes. This extension does not confirm any change to
+the temporary Databricks environment's expiration date.
+
+Use the organizer's
 PPTX and DOCX templates, downloaded to `.local/submission/templates/`. They are
 worked CDC PLACES examples, not requirements to adopt Phoenix or copy example
 scores. Adapt their sections using this project's actual evidence.
@@ -37,8 +43,27 @@ before the temporary Databricks environment expires.
   five scientific responses per round independently match raw publisher data.
 - Technical review: docs/TECHNICAL_REVIEW.md; 73 tests with UI extra, full checks
   pass. Documents are local drafts, not evidence of organizer submission.
-- Submission deadline: 11:59:59 p.m. US Eastern November 20. Portable backup must
-  be copied off this machine before retiring the temporary environment.
+- Submission deadline subsequently extended to November 23, 11:59 p.m. Eastern
+  (owner update November 20). Portable backup must be copied off this machine
+  before retiring the temporary environment.
+
+## Portable configuration — November 20
+
+- BUILD-15: Terraform prerequisites, portable bundle owning both Apps, explicit
+  credential-free release settings and same-wheel staging implemented.
+- Main release workflow waits for successful checks on the exact main SHA and is
+  disabled until destination/OIDC/state adoption are explicitly configured.
+- County analytics are omitted by default; destination-bound manifest attestation
+  is required after separate verified bootstrap. Routine CI never loads data.
+- No App/grant/data migration performed. Bundle validate may create workspace
+  staging directories; initial shared-root validation passed, restricted-placeholder
+  validation failed permission checks. Final schema validation is offline.
+- Destination discovery, backend, federation, imports, model access, grants and
+  first live migration remain BLOCKED pending post-hackathon review.
+- Local full make check passed; Terraform init/validate and real same-wheel
+  staging passed; both bundle files pass offline CLI schema checks. Repository
+  deployment-enable variable is absent, so release CI is inert.
+- Ownership/adoption instructions and verification boundaries: docs/PORTABILITY.md.
 
 ## Active build — November 18
 

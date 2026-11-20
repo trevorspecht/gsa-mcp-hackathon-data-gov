@@ -1,0 +1,68 @@
+name: release Apps
+
+on:
+  workflow_run:
+    workflows: [check]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: datagov-production-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      vars.DATABRICKS_DEPLOY_ENABLED == 'true'
+    environment: databricks-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
+      DATABRICKS_CLIENT_ID: ${{ vars.DATABRICKS_CLIENT_ID }}
+      DATABRICKS_AUTH_TYPE: github-oidc
+      BUNDLE_VAR_release_root: ${{ vars.DATABRICKS_BUNDLE_ROOT }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Require reviewed deployment setup
+        env:
+          ADOPTION_COMPLETE: ${{ vars.DATABRICKS_ADOPTION_COMPLETE }}
+        run: |
+          test "$ADOPTION_COMPLETE" = true
+          test -n "$DATABRICKS_HOST"
+          test -n "$DATABRICKS_CLIENT_ID"
+          test -n "$BUNDLE_VAR_release_root"
+          test -f config/releases/production.json
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          python-version: '3.13'
+      - uses: databricks/setup-cli@9925cdb329614cccdba6f9a847ae9c095db12b13 # v0.275.0
+        with:
+          version: '1.26.0'
+      - run: uv sync --locked --extra ui
+      - run: uv run python scripts/release_environment.py
+      - run: uv run python scripts/stage_release.py config/releases/production.json
+      - run: databricks bundle validate -t portable
+      - run: databricks bundle plan -t portable
+      - name: Refuse a superseded main revision
+        env:
+          TESTED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          current_sha=$(git ls-remote origin refs/heads/main | cut -f1)
+          test "$current_sha" = "$TESTED_SHA"
+      - run: databricks bundle deploy -t portable --auto-approve
+      - run: databricks bundle run -t portable datagov_mcp
+      - run: databricks bundle run -t portable datagov_ui

@@ -19,7 +19,7 @@ resources:
           - name: DATABRICKS_SCHEMA
             value: ${var.schema}
           - name: DATABRICKS_TABLE
-            value: county_indicators
+            value: ${var.table}
           - name: ANALYTICS_MANIFEST
             value: manifest.json
           - name: CATALOG_INTERFACE

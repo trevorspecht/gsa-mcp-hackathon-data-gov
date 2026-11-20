@@ -23,6 +23,13 @@ dist/
 *.egg-info/
 .coverage
 .databricks/
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+crash.log
 .idea/
 .vscode/settings.json
 *.swp
