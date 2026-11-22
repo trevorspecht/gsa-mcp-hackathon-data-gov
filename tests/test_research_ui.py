@@ -114,6 +114,24 @@ display_result({"status":"complete", "answer":"Dataset list", "trace":[
     assert app.get("link_button")[0].proto.url == "https://example.gov/data"
 
 
+def test_selected_preview_renders_both_chart_types():
+    app = AppTest.from_string("""
+import streamlit as st
+from datagov_mcp.research_ui import display_exploration
+st.session_state['exploration'] = {'datasets':[
+ {'status':'complete', 'dataset_id':identity, 'title':identity,
+  'retrieval':'reviewed preview', 'geography':'Example', 'unit':'units',
+  'rows':[{'year':2002,'value':1.0},{'year':2012,'value':2.0}],
+  'source':{'url':'https://example.gov/data'}}
+ for identity in ['md_temperature','chesapeake_cover_crops']
+], 'compatibility':{'pairs':[], 'next_steps':[]}}
+display_exploration()
+""").run(timeout=20)
+    assert not app.exception
+    assert len(app.dataframe) == 2
+    assert len(app.get("vega_lite_chart")) == 2
+
+
 def test_selected_preview_requires_click_and_keeps_question():
     app = AppTest.from_string("""
 import streamlit as st

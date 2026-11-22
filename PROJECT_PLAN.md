@@ -47,6 +47,15 @@ before the temporary Databricks environment expires.
   (owner update November 20). Portable backup must be copied off this machine
   before retiring the temporary environment.
 
+## Preview chart hotfix — November 22
+
+User-reported hosted SyntaxError traced to Streamlit source inspection of a
+multiline conditional chart-call expression. Replaced with explicit if/else
+line/scatter calls; regression test renders both branches. Seven UI tests and
+12 focused preview/UI tests passed. UI-only local release succeeded; hosted
+select-all preview completed with four charts, tables, compatibility assessment
+and preview download visible; no SyntaxError. No data/tool/grant changes.
+
 ## Guided selected-data exploration — November 22
 
 - Added list_exploration_options and preview_selected_data MCP tools, plus UI

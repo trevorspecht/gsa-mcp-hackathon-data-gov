@@ -354,11 +354,10 @@ def display_exploration():
                 + dataset["unit"]
             )
             st.dataframe(dataset["rows"])
-            st.line_chart(dataset["rows"], x="year", y="value") if dataset[
-                "dataset_id"
-            ].startswith("md_") else st.scatter_chart(
-                dataset["rows"], x="year", y="value"
-            )
+            if dataset["dataset_id"].startswith("md_"):
+                st.line_chart(dataset["rows"], x="year", y="value")
+            else:
+                st.scatter_chart(dataset["rows"], x="year", y="value")
             st.link_button("Publisher source", dataset["source"]["url"])
         st.subheader("Can these sources be compared?")
         for pair in preview.get("compatibility", {}).get("pairs", []):
