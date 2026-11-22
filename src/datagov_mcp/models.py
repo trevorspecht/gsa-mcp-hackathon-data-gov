@@ -51,43 +51,66 @@ class SearchRequest(Input):
         return self
 
 
-class CompareRequest(Input):
-    metric_ids: list[Text] = Field(
-        default_factory=lambda: ["population", "unemployment_rate"],
-        min_length=2,
-        max_length=2,
-    )
-    state_fips: str = Field(default="24", pattern=r"^\d{2}$")
-    start_year: int = Field(default=2022, ge=1900, le=2100)
-    end_year: int = Field(default=2024, ge=1900, le=2100)
-    county_fips: list[str] = Field(default_factory=list, max_length=24)
-    population_direction: Literal["any", "increase", "decrease"] = "any"
-    unemployment_direction: Literal["any", "increase", "decrease"] = "any"
-    sort_by: Literal["county", "population_change", "unemployment_change"] = "county"
-    limit: int = Field(default=24, ge=1, le=24)
-
-    @model_validator(mode="after")
-    def periods_and_counties(self):
-        if self.start_year >= self.end_year:
-            raise ValueError("end_year must be later than start_year")
-        if len(set(self.metric_ids)) != 2:
-            raise ValueError("Select two distinct metrics")
-        if len(set(self.county_fips)) != len(self.county_fips):
-            raise ValueError("County FIPS must be unique")
-        if any(
-            len(c) != 5
-            or not c.isascii()
-            or not c.isdigit()
-            or not c.startswith(self.state_fips)
-            for c in self.county_fips
-        ):
-            raise ValueError(
-                "County FIPS must be five digits within the selected state"
-            )
-        return self
-
-
 class SearchEnvelope(BaseModel):
     results: list[dict]
     after: str | None = Field(default=None, max_length=8000)
     sort: str | None = None
+
+
+RegistryId = Annotated[str, Field(pattern=r"^[a-z0-9_]{1,64}$")]
+GeographyId = Annotated[str, Field(pattern=r"^[A-Za-z0-9_]{1,64}$")]
+Period = Annotated[int, Field(ge=1800, le=2100)]
+
+
+class ObservationRequest(Input):
+    dataset_id: RegistryId
+    measure_ids: list[RegistryId] = Field(default_factory=list, max_length=8)
+    geography_ids: list[GeographyId] = Field(default_factory=list, max_length=50)
+    start_period: Period | None = None
+    end_period: Period | None = None
+
+    @model_validator(mode="after")
+    def bounds(self):
+        if (
+            self.start_period is not None
+            and self.end_period is not None
+            and self.end_period < self.start_period
+        ):
+            raise ValueError("end_period must not precede start_period")
+        if len(set(self.geography_ids)) != len(self.geography_ids):
+            raise ValueError("Geography IDs must be unique")
+        return self
+
+
+class ChangeRequest(Input):
+    dataset_id: RegistryId
+    measure_ids: list[RegistryId] = Field(default_factory=list, max_length=4)
+    start_period: Period
+    end_period: Period
+    geography_ids: list[GeographyId] = Field(default_factory=list, max_length=50)
+    direction_filters: dict[RegistryId, Literal["increase", "decrease"]] = Field(
+        default_factory=dict, max_length=4
+    )
+    sort_by: RegistryId | None = None
+    limit: int = Field(default=50, ge=1, le=50)
+
+    @model_validator(mode="after")
+    def periods(self):
+        if self.end_period <= self.start_period:
+            raise ValueError("end_period must be later than start_period")
+        if len(set(self.geography_ids)) != len(self.geography_ids):
+            raise ValueError("Geography IDs must be unique")
+        if self.measure_ids and not set(self.direction_filters) <= set(
+            self.measure_ids
+        ):
+            raise ValueError("Direction filters must use selected measures")
+        return self
+
+
+class Selection(Input):
+    dataset_id: RegistryId
+    measure_ids: list[RegistryId] = Field(default_factory=list, max_length=8)
+
+
+class CompatibilityRequest(Input):
+    datasets: list[Selection] = Field(min_length=2, max_length=4)

@@ -1,11 +1,10 @@
-"""Reviewed semantics are separate from live discovery and execution readiness."""
+"""Warehouse snapshot manifest checks, separate from live catalog discovery."""
 
 import json
 from importlib.resources import files
 from pathlib import Path
 
 from datagov_mcp.config import Settings
-from datagov_mcp.models import CompareRequest
 from datagov_mcp.snapshot import Manifest
 
 
@@ -17,22 +16,18 @@ def asset(name: str):
     return (Path(__file__).resolve().parents[2] / folder / name).read_text()
 
 
+def warehouse_dataset():
+    return next(
+        d
+        for d in json.loads(asset("datasets.json"))["datasets"]
+        if d["connector"]["type"] == "warehouse"
+    )
+
+
 class Registry:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.data = json.loads(asset("metrics.json"))
-
-    def suggestions(self, query: str):
-        return [
-            {
-                "metric_id": m["id"],
-                "search_terms": m["search_terms"],
-                "organization_hint": m["organization_slug"],
-                "note": "Suggestion only; resolve organization slug before filtering",
-            }
-            for m in self.data["metrics"]
-            if any(term in query.casefold() for term in m["synonyms"])
-        ]
+        self.dataset = warehouse_dataset()
 
     def manifest(self):
         path = self.settings.analytics_manifest
@@ -44,19 +39,17 @@ class Registry:
             data = Manifest.model_validate_json(path.read_text()).model_dump()
             if data["domain_reviewed"] is not True:
                 return None, "Snapshot domain review has not been confirmed"
-            if data["state_fips"] != self.data["state_fips"]:
-                raise ValueError("Unsupported snapshot state")
-            if not isinstance(data["years"], list) or not all(
-                isinstance(y, int) for y in data["years"]
+            if data["state_fips"] != self.dataset["connector"]["fixed_filters"].get(
+                "state_fips"
             ):
-                raise ValueError("Invalid years")
+                raise ValueError("Unsupported snapshot state")
             return data, None
         except (OSError, ValueError, TypeError):
             return None, "Snapshot manifest is invalid or unreadable"
 
     def sources(self, manifest):
         if not manifest:
-            return self.data["sources"]
+            return self.dataset["sources"]
         verified = {s["id"]: s for s in manifest["sources"]}
         return [
             {
@@ -67,67 +60,5 @@ class Registry:
                 ),
                 "snapshot_id": manifest["snapshot_id"],
             }
-            for source in self.data["sources"]
+            for source in self.dataset["sources"]
         ]
-
-    def capabilities(self):
-        manifest, blocker = self.manifest()
-        loaded = bool(
-            manifest and manifest.get("loaded_table") == self.settings.table_name
-        )
-        return {
-            "registry": {**self.data, "sources": self.sources(manifest)},
-            "analytic_snapshot": manifest,
-            "setup_blockers": ([blocker] if blocker else [])
-            + self.settings.missing_warehouse_settings
-            + (
-                []
-                if loaded
-                else ["Snapshot is not verified loaded in the configured table"]
-            ),
-            "discovery": "Live catalog metadata search across topics",
-            "execution": "Registered Maryland population/unemployment comparison only",
-        }
-
-    def assess(self, request: CompareRequest):
-        reasons = []
-        if set(request.metric_ids) != {m["id"] for m in self.data["metrics"]}:
-            reasons.append(
-                "These metrics do not have an approved comparison implementation"
-            )
-        if request.state_fips != self.data["state_fips"]:
-            reasons.append(
-                "Only Maryland county/county-equivalent geography is supported"
-            )
-        if not {request.start_year, request.end_year} <= set(self.data["years"]):
-            reasons.append("Selected years are outside the planned 2022–2024 coverage")
-        manifest, blocker = self.manifest()
-        if manifest:
-            if not {request.start_year, request.end_year} <= set(manifest["years"]):
-                reasons.append("Selected years are absent from the verified snapshot")
-            if not set(request.county_fips) <= set(manifest["county_fips"]):
-                reasons.append(
-                    "Selected counties are absent from the verified snapshot"
-                )
-        setup = (
-            [blocker] if blocker else []
-        ) + self.settings.missing_warehouse_settings
-        if manifest and manifest.get("loaded_table") != self.settings.table_name:
-            setup.append("Snapshot is not verified loaded in the configured table")
-        return {
-            "compatible": not reasons,
-            "ready_to_execute": not reasons and not setup,
-            "status": "unsupported"
-            if reasons
-            else "setup_required"
-            if setup
-            else "ready",
-            "incompatibilities": reasons,
-            "setup_blockers": setup,
-            "comparison": request.model_dump(),
-            "metrics": self.data["metrics"],
-            "join": self.data["join"],
-            "sources": self.sources(manifest),
-            "snapshot_id": manifest["snapshot_id"] if manifest else None,
-            "note": "Registered semantic compatibility and readiness are separate",
-        }

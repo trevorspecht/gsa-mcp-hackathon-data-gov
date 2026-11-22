@@ -9,7 +9,7 @@ related_files: ["../README.md", "DATA.md"]
 
 # Databricks sandbox and agent setup
 
-Selected client: a **Databricks model agent**. The model calls our eleven MCP tools;
+Selected client: a **Databricks model agent**. The model calls our nine dataset-agnostic MCP tools;
 our MCP server runs in an authenticated Databricks App and queries curated data
 using the App service principal. This is shared access to public datasets, not
 per-user Unity Catalog identity propagation.
@@ -21,6 +21,31 @@ prerequisites, a bundle target owning both private Apps, versioned model setting
 and gated main-branch CI releases. No destination migration or deployment is
 approved during preparation. Keep the legacy sandbox target for its current App
 until its state ownership is explicitly transferred.
+
+## Local release procedure (current hackathon workspace)
+
+Releases are run locally by the operator; CI only validates. Archive existing
+`.local/app` and `.local/ui`, then stage with `scripts/stage_app.py` and
+`scripts/stage_ui.py`.
+
+**MCP App — always through the bundle**, so the App's environment (warehouse,
+catalog, schema, table, manifest) stays defined in `resources/app.yml`:
+
+```sh
+databricks bundle plan   -t sandbox -p hackathon --var=warehouse_id=… --var=catalog=… --var=schema=…
+databricks bundle deploy -t sandbox -p hackathon --var=…   # after reviewing the plan
+databricks bundle run datagov_mcp -t sandbox -p hackathon --var=…
+```
+
+Do not release the MCP App with `databricks apps deploy` directly: on November 22
+that path was found to have dropped the bundle-managed environment, leaving the
+county dataset unconfigured in the hosted App until a bundle redeploy restored it.
+
+**Research UI** is not yet bundle-managed in the sandbox target. Its staged
+`app.yaml` carries its non-secret environment; import `.local/ui` to the App's
+source path and run `databricks apps deploy datagov-research-ui
+--source-code-path …`. Verify App status, the `users` CAN_USE grant and an
+authenticated hosted tool call after every release.
 
 ## Fill local configuration
 

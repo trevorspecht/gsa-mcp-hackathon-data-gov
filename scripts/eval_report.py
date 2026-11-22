@@ -229,6 +229,11 @@ def check_run(run, reference, science=None):
                 checks.append(
                     ("info", "Science query: inspect available years and evidence")
                 )
+        if step["tool"] in ("query_dataset", "analyze_change") and isinstance(
+            result, dict
+        ):
+            checks.extend(check_generic(step, result, reference, science))
+            continue
         if step["tool"] != "compare_public_indicators" or not isinstance(result, dict):
             continue
         if result.get("status") != "complete":
@@ -266,8 +271,125 @@ def check_run(run, reference, science=None):
             checks.append(("fail", "Summary counts differ from reference"))
     if not trace:
         checks.append(("warn", "No tool calls; answer is not MCP-backed"))
-    elif not any(step["tool"] == "compare_public_indicators" for step in trace):
+    elif not any(
+        step["tool"] in ("compare_public_indicators", "query_dataset", "analyze_change")
+        for step in trace
+    ):
         checks.append(("info", "No comparison executed; judge the answer manually"))
+    return checks
+
+
+SERIES = {
+    "md_annual_temperature": "md_temperature",
+    "md_annual_precipitation": "md_precipitation",
+    "chesapeake_cover_crops": "chesapeake_cover_crops",
+    "chesapeake_conservation_tillage": "chesapeake_conservation_tillage",
+}
+COUNTY_DATASET = "md_county_population_unemployment"
+
+
+def check_generic(step, result, reference, science):
+    """Independent checks for the generic query_dataset/analyze_change tools."""
+    if result.get("status") != "complete":
+        return [("info", f"{step['tool']} status: {result.get('status')}")]
+    request = step["arguments"].get("request", {})
+    dataset = request.get("dataset_id")
+    if dataset == COUNTY_DATASET and step["tool"] == "analyze_change":
+        return check_county_change(request, result, reference)
+    if dataset in SERIES and science:
+        frozen = next(d for d in science["datasets"] if d["id"] == SERIES[dataset])
+        field = result["measures"][0]["id"]
+        start = request.get("start_period") or 0
+        end = request.get("end_period") or 9999
+        expected = {
+            r["year"]: r["value"]
+            for r in frozen["observations"]
+            if start <= r["year"] <= end
+        }
+        if step["tool"] == "analyze_change":
+            got = result["rows"][0][field + "_change"]
+            want = expected[request["end_period"]] - expected[request["start_period"]]
+            ok = abs(got - want) <= TOLERANCE
+            return [
+                (
+                    "pass" if ok else "fail",
+                    "Series change matches frozen reference"
+                    if ok
+                    else "Series change differs from reference",
+                )
+            ]
+        got = {r["period"]: r[field] for r in result["rows"]}
+        live = result.get("provenance", {}).get("storage") == "Live publisher file"
+        ok = got == expected
+        if live and not ok:
+            return [("warn", "Live refresh differs from frozen snapshot (revision?)")]
+        return [
+            (
+                "pass" if ok else "fail",
+                "Series rows match frozen reference"
+                if ok
+                else "Series reference mismatch",
+            )
+        ]
+    return [("info", f"{step['tool']} on {dataset}: inspect evidence manually")]
+
+
+def check_county_change(request, result, reference):
+    filters = request.get("direction_filters", {})
+    legacy = {
+        "start_year": request["start_period"],
+        "end_year": request["end_period"],
+        "county_fips": request.get("geography_ids") or [],
+        "population_direction": filters.get("population", "any"),
+        "unemployment_direction": filters.get("unemployment_rate", "any"),
+        "sort_by": {
+            "population": "population_change",
+            "unemployment_rate": "unemployment_change",
+        }.get(request.get("sort_by"), "county"),
+        "limit": request.get("limit", 50),
+    }
+    rows, summary = reference.expected(legacy)
+    got = result.get("rows", [])
+    checks = []
+    if [r["geography_id"] for r in got] == [r["county_fips"] for r in rows]:
+        checks.append(("pass", f"Row set and order match reference ({len(rows)} rows)"))
+    else:
+        checks.append(("fail", "Row set or order differs from reference"))
+    pairs = (
+        ("population_change", "population_change"),
+        ("unemployment_rate_change", "unemployment_change"),
+    )
+    bad = [
+        g["geography_id"]
+        for g, e in zip(got, rows, strict=False)
+        if any(
+            k in g and abs(float(g[k]) - float(e[ref])) > TOLERANCE for k, ref in pairs
+        )
+    ]
+    checks.append(
+        ("fail", f"Values differ: {', '.join(bad)}")
+        if bad
+        else ("pass", f"All values within {TOLERANCE}")
+    )
+    directions = result.get("summary", {}).get("directions", {})
+    expected = {
+        "population": {
+            "increased": summary["population"]["increased"],
+            "decreased": summary["population"]["decreased"],
+            "unchanged": summary["population"]["unchanged"],
+        },
+        "unemployment_rate": {
+            "increased": summary["unemployment_rate"]["rose"],
+            "decreased": summary["unemployment_rate"]["fell"],
+            "unchanged": summary["unemployment_rate"]["unchanged"],
+        },
+    }
+    ok = all(directions.get(k) == v for k, v in expected.items() if k in directions)
+    checks.append(
+        ("pass", "Summary counts match reference")
+        if ok
+        else ("fail", "Summary counts differ from reference")
+    )
     return checks
 
 

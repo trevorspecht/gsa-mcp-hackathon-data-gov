@@ -24,61 +24,27 @@ Workspace users CAN_USE remained intact. Keyword-score ties use alphabetical
 ordering; this is not semantic suitability ranking, and the answer must still
 explain geography, years and measure compatibility.
 
-## Answer-first workflow
+## Interface layout (November 22)
 
-Users ask ordinary research questions or request dataset lists; they do not need
-to name ranking tools. The agent assesses candidate readiness internally and
-answers as far as verified observations allow, retaining explicit limitations.
+Results appear in five tabs so the answer is not cluttered:
 
-The **Answer & sources** tab shows the answer first, then sources actually used
-for completed data queries, other discovered candidates, and structured charts.
-Source cards contain readable descriptions, coverage, periods, access/use terms,
-formats, dictionary information and dataset links. Capability inspection alone
-is not counted as data use. Ready alternatives can still appear among other
-candidates; availability remains distinct from relevance. An optional names-and-
-links-only display reduces metadata detail for list requests.
+1. **Answer** — the model's answer only.
+2. **Sources** — registered datasets actually queried (with publisher links), then
+   other catalog candidates with readable metadata and availability. An optional
+   toggle shows names and links only.
+3. **Data & charts** — every completed query or change analysis, rendered
+   generically from the result: change → bars by geography; observations →
+   series by period (sparse periods shown as unconnected points); tables; caveats.
+4. **Explore further** — select any ready registered dataset to preview its
+   observations (optionally refreshing from a registered live publisher route),
+   check geography/period compatibility, and run a suggested follow-up question
+   that carries the original question forward.
+5. **Evaluation** — raw tool trace and the answer/evidence JSON download.
 
-The **Evaluation & diagnostics** tab contains raw traces, ranking details and the
-answer/evidence JSON download. No raw JSON cards clutter the normal answer tab.
-
-The interface code provides:
-
-- Plain-language questions and examples; each question starts fresh.
-- Answers with source links and explicitly stated limitations.
-- Deduplicated catalog cards with publisher, periods, access, dictionaries and
-  distribution metadata. Curated capabilities are not mislabeled as search hits.
-- Ranked inspected candidates with visible relevance matches and readiness labels.
-  Ready applies only to exact reviewed snapshot scopes, not whole publisher datasets
-  or guaranteed question compatibility. Unassessed cards are explicitly labeled.
-- API/file links and advertised sizes remain unverified metadata. No generic
-  downloads, public-database queries or invented wait estimates are offered.
-- Separate county change bars (percent versus percentage points).
-- Annual climate line charts; sparse practice observations are unconnected points.
-- Accessible data tables and downloadable JSON containing the answer and evidence.
-
-The interface does not execute model-generated plotting code. Chart values come
-only from structured tool results. No cross-geography climate/practice correlation
-or causal chart is produced. Source metadata remains untrusted.
-
-## Continue from an inconclusive answer
-
-The continuation section retains the original question, offers reviewed preview
-options, and lets the user select up to four series before clicking Explore
-selected data. NOAA Maryland temperature/precipitation are fetched live; USGS
-cover-crop/tillage previews use the existing reviewed historical snapshot. Other
-catalog candidates cannot be selected for arbitrary retrieval. The interface
-states this boundary and the time/size budget before retrieval.
-
-Preview tables/charts show actual observations and publisher links. Pairwise
-checks explain geography and year overlap: matching climate series allow only
-descriptive alignment, while climate/watershed-practice pairs remain incompatible.
-No coefficients, causal joins, interpolation or new agricultural connector are
-implemented. Preview JSON includes live hashes/timestamps or snapshot provenance.
-
-Suggested next questions are actionable buttons for finding matching geography
-and years or focusing on drought/irrigation. The original question is passed into
-these explicit follow-ups; this is bounded exploration context, not general
-conversation memory. New top-level questions reset prior preview state.
+Charts and tables are built only from structured tool results. No model-generated
+plotting code is executed; no correlation or causal chart is produced. Selection
+does not make unregistered catalog datasets retrievable. Original questions and
+previews persist only within the current UI session, not as general memory.
 
 ## Hackathon judge access
 

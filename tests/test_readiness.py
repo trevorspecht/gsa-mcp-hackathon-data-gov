@@ -2,9 +2,15 @@ import httpx
 from fastmcp import Client
 
 from datagov_mcp.app import create_server
+from datagov_mcp.datasets import Datasets
+from datagov_mcp.evidence import EvidenceStore
 from datagov_mcp.readiness import assess, ranked
-from datagov_mcp.registry import Registry
-from datagov_mcp.tools.science import snapshot
+
+NOAA = "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+
+
+def registry(settings):
+    return Datasets(settings, None, EvidenceStore(settings.evidence_dir))
 
 
 def test_advertised_download_is_not_ready(settings):
@@ -20,7 +26,7 @@ def test_advertised_download_is_not_ready(settings):
                 }
             ],
         },
-        Registry(settings),
+        registry(settings),
     )
     assert result["status"] == "access_unverified"
     assert result["estimated_wait_seconds"] is None
@@ -28,25 +34,24 @@ def test_advertised_download_is_not_ready(settings):
 
 
 def test_exact_science_parent_binding_exposes_only_reviewed_scopes(settings):
-    identity = snapshot()["datasets"][0]["source"]["catalog_identifier"]
-    result = assess({"identifier": identity}, Registry(settings))
+    result = assess({"identifier": NOAA}, registry(settings))
     assert result["status"] == "ready_within_reviewed_scope"
     assert {scope["dataset_id"] for scope in result["scopes"]} == {
-        "md_temperature",
-        "md_precipitation",
+        "md_annual_temperature",
+        "md_annual_precipitation",
     }
     assert result["question_compatibility"].startswith("Not established")
     unbound = assess(
         {"identifier": "different", "title": "Maryland annual average temperature"},
-        Registry(settings),
+        registry(settings),
     )
     assert unbound["status"] == "metadata_only"
 
 
 def test_county_binding_requires_loaded_destination(settings):
-    result = assess({"identifier": "DOL-BLS-3060-01"}, Registry(settings))
+    result = assess({"identifier": "DOL-BLS-3060-01"}, registry(settings))
     assert result["status"] == "setup_required"
-    assert result["scopes"][0]["available_years"] == [2022, 2023, 2024]
+    assert result["scopes"][0]["dataset_id"] == "md_county_population_unemployment"
     assert result["blockers"]
 
 
@@ -56,15 +61,14 @@ def test_restricted_route_requires_review(settings):
             "access_status": "restricted",
             "distributions": [{"access_url": "https://example.gov/api"}],
         },
-        Registry(settings),
+        registry(settings),
     )
     assert result["status"] == "setup_required"
 
 
 def test_ranking_is_relevance_not_readiness_and_deduplicates(settings):
-    identity = snapshot()["datasets"][0]["source"]["catalog_identifier"]
     datasets = [
-        {"identifier": identity, "title": "Climate", "harvest_record_id": "a"},
+        {"identifier": NOAA, "title": "Climate", "harvest_record_id": "a"},
         {
             "identifier": "water",
             "title": "Water quality Maryland",
@@ -73,7 +77,7 @@ def test_ranking_is_relevance_not_readiness_and_deduplicates(settings):
         {"identifier": "water", "title": "Duplicate", "harvest_record_id": "c"},
     ]
     result = ranked(
-        "Find Maryland water quality datasets", datasets, Registry(settings)
+        "Find Maryland water quality datasets", datasets, registry(settings)
     )
     assert len(result) == 2
     assert result[0]["identifier"] == "water"

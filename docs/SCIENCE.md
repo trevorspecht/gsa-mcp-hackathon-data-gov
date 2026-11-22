@@ -9,13 +9,15 @@ related_files: ["DATA.md", "EVALUATION.md", "../registry/science.json"]
 # Climate and agriculture
 
 This example supports exploration of climate observations and changing agricultural
-practices, **not a claim that climate caused practice adoption**. Runtime queries
-read the small reviewed `registry/science.json` snapshot. Explicit selected-data
-previews additionally fetch the fixed NOAA Maryland annual CSV routes live, with
-25-second/source and 100-KB/file limits, strict units/coverage validation, source
-hashes and per-source failure retention. USGS previews remain historical snapshots,
-not live downloads. No arbitrary downloads,
-SQL or cross-source joins are accepted. Raw files stay in `.local/raw/climate-ag`.
+practices, **not a claim that climate caused practice adoption**. These four series
+are ordinary entries in the generic dataset registry (`registry/datasets.json`) and
+are served by the same `query_dataset`, `analyze_change` and `assess_compatibility`
+tools as every other registered dataset. Observations come from the small reviewed
+`registry/science.json` packaged snapshot. The NOAA entries also register a fixed
+publisher CSV route: `query_dataset` with `live=true` refreshes them within
+25-second and 100-KB limits, with strict unit/coverage validation and source hashes.
+USGS entries have no live route. No arbitrary downloads, SQL or cross-source joins
+are accepted. Raw files stay in `.local/raw/climate-ag`.
 
 ## Climate observations
 

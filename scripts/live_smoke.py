@@ -27,8 +27,8 @@ async def main():
         async with Client(transport, timeout=60) as client:
             tools = [t.name for t in await client.list_tools()]
             transcript["tools"] = tools
-            if len(tools) != 8:
-                raise RuntimeError("Expected eight tools")
+            if len(tools) != 9:
+                raise RuntimeError("Expected nine tools")
 
             async def call(name, args):
                 started = time.monotonic()
@@ -76,15 +76,26 @@ async def main():
                 "find_data_for_question",
                 {"request": {"query": "water quality", "limit": 2}},
             )
-            unsupported = await call(
-                "assess_comparison",
-                {"request": {"metric_ids": ["population", "ad_spend"]}},
+            registry = await call("list_queryable_datasets", {})
+            county = next(
+                d
+                for d in registry["datasets"]
+                if d["dataset_id"] == "md_county_population_unemployment"
             )
-            if unsupported["status"] != "unsupported":
+            result = await client.call_tool(
+                "query_dataset",
+                {
+                    "request": {
+                        "dataset_id": "md_county_population_unemployment",
+                        "measure_ids": ["ad_spend"],
+                    }
+                },
+            )
+            if result.data.get("error", {}).get("code") != "UNKNOWN_MEASURE":
                 raise RuntimeError("Unsupported measure was accepted")
-            readiness = await call("assess_comparison", {"request": {}})
-            transcript["warehouse_status"] = readiness["status"]
-            transcript["status"] = "PASS discovery; warehouse " + readiness["status"]
+            status = "ready" if county["ready"] else "setup_required"
+            transcript["warehouse_status"] = status
+            transcript["status"] = "PASS discovery; warehouse " + status
     except Exception as exc:
         transcript["status"] = "FAIL"
         transcript["error_type"] = type(exc).__name__

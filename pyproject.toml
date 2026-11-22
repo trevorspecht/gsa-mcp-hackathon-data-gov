@@ -34,9 +34,8 @@ build-backend = "hatchling.build"
 packages = ["src/datagov_mcp"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"registry/metrics.json" = "datagov_mcp/data/metrics.json"
+"registry/datasets.json" = "datagov_mcp/data/datasets.json"
 "registry/science.json" = "datagov_mcp/data/science.json"
-"sql/compare.sql" = "datagov_mcp/data/compare.sql"
 
 [dependency-groups]
 dev = [

@@ -10,7 +10,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-from datagov_mcp.registry import asset
+from datagov_mcp.registry import warehouse_dataset
 
 # Maryland has 23 counties (odd codes 001..047, excluding 007) and Baltimore city.
 COUNTIES = ({f"24{code:03d}" for code in range(1, 48, 2)} - {"24007"}) | {"24510"}
@@ -109,7 +109,7 @@ def prepare(population: Path, laus: Path, output: Path, reviewed: bool):
         for key in sorted(pop)
     ]
     serialized = json.dumps(rows, indent=2, allow_nan=False) + "\n"
-    sources = json.loads(asset("metrics.json"))["sources"]
+    sources = [dict(s) for s in warehouse_dataset()["sources"]]
     for source, digest in zip(sources, hashes, strict=True):
         source["sha256"] = digest
         source["verification"] = (

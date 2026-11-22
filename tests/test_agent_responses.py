@@ -60,8 +60,8 @@ async def test_responses_loop_preserves_items_and_tool_call_id(settings, monkeyp
                         {
                             "type": "function_call",
                             "call_id": "call1",
-                            "name": "assess_comparison",
-                            "arguments": '{"request":{}}',
+                            "name": "list_queryable_datasets",
+                            "arguments": "{}",
                         },
                     ],
                 },
@@ -108,7 +108,12 @@ async def test_incomplete_turn_never_executes_tools(settings, monkeypatch):
     async def incomplete(*args):
         return (
             [],
-            [{"id": "x", "function": {"name": "assess_comparison", "arguments": "{}"}}],
+            [
+                {
+                    "id": "x",
+                    "function": {"name": "list_queryable_datasets", "arguments": "{}"},
+                }
+            ],
             "partial",
             False,
             {"status": "incomplete"},

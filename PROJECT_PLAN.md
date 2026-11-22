@@ -56,6 +56,41 @@ line/scatter calls; regression test renders both branches. Seven UI tests and
 select-all preview completed with four charts, tables, compatibility assessment
 and preview download visible; no SyntaxError. No data/tool/grant changes.
 
+## Generic tools and tabbed UI — November 22
+
+- Owner direction: tools must be dataset- and question-agnostic; hackathon scope
+  stays limited to reviewed datasets, provided as configuration, not tool code.
+- Replaced six dataset-specific tools (assess_comparison, compare_public_indicators,
+  inspect_science_capabilities, query_science_series, list_exploration_options,
+  preview_selected_data) with list_queryable_datasets, query_dataset,
+  analyze_change and assess_compatibility. Nine tools total.
+- New registry/datasets.json holds the five worked datasets: measures, units,
+  definitions, change rule (percent vs difference), geography, sources, catalog
+  bindings and connector type (warehouse, packaged snapshot, optional fixed-route
+  publisher CSV live refresh). metrics.json and compare.sql removed. Warehouse SQL
+  is generated only from validated registry identifiers with bound parameters.
+- UI: Answer, Sources, Data & charts, Explore further, Evaluation tabs. Charts are
+  generic (change → bars; observations → series; sparse periods unconnected).
+- 99 tests and full checks passed; stdio live smoke passed; generic tests execute
+  generated SQL on SQLite and check fixed-route live failures.
+- Found and fixed deployment drift: earlier direct `apps deploy` releases had
+  dropped the bundle's MCP App environment, so the hosted county dataset reported
+  setup blockers. Reviewed bundle plan (config-only update) and redeployed through
+  the code-based bundle; hosted county change now matches local reference (21 up /
+  3 down population; 1 county with growth and falling unemployment). Future MCP
+  releases must use `databricks bundle deploy` + `bundle run`, not direct deploy.
+- Old evaluation panels remain viewable; new runs use the generic tools.
+- Core panel 20261122T230301Z on generic hosted tools: 12/12 completed; all four
+  county analyses (A1, A2, A3, U3) pass independent row/value/count reference
+  checks; M1/M3 cite registered definitions. M2 answered without tool calls.
+  Human/AI scoring pending.
+- Workflow and science panels INCOMPLETE: L1/L2 completed; Q1 ReadTimeout;
+  Q2, R1, R2 hit 400 s runner timeouts when this machine lost all outbound
+  connectivity (Databricks, GitHub and general sites timing out, ~23:30 UTC).
+  Remaining science panel stopped. Failures retained; rerun after network recovers.
+- Tabbed UI deployed (SUCCEEDED, users CAN_USE preserved) but hosted browser
+  verification BLOCKED by the same outage. Commit/push pending network recovery.
+
 ## Guided selected-data exploration — November 22
 
 - Added list_exploration_options and preview_selected_data MCP tools, plus UI

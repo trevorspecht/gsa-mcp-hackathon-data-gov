@@ -2,8 +2,6 @@
 
 import re
 
-from datagov_mcp.tools.science import snapshot
-
 STOPWORDS = {
     "a",
     "an",
@@ -74,43 +72,22 @@ def relevance(question, dataset):
     }
 
 
-def assess(dataset, registry):
-    identifier = dataset.get("identifier")
-    science = snapshot()
-    scopes = []
-    for item in science["datasets"]:
-        if identifier and identifier == item["source"].get("catalog_identifier"):
-            scopes.append(
-                {
-                    "tool": "query_science_series",
-                    "dataset_id": item["id"],
-                    "title": item["title"],
-                    "geography": item["geography"],
-                    "available_years": [r["year"] for r in item["observations"]],
-                    "unit": item["unit"],
-                    "caveats": item["caveats"],
-                    "storage": (
-                        "Reviewed packaged historical snapshot, "
-                        "not live publisher retrieval"
-                    ),
-                }
-            )
-    if identifier and any(
-        identifier == source.get("catalog_identifier")
-        for source in registry.data["sources"]
-    ):
-        capabilities = registry.capabilities()
-        scopes.append(
-            {
-                "tool": "assess_comparison",
-                "query_tool": "compare_public_indicators",
-                "geography": "Maryland counties and county equivalents",
-                "available_years": [2022, 2023, 2024],
-                "measures": ["population", "unemployment_rate"],
-                "storage": "Reviewed warehouse snapshot, not all publisher data",
-                "setup_blockers": capabilities["setup_blockers"],
-            }
-        )
+def assess(dataset, datasets):
+    scopes = [
+        {
+            "dataset_id": scope["dataset_id"],
+            "title": scope["title"],
+            "geography": scope["geography"],
+            "available_periods": scope["periods"],
+            "measures": [
+                {"id": m["id"], "label": m["label"], "unit": m["unit"]}
+                for m in scope["measures"]
+            ],
+            "storage": scope["storage"],
+            "setup_blockers": scope["setup_blockers"],
+        }
+        for scope in datasets.catalog_scopes(dataset.get("identifier"))
+    ]
     available = [scope for scope in scopes if not scope.get("setup_blockers")]
     routes = []
     for distribution in dataset.get("distributions", []):
@@ -178,7 +155,7 @@ def assess(dataset, registry):
             "Exact reviewed publisher catalog identifier, never title similarity"
         ),
         "limitations": [
-            "Ready means only the listed snapshot scopes, "
+            "Ready means only the listed registered scopes, "
             "not the entire publisher dataset",
             "An advertised public API/file is not proof "
             "of executable or permitted access",
@@ -187,14 +164,14 @@ def assess(dataset, registry):
     }
 
 
-def ranked(question, datasets, registry):
+def ranked(question, records, datasets):
     unique = {}
-    for dataset in datasets:
+    for dataset in records:
         key = dataset.get("identifier") or dataset["harvest_record_id"]
         assessed = {
             **dataset,
             "relevance": relevance(question, dataset),
-            "readiness": assess(dataset, registry),
+            "readiness": assess(dataset, datasets),
         }
         assessed["queryable"] = (
             assessed["readiness"]["status"] == "ready_within_reviewed_scope"

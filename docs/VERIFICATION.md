@@ -74,7 +74,7 @@ All outputs are under `.local/verification/` with matching timestamps.
   Maryland LAUS is `la.data.27.Maryland`; county series IDs carry 10 zeros; Census
   CSV is Latin-1. County sums equal state totals; BLS API v2 matches sample counties;
   2022–2024 M13 values have no footnotes (2025 is an 11-month average, excluded).
-- `*-sql-dialect.json`: `compare.sql` ran on the warehouse; 0 mismatches vs. Python.
+- `*-sql-dialect.json`: the former `compare.sql` ran on the warehouse; 0 mismatches vs. Python (historical; replaced Nov 22 by registry-generated SQL — see docs/RESEARCH_UI.md).
 - `*-load.txt`: owner-approved 72-row load to `users.trevor_specht.county_indicators`.
 - `*-stdio-warehouse-e2e.json`: stdio MCP → real table, evidence retrieved.
 - `*-bundle-run.txt`: owner-approved App `mcp-datagov-semantic` deployed and running.

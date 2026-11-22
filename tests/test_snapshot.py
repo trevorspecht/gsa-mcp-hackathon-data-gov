@@ -39,5 +39,12 @@ def test_valid_manifest_without_load_is_not_ready(settings):
     registry = Registry(settings)
     manifest, blocker = registry.manifest()
     assert manifest and blocker is None
-    blockers = registry.capabilities()["setup_blockers"]
-    assert "Snapshot is not verified loaded in the configured table" in blockers
+    from datagov_mcp.datasets import Datasets
+    from datagov_mcp.evidence import EvidenceStore
+
+    datasets = Datasets(settings, None, EvidenceStore(settings.evidence_dir))
+    state = datasets.readiness(datasets.get("md_county_population_unemployment"))
+    assert not state["ready"]
+    assert (
+        "Snapshot is not verified loaded in the configured table" in state["blockers"]
+    )

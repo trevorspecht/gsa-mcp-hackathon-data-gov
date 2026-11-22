@@ -12,127 +12,121 @@ from fastmcp.client.transports import StreamableHttpTransport
 from datagov_mcp.agent import AgentSettings, agent_workspace, run_agent
 from datagov_mcp.tls import verified_context
 
+CATALOG_TOOLS = ("find_data_for_question", "assess_dataset_readiness")
+DATA_TOOLS = ("query_dataset", "analyze_change")
+TABS = ["Answer", "Sources", "Data & charts", "Explore further", "Evaluation"]
+
 
 def safe_link(url):
     return isinstance(url, str) and urlsplit(url).scheme == "https"
 
 
-def source_cards(trace):
-    cards = {}
-    for step in trace:
-        value = step.get("result", {})
-        if not isinstance(value, dict):
-            continue
-        for card in (
-            value.get("datasets", [])
-            if step.get("tool")
-            in ("find_data_for_question", "assess_dataset_readiness")
-            else []
-        ):
-            identity = (
-                card.get("identifier")
-                or card.get("harvest_record_id")
-                or card.get("title")
-            )
-            previous = cards.get(identity, {})
-            cards[identity] = {**previous, **card}
-            if "readiness" in previous and "readiness" not in card:
-                for key in ("queryable", "queryability_reason"):
-                    cards[identity][key] = previous[key]
-        if isinstance(value.get("dataset"), dict):
-            card = value["dataset"]
-            identity = (
-                card.get("identifier")
-                or card.get("harvest_record_id")
-                or card.get("title")
-            )
-            previous = cards.get(identity, {})
-            cards[identity] = {**previous, **card}
-            for key in ("readiness", "relevance", "candidate_rank"):
-                if key in previous:
-                    cards[identity][key] = previous[key]
-            if "readiness" in previous:
-                cards[identity]["queryable"] = previous["queryable"]
-                cards[identity]["queryability_reason"] = previous["queryability_reason"]
-    used = {}
-    for step in trace:
-        value = step.get("result", {})
-        if not isinstance(value, dict):
-            continue
+def completed(trace, tools):
+    for index, step in enumerate(trace):
+        value = step.get("result")
         if (
-            step.get("tool") == "query_science_series"
+            step.get("tool") in tools
+            and isinstance(value, dict)
             and value.get("status") == "complete"
         ):
-            source = value["source"]
-            identity = source.get("catalog_identifier") or source["url"]
-            previous = cards.get(identity, {})
-            used[identity] = {
-                **previous,
-                "identifier": identity,
-                "title": previous.get("title") or value["title"],
-                "publisher": source.get("publisher"),
-                "description": value["method"],
-                "spatial_coverage": value["geography"],
-                "observation_period": (
-                    f"{value['rows'][0]['year']}–{value['rows'][-1]['year']}"
-                ),
-                "landing_page": previous.get("landing_page") or identity,
-                "source_url": source["url"],
-                "used": True,
-                "used_scopes": used.get(identity, {}).get("used_scopes", [])
-                + [f"{value['title']} ({value['unit']})"],
-            }
-        if step.get("tool") in ("get_analysis_evidence", "compare_public_indicators"):
-            if (
-                step.get("tool") == "compare_public_indicators"
-                and value.get("status") != "complete"
-            ):
-                continue
-            evidence = value.get("evidence", value)
-            if not isinstance(evidence, dict):
-                continue
-            manifest = evidence.get(
-                "snapshot", {"sources": evidence.get("sources", [])}
+            yield index, step, value
+
+
+def catalog_cards(trace):
+    cards = {}
+    for step in trace:
+        value = step.get("result")
+        if not isinstance(value, dict):
+            continue
+        found = value.get("datasets", []) if step.get("tool") in CATALOG_TOOLS else []
+        if isinstance(value.get("dataset"), dict):
+            found = [value["dataset"]]
+        for card in found:
+            identity = (
+                card.get("identifier")
+                or card.get("harvest_record_id")
+                or card.get("title")
             )
-            if not isinstance(manifest, dict):
-                continue
-            for source in manifest.get("sources", []):
-                identity = source.get("catalog_identifier") or source["url"]
-                used[identity] = {
-                    **cards.get(identity, {}),
-                    "identifier": identity,
-                    "title": source.get("title") or source["id"],
-                    "publisher": source.get("publisher"),
-                    "description": (
-                        "Reviewed source used for the Maryland county comparison."
-                    ),
-                    "spatial_coverage": "Maryland counties and county equivalents",
-                    "observation_period": "2022–2024",
-                    "source_url": source["url"],
-                    "used": True,
-                }
-    remaining = [card for key, card in cards.items() if key not in used]
-    remaining.sort(
-        key=lambda card: (
-            -card.get("relevance", {}).get("score", -1),
-            card.get("title") or "",
+            previous = cards.get(identity, {})
+            merged = {**previous, **card}
+            # Later plain inspections must not erase an earlier readiness assessment.
+            if "readiness" in previous and "readiness" not in card:
+                for key in ("readiness", "relevance", "queryable"):
+                    if key in previous:
+                        merged[key] = previous[key]
+            cards[identity] = merged
+    return cards
+
+
+def used_datasets(trace):
+    used = {}
+    for _, step, value in completed(trace, DATA_TOOLS):
+        entry = used.setdefault(
+            value["dataset_id"],
+            {
+                "dataset_id": value["dataset_id"],
+                "title": value.get("title") or value["dataset_id"],
+                "geography": value.get("geography", {}),
+                "sources": value.get("sources", []),
+                "measures": {},
+                "periods": set(),
+            },
         )
+        for measure in value.get("measures", []):
+            entry["measures"][measure["id"]] = measure
+        for row in value.get("rows", []):
+            if "period" in row:
+                entry["periods"].add(row["period"])
+        if "start_period" in value:
+            entry["periods"].update({value["start_period"], value["end_period"]})
+    return list(used.values())
+
+
+def source_cards(trace):
+    """Return (datasets used for observations, other catalog candidates)."""
+    used = used_datasets(trace)
+    identifiers = {s.get("catalog_identifier") for d in used for s in d["sources"]}
+    cards = catalog_cards(trace)
+    remaining = [c for key, c in cards.items() if key not in identifiers]
+    remaining.sort(
+        key=lambda c: (-c.get("relevance", {}).get("score", -1), c.get("title") or "")
     )
-    return list(used.values()), remaining
+    return used, remaining
 
 
-def display_card(card, index, concise=False):
-    title = card.get("title") or "Untitled dataset"
-    st.markdown(f"**{index}. {title}**")
-    link = card.get("landing_page")
-    if not safe_link(link):
-        identifier = card.get("identifier")
-        link = identifier if safe_link(identifier) else None
-    if not link and card.get("harvest_record_id"):
-        link = "https://catalog.data.gov/harvest_record/" + card["harvest_record_id"]
-    if not link:
-        link = card.get("source_url")
-    if safe_link(link):
+def card_link(card):
+    for candidate in (card.get("landing_page"), card.get("identifier")):
+        if safe_link(candidate):
+            return candidate
+    if card.get("harvest_record_id"):
+        return "https://catalog.data.gov/harvest_record/" + card["harvest_record_id"]
+    return None
+
+
+def display_used(dataset, index):
+    st.markdown(f"**{index}. {dataset['title']}**")
+    geography = dataset["geography"]
+    periods = sorted(dataset["periods"])
+    st.caption(
+        f"{geography.get('level', '').title()} · {geography.get('area', '')}"
+        + (f" · {periods[0]}–{periods[-1]}" if periods else "")
+    )
+    for measure in dataset["measures"].values():
+        st.caption(f"{measure['label']} ({measure['unit']})")
+    for source in dataset["sources"]:
+        label = source.get("title") or source.get("publisher") or "Publisher source"
+        if safe_link(source.get("url")):
+            st.link_button(label, source["url"])
+
+
+def display_candidate(card, index, concise=False):
+    readiness = card.get("readiness", {})
+    st.markdown(
+        f"**{index}. {card.get('title') or 'Untitled dataset'}** — "
+        + readiness.get("label", "Availability not assessed")
+    )
+    link = card_link(card)
+    if link:
         st.link_button("Dataset information", link)
     if concise:
         return
@@ -144,143 +138,129 @@ def display_card(card, index, concise=False):
         + " · Period: "
         + str(card.get("observation_period") or "Not specified")
     )
-    if card.get("used"):
-        st.caption(
-            "Used in this answer: "
-            + "; ".join(card.get("used_scopes", ["County comparison"]))
-        )
-    else:
-        readiness = card.get("readiness", {})
-        st.caption("Availability: " + readiness.get("label", "Not assessed"))
-        for blocker in readiness.get("blockers", []):
-            st.caption("Requires: " + blocker)
-        for scope in readiness.get("scopes", []):
-            st.caption(
-                "Supported scope: "
-                + str(scope.get("geography", ""))
-                + " · Years: "
-                + ", ".join(map(str, scope.get("available_years", [])))
-            )
-        matches = card.get("relevance", {}).get("title_matches", [])
-        if matches:
-            st.caption("Topic matches: " + ", ".join(matches))
-    distributions = card.get("distributions", [])
-    formats = sorted({str(d["format"]) for d in distributions if d.get("format")})
+    for blocker in readiness.get("blockers", []):
+        st.caption("Requires: " + blocker)
+    formats = sorted(
+        {str(d["format"]) for d in card.get("distributions", []) if d.get("format")}
+    )
     st.caption("Formats: " + (", ".join(formats) or "Not specified"))
     terms = card.get("terms", {})
     st.caption(
         "Access/use terms: "
         + (
-            "; ".join(f"{key}: {value}" for key, value in terms.items())
+            "; ".join(f"{k}: {v}" for k, v in terms.items())
             or "Not established; public metadata is not access permission"
         )
     )
-    dictionary = card.get("data_dictionary")
-    if dictionary:
-        st.caption("Data dictionary: " + str(dictionary))
-    else:
-        st.caption("Data dictionary: not specified")
+
+
+def measure_fields(value):
+    if "start_period" in value:
+        return [
+            (m["id"] + "_change", m["label"] + " change", m["change_unit"])
+            for m in value["measures"]
+        ]
+    return [(m["id"], m["label"], m["unit"]) for m in value["measures"]]
+
+
+def display_data(value, key, show_table=True):
+    """Generic chart: change → bars by geography; observations → series by period."""
+    rows = value.get("rows", [])
+    if not rows:
+        return
+    st.subheader(value.get("title") or value["dataset_id"])
+    geographies = {r["geography_id"] for r in rows}
+    for field, label, unit in measure_fields(value):
+        points = [r for r in rows if r.get(field) is not None]
+        if not points:
+            continue
+        if "start_period" in value:
+            ordered = sorted(points, key=lambda r: r[field])
+            figure = go.Figure(
+                go.Bar(
+                    x=[r[field] for r in ordered],
+                    y=[r["geography_name"] for r in ordered],
+                    orientation="h",
+                )
+            )
+            figure.update_layout(height=max(260, 24 * len(ordered)))
+            title = f"{label}, {value['start_period']}–{value['end_period']}"
+            figure.update_layout(title=title, xaxis_title=unit)
+        else:
+            figure = go.Figure()
+            for geography in sorted(geographies):
+                series = sorted(
+                    (r for r in points if r["geography_id"] == geography),
+                    key=lambda r: r["period"],
+                )
+                periods = [r["period"] for r in series]
+                gaps = any(b - a > 1 for a, b in zip(periods, periods[1:]))
+                # Sparse observation years are shown as unconnected points.
+                figure.add_trace(
+                    go.Scatter(
+                        x=periods,
+                        y=[r[field] for r in series],
+                        mode="markers" if gaps else "lines+markers",
+                        name=series[0]["geography_name"],
+                    )
+                )
+            figure.update_layout(
+                title=label,
+                xaxis_title="Observation period",
+                yaxis_title=unit,
+                showlegend=len(geographies) > 1,
+            )
+        st.plotly_chart(figure, key=f"{key}-{field}")
+    if show_table:
+        st.dataframe(rows)
+    for caveat in value.get("caveats", []):
+        st.caption(caveat)
 
 
 def display_result(result, concise=False):
-    answer_tab, diagnostics_tab = st.tabs(
-        ["Answer & sources", "Evaluation & diagnostics"]
-    )
     trace = result.get("trace", [])
-    with diagnostics_tab:
-        st.caption(
-            "Actual tool calls, metadata ranking details "
-            "and source evidence for review."
-        )
-        st.json(trace)
+    used, candidates = source_cards(trace)
+    answer, sources, data, explore, evaluation = st.tabs(TABS)
+    with answer:
+        if result.get("status") != "complete":
+            st.warning("This response did not complete. Treat it as incomplete.")
+        st.markdown(result.get("answer") or "No answer returned.")
+    with sources:
+        if used:
+            st.subheader("Data used in this answer")
+            for index, dataset in enumerate(used, 1):
+                display_used(dataset, index)
+        if candidates:
+            st.subheader("Other relevant datasets")
+            st.caption(
+                "Bounded catalog candidates, not an exhaustive inventory. "
+                "Availability is separate from relevance."
+            )
+            for index, card in enumerate(candidates, 1):
+                display_candidate(card, index, concise)
+        if not used and not candidates:
+            st.write("No datasets were consulted for this answer.")
+    with data:
+        shown = False
+        for index, step, value in completed(trace, DATA_TOOLS):
+            display_data(value, f"trace-{index}")
+            shown = True
+        if not shown:
+            st.write("No observations were retrieved for this answer.")
+    with explore:
+        display_exploration(used)
+    with evaluation:
+        st.caption("Actual tool calls and source evidence, for review and judging.")
+        st.json(trace, expanded=False)
         st.download_button(
             "Download answer and evidence JSON",
             json.dumps(result, indent=2),
             "research-evidence.json",
             "application/json",
         )
-    with answer_tab:
-        if result.get("status") != "complete":
-            st.warning(
-                "This response did not complete. Treat partial answers as incomplete."
-            )
-        st.markdown(result.get("answer") or "No answer returned.")
-        used, remaining = source_cards(trace)
-        for heading, cards in (
-            ("Sources used in this answer", used),
-            ("Other relevant datasets", remaining),
-        ):
-            if cards:
-                st.subheader(heading)
-                if heading == "Other relevant datasets":
-                    st.caption(
-                        "Bounded candidates, not an exhaustive inventory. "
-                        "Availability is separate from relevance."
-                    )
-                for index, card in enumerate(cards, 1):
-                    display_card(card, index, concise)
-        display_charts(trace)
 
 
-def display_charts(trace):
-    for index, step in enumerate(trace):
-        value = step.get("result", {})
-        if not isinstance(value, dict) or value.get("status") != "complete":
-            continue
-        rows = value.get("rows", [])
-        if step["tool"] == "compare_public_indicators" and rows:
-            st.subheader("County comparison")
-            st.caption(
-                (
-                    "Population: percent change. Unemployment: "
-                    "percentage-point change. Separate axes; no "
-                    "causal inference."
-                )
-            )
-            st.caption(
-                "Counties compared: "
-                + str(value.get("summary", {}).get("counties_compared", "unknown"))
-            )
-            for field, title in [
-                ("population_change", "Population change (%)"),
-                ("unemployment_change", "Unemployment rate change (percentage points)"),
-            ]:
-                ordered = sorted(rows, key=lambda r: r[field])
-                fig = go.Figure(
-                    go.Bar(
-                        x=[r[field] for r in ordered],
-                        y=[r["county_name"] for r in ordered],
-                        orientation="h",
-                    )
-                )
-                fig.update_layout(
-                    title=title, xaxis_title=title, height=max(300, len(rows) * 24)
-                )
-                st.plotly_chart(fig, key=f"county-{index}-{field}")
-            st.dataframe(rows)
-        elif step["tool"] == "query_science_series" and rows:
-            st.subheader(value["title"])
-            st.caption(f"{value['geography']} · {value['unit']} · {value['method']}")
-            fig = go.Figure()
-            # Sparse practice observations remain unconnected.
-            mode = (
-                "lines+markers" if value["dataset_id"].startswith("md_") else "markers"
-            )
-            fig.add_trace(
-                go.Scatter(
-                    x=[r["year"] for r in rows], y=[r["value"] for r in rows], mode=mode
-                )
-            )
-            fig.update_layout(xaxis_title="Observation year", yaxis_title=value["unit"])
-            st.plotly_chart(fig, key=f"science-{index}")
-            st.dataframe(rows)
-            for caveat in value.get("caveats", []):
-                st.caption(caveat)
-        if value.get("evidence_id"):
-            st.caption("Evidence ID: " + value["evidence_id"])
-
-
-async def exploration_tool(name, arguments=None):
+async def mcp_tool(name, arguments=None):
     settings = AgentSettings()
     workspace = agent_workspace(settings)
     headers = await asyncio.to_thread(workspace.config.authenticate)
@@ -293,80 +273,67 @@ async def exploration_tool(name, arguments=None):
         return (await client.call_tool(name, arguments or {})).data
 
 
-def display_exploration():
-    st.subheader("Continue exploring your question")
+def display_exploration(used=()):
     original = st.session_state.get("original_question", "")
     if original:
         st.caption("Exploring: " + original)
     st.write(
-        "Preview actual observations, then check whether geography and years align. "
-        "Other catalog candidates need a reviewed connector before retrieval."
+        "Select queryable datasets to preview actual observations and check whether "
+        "their geography and periods align. Catalog datasets without a reviewed "
+        "connector cannot be retrieved here."
     )
-    if st.button("Show available data previews"):
+    if st.button("Show queryable datasets"):
         try:
             st.session_state["exploration_options"] = asyncio.run(
-                exploration_tool("list_exploration_options")
+                mcp_tool("list_queryable_datasets")
             )
         except Exception:
-            st.error(
-                "Could not load preview options. Your original answer is preserved."
-            )
-    options = st.session_state.get("exploration_options", {}).get("datasets", [])
+            st.error("Could not load datasets. Your answer is preserved.")
+    options = [
+        d
+        for d in st.session_state.get("exploration_options", {}).get("datasets", [])
+        if d.get("ready")
+    ]
     if options:
         lookup = {d["dataset_id"]: d for d in options}
         selected = st.multiselect(
             "Select datasets to explore",
             list(lookup),
-            format_func=lambda identity: (
-                lookup[identity]["title"] + " — " + lookup[identity]["retrieval"]
-            ),
+            default=[d["dataset_id"] for d in used if d["dataset_id"] in lookup],
+            format_func=lambda i: lookup[i]["title"],
         )
-        st.caption(
-            "Budget: up to four series, 25 seconds per source and 100 KB "
-            "per live file. NOAA is fetched live; USGS uses historical snapshots."
+        live = st.checkbox(
+            "Refresh from publisher where a live route is registered",
+            help="Bounded fixed-route requests; otherwise reviewed snapshots.",
         )
         if st.button("Explore selected data", disabled=not selected):
             with st.spinner("Retrieving and validating selected observations…"):
-                try:
-                    st.session_state["exploration"] = asyncio.run(
-                        exploration_tool(
-                            "preview_selected_data",
-                            {"request": {"dataset_ids": selected}},
-                        )
-                    )
-                except Exception:
-                    st.session_state.pop("exploration", None)
-                    st.error("Preview failed. No data or compatibility was verified.")
+                st.session_state["exploration"] = asyncio.run(
+                    explore_selection(selected, live)
+                )
     preview = st.session_state.get("exploration")
     if preview:
-        for dataset in preview.get("datasets", []):
-            if dataset.get("status") != "complete":
-                st.warning(
-                    dataset["dataset_id"] + ": " + dataset.get("reason", "Failed")
-                )
+        for index, value in enumerate(preview["datasets"]):
+            if value.get("status") != "complete":
+                reason = value.get("reason") or value.get("error", {}).get("message")
+                st.warning(f"{value.get('dataset_id')}: {reason or 'Not retrieved'}")
                 continue
-            st.subheader(dataset["title"])
+            display_data(value, f"preview-{index}")
             st.caption(
-                dataset["retrieval"]
-                + " · "
-                + dataset["geography"]
-                + " · "
-                + dataset["unit"]
+                "Retrieved from: " + value.get("provenance", {}).get("storage", "")
             )
-            st.dataframe(dataset["rows"])
-            if dataset["dataset_id"].startswith("md_"):
-                st.line_chart(dataset["rows"], x="year", y="value")
-            else:
-                st.scatter_chart(dataset["rows"], x="year", y="value")
-            st.link_button("Publisher source", dataset["source"]["url"])
-        st.subheader("Can these sources be compared?")
-        for pair in preview.get("compatibility", {}).get("pairs", []):
-            st.write(" + ".join(pair["dataset_ids"]) + ": " + pair["reason"])
-            st.caption(
-                "Overlapping years: " + ", ".join(map(str, pair["overlapping_years"]))
-            )
-        for step in preview.get("compatibility", {}).get("next_steps", []):
-            st.write("• " + step)
+        pairs = preview.get("compatibility", {}).get("pairs", [])
+        if pairs:
+            st.subheader("Can these datasets be compared?")
+            for pair in pairs:
+                verdict = (
+                    "Side-by-side description possible"
+                    if pair["status"] == "descriptive_alignment_possible"
+                    else "Not comparable"
+                )
+                st.markdown(f"**{' + '.join(pair['datasets'])}: {verdict}**")
+                for reason in pair["reasons"]:
+                    st.caption(reason)
         st.download_button(
             "Download preview and provenance",
             json.dumps(preview, indent=2),
@@ -374,26 +341,27 @@ def display_exploration():
             "application/json",
         )
     followups = {
-        "Find matching geography and years": (
-            "Which datasets provide repeated climate, irrigation or cover-crop "
-            "observations for the same counties and years? Explain access and gaps."
+        "Find datasets with matching geography and periods": (
+            "Which datasets provide repeated observations for the same places and "
+            "periods so the measures in my question could be compared? "
+            "Explain access and gaps."
         ),
-        "Explore drought and irrigation first": (
-            "Find datasets for comparing drought exposure and irrigated acreage "
-            "over time using matching geographic areas and observation years."
+        "Narrow to one measurable relationship": (
+            "Suggest one measurable relationship from my question that available "
+            "data can describe, and show the supporting observations."
         ),
     }
-    followup = st.selectbox("Suggested next question", list(followups))
+    followup = st.selectbox("Suggested next step", list(followups))
     if st.button("Research this next step"):
         settings = AgentSettings()
-        with st.spinner("Following up with the original research question…"):
+        prompt = (
+            "Original research question: "
+            + original
+            + "\nNext step: "
+            + followups[followup]
+        )
+        with st.spinner("Following up on the original question…"):
             try:
-                prompt = (
-                    "Original research question: "
-                    + original
-                    + "\nNext step: "
-                    + followups[followup]
-                )
                 st.session_state["result"] = asyncio.run(
                     run_agent(prompt, settings, agent_workspace(settings))
                 )
@@ -404,80 +372,82 @@ def display_exploration():
                 st.error("Follow-up failed; the previous answer is preserved.")
 
 
+async def explore_selection(dataset_ids, live):
+    results = []
+    for dataset_id in dataset_ids:
+        try:
+            results.append(
+                await mcp_tool(
+                    "query_dataset",
+                    {"request": {"dataset_id": dataset_id}, "live": live},
+                )
+            )
+        except Exception:
+            results.append({"dataset_id": dataset_id, "status": "failed"})
+    compatibility = {}
+    if len(dataset_ids) > 1:
+        try:
+            compatibility = await mcp_tool(
+                "assess_compatibility",
+                {"request": {"datasets": [{"dataset_id": i} for i in dataset_ids]}},
+            )
+        except Exception:
+            compatibility = {}
+    return {"datasets": results, "compatibility": compatibility}
+
+
+EXAMPLES = {
+    "Dataset landscape": (
+        "What datasets are available about climate, irrigation and cover-crop "
+        "practices?"
+    ),
+    "Climate and agriculture": (
+        "Is there a correlation between climate patterns and agricultural "
+        "practices over time in Maryland and the Chesapeake Bay watershed?"
+    ),
+    "Change over time": (
+        "How did estimated cover-crop implementation in the Chesapeake Bay "
+        "watershed change between 2002 and 2012?"
+    ),
+    "County comparison": (
+        "Which Maryland counties gained population while unemployment fell from "
+        "2022 to 2024?"
+    ),
+}
+
+
 def main():
     st.set_page_config(page_title="Data.gov Research", layout="wide")
     st.title("Data.gov Research")
-    st.write(
-        (
-            "Ask a research question. Discover public "
-            "datasets, inspect their metadata, and query "
-            "reviewed data where supported."
-        )
+    st.caption(
+        "Ask a question about public data. Private hackathon prototype; each question "
+        "starts fresh. Do not enter private or sensitive information."
     )
-    st.info(
-        (
-            "Private hackathon prototype. Each question "
-            "starts fresh; conversation memory is not "
-            "implemented. Do not enter private or sensitive "
-            "information."
-        )
-    )
-    examples = {
-        "Dataset landscape": (
-            "What datasets are available about climate, irrigation "
-            "and cover-crop practices?"
-        ),
-        "Climate observations": (
-            "Show Maryland annual temperature and "
-            "precipitation observations from 1985 to 2012. "
-            "Explain units and why endpoint differences are "
-            "not climate attribution."
-        ),
-        "Agricultural practices": (
-            "How did estimated Chesapeake Bay watershed "
-            "cover-crop and conservation-tillage "
-            "implementation change in the available years? "
-            "Show both series with sources."
-        ),
-        "Research limitations": (
-            "Is there a correlation between climate patterns and "
-            "agricultural practices over time in Maryland "
-            "and the Chesapeake Bay watershed?"
-        ),
-        "County comparison": (
-            "Which Maryland counties gained population while "
-            "unemployment fell from 2022 to 2024?"
-        ),
-    }
-    choice = st.selectbox("Example", list(examples))
-    concise = st.checkbox("Show dataset names and links only", value=False)
+    choice = st.selectbox("Example", list(EXAMPLES))
     with st.form("question"):
         question = st.text_area(
-            "Question", value=examples[choice], max_chars=2000, height=110
+            "Question", value=EXAMPLES[choice], max_chars=2000, height=100
         )
         submitted = st.form_submit_button("Research")
+    concise = st.toggle("Show dataset names and links only", value=False)
     if submitted and question.strip():
-        with st.spinner("Researching through the MCP server…"):
+        with st.spinner("Researching…"):
             try:
                 settings = AgentSettings()
-                result = asyncio.run(
+                st.session_state["result"] = asyncio.run(
                     run_agent(question, settings, agent_workspace(settings))
                 )
-                st.session_state["result"] = result
                 st.session_state["original_question"] = question
                 for key in ("exploration", "exploration_options"):
                     st.session_state.pop(key, None)
             except Exception:
                 st.error(
-                    (
-                        "Research request failed. Check App access and "
-                        "model configuration; no result was verified."
-                    )
+                    "Research request failed. Check App access and model "
+                    "configuration; no result was verified."
                 )
                 st.session_state.pop("result", None)
     if "result" in st.session_state:
         display_result(st.session_state["result"], concise=concise)
-        display_exploration()
 
 
 if __name__ == "__main__":

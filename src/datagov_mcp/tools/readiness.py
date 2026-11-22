@@ -30,7 +30,7 @@ def register(mcp, services):
             result = await services.catalog.inspect(str(identity))
             datasets.append(result["dataset"])
         return {
-            "datasets": ranked(question, datasets, services.registry),
+            "datasets": ranked(question, datasets, services.datasets),
             "scope": (
                 "Ranked inspected candidates only; no publisher endpoint was fetched"
             ),

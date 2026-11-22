@@ -19,21 +19,22 @@ async def test_registered_protocol_tools_resources_and_setup_response(settings):
         assert {t.name for t in tools} == {
             "find_data_for_question",
             "inspect_dataset",
-            "assess_dataset_readiness",
-            "list_exploration_options",
-            "preview_selected_data",
             "suggest_search_filters",
-            "assess_comparison",
-            "compare_public_indicators",
+            "assess_dataset_readiness",
+            "list_queryable_datasets",
+            "query_dataset",
+            "analyze_change",
+            "assess_compatibility",
             "get_analysis_evidence",
-            "inspect_science_capabilities",
-            "query_science_series",
         }
         result = await client.call_tool(
             "find_data_for_question", {"request": {"query": "water"}}
         )
         assert result.data["datasets"][0]["title"] == "Water quality"
-        status = await client.call_tool("compare_public_indicators", {"request": {}})
+        status = await client.call_tool(
+            "query_dataset",
+            {"request": {"dataset_id": "md_county_population_unemployment"}},
+        )
         assert status.data["status"] == "setup_required"
         resources = await client.list_resources()
         assert any(str(r.uri) == "data.gov://capabilities" for r in resources)

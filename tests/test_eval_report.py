@@ -119,3 +119,76 @@ def test_incomplete_answer_flagged_even_if_exit_was_zero():
 def test_science_values_keep_fractional_precision_above_thousand():
     assert eval_report.fmt(1770.5665) == "1,770.5665"
     assert eval_report.fmt(570663.0) == "570,663"
+
+
+def test_generic_county_change_check_uses_independent_reference():
+    ref = reference()
+    rows, _ = ref.expected({"population_direction": "increase"})
+    got = [
+        {
+            "geography_id": r["county_fips"],
+            "population_change": r["population_change"],
+            "unemployment_rate_change": r["unemployment_change"],
+        }
+        for r in rows
+    ]
+    step = {
+        "tool": "analyze_change",
+        "arguments": {
+            "request": {
+                "dataset_id": "md_county_population_unemployment",
+                "start_period": 2022,
+                "end_period": 2024,
+                "direction_filters": {"population": "increase"},
+            }
+        },
+        "result": {
+            "status": "complete",
+            "rows": got,
+            "summary": {
+                "directions": {
+                    "population": {"increased": 23, "decreased": 0, "unchanged": 1},
+                    "unemployment_rate": {
+                        "increased": 24,
+                        "decreased": 0,
+                        "unchanged": 0,
+                    },
+                }
+            },
+        },
+    }
+    run = {"exit": 0, "trace": [step]}
+    assert all(level == "pass" for level, _ in eval_report.check_run(run, ref))
+    step["result"]["rows"][0]["population_change"] = 99.0
+    assert any(level == "fail" for level, _ in eval_report.check_run(run, ref))
+
+
+def test_generic_series_check_against_frozen_snapshot():
+    science = {
+        "datasets": [
+            {
+                "id": "chesapeake_cover_crops",
+                "observations": [
+                    {"year": 2002, "value": 481.509},
+                    {"year": 2012, "value": 1770.5665},
+                ],
+            }
+        ]
+    }
+    step = {
+        "tool": "analyze_change",
+        "arguments": {
+            "request": {
+                "dataset_id": "chesapeake_cover_crops",
+                "start_period": 2002,
+                "end_period": 2012,
+            }
+        },
+        "result": {
+            "status": "complete",
+            "measures": [{"id": "cover_crop_area"}],
+            "rows": [{"cover_crop_area_change": 1289.0575}],
+        },
+    }
+    checks = eval_report.check_run({"exit": 0, "trace": [step]}, reference(), science)
+    assert ("pass", "Series change matches frozen reference") in checks
