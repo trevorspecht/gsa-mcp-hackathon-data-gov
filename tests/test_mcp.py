@@ -20,6 +20,8 @@ async def test_registered_protocol_tools_resources_and_setup_response(settings):
             "find_data_for_question",
             "inspect_dataset",
             "assess_dataset_readiness",
+            "list_exploration_options",
+            "preview_selected_data",
             "suggest_search_filters",
             "assess_comparison",
             "compare_public_indicators",

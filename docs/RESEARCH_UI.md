@@ -60,6 +60,26 @@ The interface does not execute model-generated plotting code. Chart values come
 only from structured tool results. No cross-geography climate/practice correlation
 or causal chart is produced. Source metadata remains untrusted.
 
+## Continue from an inconclusive answer
+
+The continuation section retains the original question, offers reviewed preview
+options, and lets the user select up to four series before clicking Explore
+selected data. NOAA Maryland temperature/precipitation are fetched live; USGS
+cover-crop/tillage previews use the existing reviewed historical snapshot. Other
+catalog candidates cannot be selected for arbitrary retrieval. The interface
+states this boundary and the time/size budget before retrieval.
+
+Preview tables/charts show actual observations and publisher links. Pairwise
+checks explain geography and year overlap: matching climate series allow only
+descriptive alignment, while climate/watershed-practice pairs remain incompatible.
+No coefficients, causal joins, interpolation or new agricultural connector are
+implemented. Preview JSON includes live hashes/timestamps or snapshot provenance.
+
+Suggested next questions are actionable buttons for finding matching geography
+and years or focusing on drought/irrigation. The original question is passed into
+these explicit follow-ups; this is bounded exploration context, not general
+conversation memory. New top-level questions reset prior preview state.
+
 ## Hackathon judge access
 
 On November 20, the owner approved and the operator verified `CAN_USE` for the

@@ -68,6 +68,9 @@ Deployment stays disabled until destination resources and identity are reviewed.
   reviewed query scopes from unverified API/file access routes. Ranking is keyword
   overlap, not a guarantee that a dataset can answer the question.
 - `suggest_search_filters`: resolve publisher, topic, and location vocabulary.
+- `list_exploration_options`: offer reviewed datasets for user-selected previews.
+- `preview_selected_data`: bounded live NOAA or historical USGS observations,
+  provenance and descriptive compatibility checks; no arbitrary retrieval.
 - `assess_comparison`: check registered measures, geography, periods and readiness.
 - `compare_public_indicators`: execute a registered two-source comparison.
 - `get_analysis_evidence`: retrieve the saved query, parameters, sources and result.

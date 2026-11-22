@@ -47,6 +47,26 @@ before the temporary Databricks environment expires.
   (owner update November 20). Portable backup must be copied off this machine
   before retiring the temporary environment.
 
+## Guided selected-data exploration — November 22
+
+- Added list_exploration_options and preview_selected_data MCP tools, plus UI
+  selection/preview controls and actionable suggested follow-up questions.
+- Bounded source research confirmed fixed NOAA Maryland annual CSV routes accessible.
+  Selected temperature/precipitation fetch live within 25s/100KB budgets; USGS
+  practice previews use reviewed historical snapshots, not new downloads.
+- Hosted selected preview succeeded for both climate series and cover crops;
+  geography/year checks reject climate–watershed comparison and label matching
+  climate alignment descriptive only. No correlation or arbitrary retrieval.
+- 102 tests/full checks passed, including redirects/oversize/invalid-data failures,
+  selection approval and original-question retention. Both Apps locally deployed;
+  workspace users CAN_USE preserved. Browser verification BLOCKED on fresh sign-in.
+- Natural concise-list evaluation complete. Relationship case failed twice with
+  generic ValueError in preserved panels 20261122T180248Z/20261122T180341Z; direct
+  diagnostic retry completed, so intermittent model/agent failure remains unresolved.
+- Original questions and selected previews persist only in the current UI session;
+  this is explicit exploration context, not general multi-turn memory. No newly
+  discovered arbitrary catalog record becomes selectable without a reviewed connector.
+
 ## Answer-first user workflows — November 20
 
 - Natural questions/list requests no longer require tool names or ranking requests.

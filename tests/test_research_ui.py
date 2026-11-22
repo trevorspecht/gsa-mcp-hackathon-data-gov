@@ -112,3 +112,21 @@ display_result({"status":"complete", "answer":"Dataset list", "trace":[
     assert "Long metadata detail" not in str([m.value for m in app.markdown])
     assert app.get("link_button")[0].proto.label == "Dataset information"
     assert app.get("link_button")[0].proto.url == "https://example.gov/data"
+
+
+def test_selected_preview_requires_click_and_keeps_question():
+    app = AppTest.from_string("""
+import streamlit as st
+from datagov_mcp.research_ui import display_exploration
+st.session_state['original_question'] = 'Climate and cover crops'
+st.session_state['exploration_options'] = {'datasets':[
+ {'dataset_id':'md_temperature', 'title':'Temperature', 'retrieval':'live NOAA file'}
+]}
+display_exploration()
+""").run(timeout=20)
+    assert not app.exception
+    assert app.multiselect[0].value == []
+    buttons = {button.label: button for button in app.button}
+    assert buttons["Explore selected data"].disabled
+    assert any("Climate and cover crops" in c.value for c in app.caption)
+    assert "Research this next step" in buttons

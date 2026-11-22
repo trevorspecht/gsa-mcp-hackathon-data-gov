@@ -4,6 +4,7 @@ from datagov_mcp.tools import (
     assess,
     compare,
     evidence,
+    explore,
     filters,
     inspect,
     readiness,
@@ -22,5 +23,6 @@ def register_tools(mcp, services):
         evidence,
         science,
         readiness,
+        explore,
     ):
         module.register(mcp, services)

@@ -10,7 +10,11 @@ related_files: ["DATA.md", "EVALUATION.md", "../registry/science.json"]
 
 This example supports exploration of climate observations and changing agricultural
 practices, **not a claim that climate caused practice adoption**. Runtime queries
-read the small reviewed `registry/science.json` snapshot; no arbitrary downloads,
+read the small reviewed `registry/science.json` snapshot. Explicit selected-data
+previews additionally fetch the fixed NOAA Maryland annual CSV routes live, with
+25-second/source and 100-KB/file limits, strict units/coverage validation, source
+hashes and per-source failure retention. USGS previews remain historical snapshots,
+not live downloads. No arbitrary downloads,
 SQL or cross-source joins are accepted. Raw files stay in `.local/raw/climate-ag`.
 
 ## Climate observations

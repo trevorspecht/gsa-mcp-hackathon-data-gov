@@ -6,8 +6,11 @@ from urllib.parse import urlsplit
 
 import plotly.graph_objects as go
 import streamlit as st
+from fastmcp import Client
+from fastmcp.client.transports import StreamableHttpTransport
 
 from datagov_mcp.agent import AgentSettings, agent_workspace, run_agent
+from datagov_mcp.tls import verified_context
 
 
 def safe_link(url):
@@ -277,6 +280,131 @@ def display_charts(trace):
             st.caption("Evidence ID: " + value["evidence_id"])
 
 
+async def exploration_tool(name, arguments=None):
+    settings = AgentSettings()
+    workspace = agent_workspace(settings)
+    headers = await asyncio.to_thread(workspace.config.authenticate)
+    async with Client(
+        StreamableHttpTransport(
+            settings.databricks_mcp_url, headers=headers, verify=verified_context()
+        ),
+        timeout=120,
+    ) as client:
+        return (await client.call_tool(name, arguments or {})).data
+
+
+def display_exploration():
+    st.subheader("Continue exploring your question")
+    original = st.session_state.get("original_question", "")
+    if original:
+        st.caption("Exploring: " + original)
+    st.write(
+        "Preview actual observations, then check whether geography and years align. "
+        "Other catalog candidates need a reviewed connector before retrieval."
+    )
+    if st.button("Show available data previews"):
+        try:
+            st.session_state["exploration_options"] = asyncio.run(
+                exploration_tool("list_exploration_options")
+            )
+        except Exception:
+            st.error(
+                "Could not load preview options. Your original answer is preserved."
+            )
+    options = st.session_state.get("exploration_options", {}).get("datasets", [])
+    if options:
+        lookup = {d["dataset_id"]: d for d in options}
+        selected = st.multiselect(
+            "Select datasets to explore",
+            list(lookup),
+            format_func=lambda identity: (
+                lookup[identity]["title"] + " — " + lookup[identity]["retrieval"]
+            ),
+        )
+        st.caption(
+            "Budget: up to four series, 25 seconds per source and 100 KB "
+            "per live file. NOAA is fetched live; USGS uses historical snapshots."
+        )
+        if st.button("Explore selected data", disabled=not selected):
+            with st.spinner("Retrieving and validating selected observations…"):
+                try:
+                    st.session_state["exploration"] = asyncio.run(
+                        exploration_tool(
+                            "preview_selected_data",
+                            {"request": {"dataset_ids": selected}},
+                        )
+                    )
+                except Exception:
+                    st.session_state.pop("exploration", None)
+                    st.error("Preview failed. No data or compatibility was verified.")
+    preview = st.session_state.get("exploration")
+    if preview:
+        for dataset in preview.get("datasets", []):
+            if dataset.get("status") != "complete":
+                st.warning(
+                    dataset["dataset_id"] + ": " + dataset.get("reason", "Failed")
+                )
+                continue
+            st.subheader(dataset["title"])
+            st.caption(
+                dataset["retrieval"]
+                + " · "
+                + dataset["geography"]
+                + " · "
+                + dataset["unit"]
+            )
+            st.dataframe(dataset["rows"])
+            st.line_chart(dataset["rows"], x="year", y="value") if dataset[
+                "dataset_id"
+            ].startswith("md_") else st.scatter_chart(
+                dataset["rows"], x="year", y="value"
+            )
+            st.link_button("Publisher source", dataset["source"]["url"])
+        st.subheader("Can these sources be compared?")
+        for pair in preview.get("compatibility", {}).get("pairs", []):
+            st.write(" + ".join(pair["dataset_ids"]) + ": " + pair["reason"])
+            st.caption(
+                "Overlapping years: " + ", ".join(map(str, pair["overlapping_years"]))
+            )
+        for step in preview.get("compatibility", {}).get("next_steps", []):
+            st.write("• " + step)
+        st.download_button(
+            "Download preview and provenance",
+            json.dumps(preview, indent=2),
+            "selected-data-preview.json",
+            "application/json",
+        )
+    followups = {
+        "Find matching geography and years": (
+            "Which datasets provide repeated climate, irrigation or cover-crop "
+            "observations for the same counties and years? Explain access and gaps."
+        ),
+        "Explore drought and irrigation first": (
+            "Find datasets for comparing drought exposure and irrigated acreage "
+            "over time using matching geographic areas and observation years."
+        ),
+    }
+    followup = st.selectbox("Suggested next question", list(followups))
+    if st.button("Research this next step"):
+        settings = AgentSettings()
+        with st.spinner("Following up with the original research question…"):
+            try:
+                prompt = (
+                    "Original research question: "
+                    + original
+                    + "\nNext step: "
+                    + followups[followup]
+                )
+                st.session_state["result"] = asyncio.run(
+                    run_agent(prompt, settings, agent_workspace(settings))
+                )
+                for key in ("exploration", "exploration_options"):
+                    st.session_state.pop(key, None)
+                st.rerun()
+            except Exception:
+                st.error("Follow-up failed; the previous answer is preserved.")
+
+
 def main():
     st.set_page_config(page_title="Data.gov Research", layout="wide")
     st.title("Data.gov Research")
@@ -337,6 +465,9 @@ def main():
                     run_agent(question, settings, agent_workspace(settings))
                 )
                 st.session_state["result"] = result
+                st.session_state["original_question"] = question
+                for key in ("exploration", "exploration_options"):
+                    st.session_state.pop(key, None)
             except Exception:
                 st.error(
                     (
@@ -347,6 +478,7 @@ def main():
                 st.session_state.pop("result", None)
     if "result" in st.session_state:
         display_result(st.session_state["result"], concise=concise)
+        display_exploration()
 
 
 if __name__ == "__main__":
