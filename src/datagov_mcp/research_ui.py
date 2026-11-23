@@ -447,6 +447,9 @@ def main():
                 )
                 st.session_state.pop("result", None)
     if "result" in st.session_state:
+        answered = st.session_state.get("original_question")
+        if answered:
+            st.markdown("**Answering:** " + answered)
         display_result(st.session_state["result"], concise=concise)
 
 

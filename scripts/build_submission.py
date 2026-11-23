@@ -5,8 +5,6 @@ from pathlib import Path
 
 from docx import Document
 from pptx import Presentation
-from pptx.chart.data import CategoryChartData
-from pptx.enum.chart import XL_CHART_TYPE
 from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,147 +12,134 @@ OUT = ROOT / ".local/submission"
 SLIDES = [
     (
         "Data.gov Research",
-        (
-            "From a plain-language question to discoverable publi"
-            "c data—and, where supported, a verifiable answer.\nTr"
-            "evor Specht · GSA MCP / AI Agent Hackathon · Novembe"
-            "r 2026\nWorking milestone in an ongoing, portable res"
-            "earch project."
-        ),
+        "From a plain-language question to discoverable public data, and, where "
+        "supported, a verifiable answer.\n"
+        "Trevor Specht · GSA MCP / AI Agent Hackathon · November 2026\n"
+        "Track: Dataset Access Server. A working stage in an ongoing project.",
     ),
     (
-        "Problem: finding data is not finding an answer",
-        (
-            "Researchers must navigate inconsistent publisher met"
-            "adata, formats, periods and meanings.\nA search match"
-            " does not prove comparability, queryability or causa"
-            "l relevance.\nMission: make public data useful to gov"
-            "ernment and non-government research, service deliver"
-            "y and oversight."
-        ),
+        "The challenge: finding data is not answering a question",
+        "Data.gov lists hundreds of thousands of datasets with inconsistent "
+        "metadata, formats, periods and definitions.\n"
+        "A search hit does not show whether data can be retrieved, compared or "
+        "used to answer the question.\n"
+        "AI assistants without a structured layer guess: invented values, "
+        "mismatched units, causal overreach.\n"
+        "Mission: make public data usable for government and non-government "
+        "research, service delivery and oversight.",
     ),
     (
-        "Solution: discover, inspect, query, explain",
-        (
-            "Broad topic discovery across Data.gov.\nDataset inven"
-            "tories with publisher, periods, formats, terms, dict"
-            "ionaries and unknowns.\nReviewed bounded queries for "
-            "Census/BLS and climate/agriculture.\nSources, scope l"
-            "imits and downloadable evidence accompany answers."
-        ),
+        "The solution: discover, assess, query, explain",
+        "Search across all of Data.gov in plain language.\n"
+        "Rank candidates and say plainly which can be queried now and which need "
+        "setup work.\n"
+        "Query reviewed datasets and return values with units, definitions, "
+        "sources and evidence IDs.\n"
+        "Check whether datasets can be compared before relating them, and suggest "
+        "next steps when the evidence is inconclusive.",
     ),
     (
-        "Architecture: reusable MCP core, private research App",
-        (
-            "Private Streamlit App → Databricks-hosted Sol agent "
-            "→ authenticated MCP App.\nMCP routes discovery to Dat"
-            "a.gov, county comparisons to a parameterized SQL war"
-            "ehouse, and scientific queries to a reviewed fixed s"
-            "napshot.\nUI has no direct warehouse grants. Eight go"
-            "al-oriented tools; validated inputs and output budge"
-            "ts."
-        ),
+        "Architecture",
+        "Research App (Streamlit) → Databricks-hosted GPT-6.1 Sol agent → "
+        "authenticated MCP server App.\n"
+        "MCP server → Data.gov catalog API (discovery) and a reviewed dataset "
+        "registry (data).\n"
+        "Registry connectors: Databricks SQL warehouse table, packaged reviewed "
+        "snapshot, fixed-route publisher CSV refresh.\n"
+        "The UI has no direct warehouse access; all data flows through validated "
+        "MCP tools. Configuration lives in code (bundle + Terraform).",
+    ),
+    (
+        "Key decision: generic tools, reviewed data as configuration",
+        "Nine tools, none specific to a dataset or question: search, inspect, "
+        "filters, readiness, list_queryable_datasets, query_dataset, "
+        "analyze_change, assess_compatibility, evidence.\n"
+        "Dataset facts (measures, units, definitions, geography, periods, sources) "
+        "live in registry/datasets.json.\n"
+        "Adding a dataset means a reviewed registry entry, not a new tool.\n"
+        "Change rules come from the registry: percent for population, percentage "
+        "points for unemployment rates.",
     ),
     (
         "Key decision: discovery is broader than computation",
-        (
-            "Never execute arbitrary SQL or tool-supplied downloa"
-            "d URLs.\nReviewed semantics and source hashes define "
-            "supported computation.\nCatalog records stay discover"
-            "y-only unless explicitly bound; do not infer compati"
-            "bility from a search hit.\nRuntime tools validate geo"
-            "graphy, years and permitted operations."
-        ),
+        "Any Data.gov record can be found and inspected; only reviewed datasets "
+        "return observations.\n"
+        "Readiness labels: ready within reviewed scope, setup required, access "
+        "route unverified, metadata only.\n"
+        "Tools never accept SQL, table names or URLs; SQL is generated from "
+        "registry identifiers with bound parameters.\n"
+        "Compatibility checks compare geography and periods; the server never "
+        "computes correlations or causal estimates.",
     ),
     (
-        "Scientific example: climate and agricultural practices",
-        (
-            "NOAA: Maryland annual temperature and precipitation,"
-            " 1985–2012.\nUSGS/Chesapeake Bay Program: allocated c"
-            "over-crop and conservation-tillage implementation ar"
-            "eas.\nPractice units are square kilometres, not acres"
-            " or adoption percentages.\nDifferent geography and sp"
-            "arse observation years prohibit direct causal joins."
-        ),
+        "Key decision: evidence and honest limits",
+        "Every query and analysis saves an evidence record: parameters, SQL or "
+        "source hash, sources and rows.\n"
+        "Summary counts cover every compared geography, so the agent quotes "
+        "counts instead of counting rows.\n"
+        "Missing years stay missing; endpoint change is never presented as a trend.\n"
+        "Unsupported questions get a clear boundary plus useful discovery, not a "
+        "substituted answer.",
     ),
     (
-        "User-facing demonstration",
-        (
-            "1. Inventory climate/agriculture datasets; inspect p"
-            "romising records and expose unknowns.\n2. Query cover"
-            "-crop estimates: 481.509 km² (2002) → 1,770.5665 km²"
-            " (2012).\n3. Show unconnected observation points, dat"
-            "a table and evidence.\n4. Ask whether climate caused "
-            "adoption: explain why the data cannot establish it.\n"
-            "Live demo: private datagov-research-ui App; retain a"
-            " recorded fallback."
-        ),
-    ),
-    (
-        "Graphics follow the data, not model guesses",
-        (
-            "Annual climate: line chart plus accessible table.\nSp"
-            "arse practice observations: points only, no invented"
-            " intervening years.\nCounty comparison: separate perc"
-            "ent / percentage-point bars.\nCharts rendered from st"
-            "ructured tool results, never model-generated executa"
-            "ble plotting code.\nNo mismatched-geography correlati"
-            "on chart."
-        ),
+        "Demonstration: answer first, details in tabs",
+        "",
     ),
     (
         "Evaluation setup",
-        (
-            "Core panel: 12 questions plus repeated M1/A1/U3 = 18"
-            " trials.\nExpanded scientific/inventory panel: 9 case"
-            "s, run twice.\nExact prompts, model settings, source "
-            "hashes, tool traces and completion status retained.\n"
-            "Independent arithmetic against raw publisher data; s"
-            "eparate human and AI rubric reviews.\nNo-tool questio"
-            "ns are not misrepresented as MCP-backed."
-        ),
+        "Three panels, 25 questions, run on the generic tools (Nov 22–23): core "
+        "(12), user workflows (4), science and inventory (9).\n"
+        "Categories: discovery, methodology, analysis, unsupported and "
+        "adversarial requests.\n"
+        "Each run saves the exact prompt, model settings, source hashes, tool "
+        "trace and completion status.\n"
+        "Numbers are checked by independent arithmetic against the publisher "
+        "data, not by an LLM judge.\n"
+        "Offline HTML review pages support separate human and AI rubric scoring.",
     ),
     (
-        "Observed results and improvements",
-        (
-            "Final core Sol panel: 18/18 completed; all 8 compari"
-            "sons matched reference.\nTwo added panels: 9/9 comple"
-            "ted each; all 5 scientific queries per round matched"
-            " raw sources.\nTests include protocols, boundaries, p"
-            "arsers and UI rendering.\nFixed source encoding/IDs, "
-            "summary counts, incomplete outputs, stale source sta"
-            "tus and context-dependent wording.\nModel and prompt "
-            "changed together: not a controlled model-only superi"
-            "ority claim."
-        ),
+        "Evaluation results",
+        "25/25 runs completed; 0 tool errors; median 16 s per question "
+        "(range 7–36 s).\n"
+        "All 4 county analyses matched the reference (rows, values, summary counts).\n"
+        "All 8 climate/agriculture series checks matched the frozen publisher data.\n"
+        "Correlation questions: compatibility checked, geography mismatch explained, "
+        "no correlation invented.\n"
+        "Iterative improvement since Nov 18: Opus 5 → GPT-6.1 Sol, summary counts, "
+        "completion checks, generic tools. Not a controlled model comparison.",
     ),
     (
-        "Security and reliability",
-        (
-            "Public government data only; private authenticated s"
-            "andbox Apps.\nScoped App access, fixed origins, param"
-            "eterized SQL, bounded calls/time/bytes and no arbitr"
-            "ary downloads.\nSecrets excluded from source and stag"
-            "ing; dependency audit and static checks.\nOne explici"
-            "t adversarial SQL/local-URL case declined; not a com"
-            "prehensive security certification.\nEvidence is local"
-            "ly stored: export before restart or environment reti"
-            "rement."
-        ),
+        "Security considerations",
+        "Public government data only; private, authenticated Databricks Apps.\n"
+        "Pydantic-validated inputs; fixed origins; bound SQL parameters; no "
+        "redirects; time, byte, row and tool-call budgets.\n"
+        "Catalog metadata treated as untrusted data, never as instructions.\n"
+        "Secrets kept out of source and staging; secret scan, static analysis and "
+        "dependency audit in CI.\n"
+        "Adversarial SQL/localhost request refused. Not a full penetration test.",
     ),
     (
-        "Lessons and next stage",
-        (
-            "Useful AI research requires visible uncertainty, pro"
-            "venance and explicit analytical scope.\nNext: verifie"
-            "d bindings, more sources, session-isolated conversat"
-            "ional memory and durable evidence.\nPortability: keep"
-            " MCP and UI separate; replace Databricks auth/model/"
-            "warehouse adapters after sandbox closes.\nPreserve ra"
-            "w data, snapshots, traces, scores and runnable artif"
-            "acts.\nRepository: github.com/trevorspecht/gsa-mcp-ha"
-            "ckathon-data-gov"
-        ),
+        "Lessons learned and next steps",
+        "Real publisher files exposed encoding, file-name and series-ID errors "
+        "that synthetic tests missed.\n"
+        "Keeping tools generic forced a clear line between code and reviewed data.\n"
+        "Deployment drift is real: releases now go through the code-based bundle.\n"
+        "Next: more registry datasets and connectors, matched-geography sources, "
+        "conversational memory, durable evidence, a new Databricks workspace.\n"
+        "Repository: github.com/trevorspecht/gsa-mcp-hackathon-data-gov",
+    ),
+]
+
+SCREENS = [
+    (
+        "q-answer.png",
+        "“Is there a correlation between climate patterns and agricultural "
+        "practices…?” Answer tab: limits explained first; no invented correlation.",
+    ),
+    (
+        "charts.png",
+        "“Which Maryland counties gained population while unemployment fell?” "
+        "Data & charts tab: generic bars from analyze_change (Worcester County).",
     ),
 ]
 
@@ -190,48 +175,280 @@ def main():
             "Adapted from organizer template; all project claims refer to "
             "saved actual evidence. " + body
         )
-    science = json.loads((ROOT / "registry/science.json").read_text())
+    # Slide 8: actual hosted UI screenshots captured during browser verification.
     slide = deck.slides[7]
-    # Replace the explanatory body with actual data; preserve the title.
     element = slide.shapes[-1]._element
     element.getparent().remove(element)
-    for id, x, label in [
-        ("md_temperature", 0.45, "Maryland annual temperature (°F)"),
-        ("chesapeake_cover_crops", 5.1, "Chesapeake cover crops (km²)"),
-    ]:
-        dataset = next(d for d in science["datasets"] if d["id"] == id)
-        chart_data = CategoryChartData()
-        chart_data.categories = [str(r["year"]) for r in dataset["observations"]]
-        chart_data.add_series(label, [r["value"] for r in dataset["observations"]])
-        kind = (
-            XL_CHART_TYPE.LINE
-            if id.startswith("md_")
-            else XL_CHART_TYPE.COLUMN_CLUSTERED
+    width = (deck.slide_width - Inches(1.2)) / len(SCREENS)
+    for index, (name, caption) in enumerate(SCREENS):
+        left = Inches(0.45) + index * width
+        slide.shapes.add_picture(
+            str(OUT / "screens" / name), left, Inches(1.2), width=width - Inches(0.2)
         )
-        chart = slide.shapes.add_chart(
-            kind, Inches(x), Inches(1.35), Inches(4.4), Inches(3.25), chart_data
-        ).chart
-        chart.has_title = True
-        chart.chart_title.text_frame.text = label
-        chart.has_legend = False
-        if id.startswith("md_"):
-            chart.value_axis.minimum_scale = 52
-            chart.value_axis.maximum_scale = 59
-        else:
-            chart.value_axis.minimum_scale = 0
-            chart.value_axis.maximum_scale = 2000
-    foot = slide.shapes.add_textbox(
-        Inches(0.6), Inches(4.75), Inches(8.8), Inches(0.65)
-    )
+        label = slide.shapes.add_textbox(
+            left, Inches(3.95), width - Inches(0.2), Inches(0.7)
+        )
+        label.text_frame.word_wrap = True
+        label.text_frame.text = caption
+        label.text_frame.paragraphs[0].font.size = Pt(11)
+    foot = slide.shapes.add_textbox(Inches(0.6), Inches(4.95), Inches(8.8), Inches(0.5))
     foot.text_frame.word_wrap = True
     foot.text_frame.text = (
-        "Sources: NOAA NCEI; USGS DOI 10.5066/P9SRZS8P. Different geographies: "
-        "separate context, not a joined analysis or causal relationship. "
-        "Only two cover-crop observations; no interpolation."
+        "Two questions in the hosted private App, Nov 23. Five tabs: Answer · "
+        "Sources (datasets used, then other candidates, with links) · Data & charts "
+        "· Explore further (select datasets, preview, compatibility, next step) · "
+        "Evaluation (tool trace, evidence download)."
     )
-    foot.text_frame.paragraphs[0].font.size = Pt(12)
+    foot.text_frame.paragraphs[0].font.size = Pt(11)
     deck.save(OUT / "Data.gov-Research-Hackathon.pptx")
 
+    write_evaluation()
+    print("Wrote template-based PPTX and DOCX to", OUT)
+
+
+PANELS = {
+    "20261122T230301Z": "Core (12)",
+    "20261123T161211Z": "User workflows (4)",
+    "20261123T161339Z": "Science and inventory (9)",
+}
+
+EVALUATION = [
+    (
+        "1. Overview and Objectives",
+        None,
+        [
+            "Data.gov Research is an MCP server that helps an AI assistant answer "
+            "plain-language questions with public government data. It searches the "
+            "whole Data.gov catalog, says which datasets can be queried now, queries "
+            "reviewed datasets, and returns values with units, definitions, sources "
+            "and saved evidence.",
+            "This evaluation asks four questions: (1) Does the agent pick the right "
+            "tools and parameters? (2) Are returned numbers correct, checked against "
+            "the publisher data? (3) Does the agent stay inside what the data "
+            "supports, refusing unsupported, causal or unsafe requests? (4) Is the "
+            "server stable "
+            "across a varied question set?",
+            "The server has nine dataset-agnostic tools. Dataset-specific facts live "
+            "in a reviewed registry (registry/datasets.json), currently five datasets: "
+            "Maryland county population and unemployment (Census/BLS, Databricks SQL "
+            "warehouse), Maryland annual temperature and precipitation (NOAA, with a "
+            "fixed-route live refresh), and Chesapeake Bay watershed cover-crop and "
+            "conservation-tillage estimates (USGS).",
+        ],
+    ),
+    (
+        "2. Testing Methodology",
+        "Framework & reproducibility",
+        [
+            "scripts/run_eval.py runs each question as a fresh, independent agent "
+            "process against the hosted MCP App and saves everything: the exact "
+            "question, system prompt and its SHA-256, model settings, source-file "
+            "hashes, every tool call with arguments and results, model completion "
+            "metadata and timing. Failed and interrupted runs are kept, not discarded. "
+            "scripts/eval_report.py builds an offline HTML review page per run with "
+            "answers, full traces, automated checks and rubric fields.",
+            "Model: system.ai.gpt-6-1-sol on Databricks through the Responses API; "
+            "low reasoning effort; 4,000 output tokens; at most 10 model turns and 12 "
+            "tool calls per question. No conversation memory between questions.",
+        ],
+    ),
+    (
+        None,
+        "Golden dataset",
+        [
+            "25 questions in three committed panels: eval/questions.json (core: "
+            "discovery, methodology, analysis, unsupported), eval/user-workflows.json "
+            "(natural dataset-list and research questions that never name tools) and "
+            "eval/climate-agriculture.json (inventories, scientific queries, "
+            "unsupported joins, interpolation and an adversarial SQL/localhost "
+            "request). Each question records its expected behavior.",
+            "Numeric references are computed independently of the server: county "
+            "changes from the reviewed 72-row Census/BLS snapshot, and science values "
+            "from the frozen publisher-derived snapshot embedded in each panel.",
+        ],
+    ),
+    (
+        None,
+        "Evaluators",
+        [
+            "Automated checks compare returned rows, row order, values (within "
+            "1e-6) and summary counts against the independent reference, and flag "
+            "incomplete runs, tool errors and answers with no tool calls. These do "
+            "not depend on an LLM.",
+            "Qualitative scoring uses a six-criterion rubric (tool selection, "
+            "parameters, returned data, interpretation, citations, limitations) with "
+            "overall labels: correct, partially correct, wrong, correct abstention, "
+            "erroneous refusal, environment-blocked. Human scores and a separate, "
+            "read-only AI review are stored independently and bound to the exact "
+            "panel file hash.",
+        ],
+    ),
+    (
+        None,
+        "Test design rationale",
+        [
+            "Questions cover breadth (discovery across unrelated topics), depth "
+            "(exact county and scientific values), definitions (denominators, "
+            "aggregation, harvest vs observation dates), boundaries (unsupported "
+            "geography, measures and years), causal and correlation overreach, and "
+            "unsafe input. User-workflow questions are phrased the way a person would "
+            "ask, so they test whether the agent uses readiness and compatibility "
+            "checks without being told to.",
+        ],
+    ),
+    (
+        "3. Performance Metrics",
+        "Metrics tracked",
+        [
+            "Completion rate, tool errors, numeric accuracy against reference, "
+            "summary-count accuracy, number of tool calls, wall-clock time per "
+            "question, and rubric scores.",
+        ],
+    ),
+    (None, "Results", None),
+    (
+        None,
+        "Failure analysis",
+        [
+            "Two answers (M2: harvest vs observation dates; S7: unsafe SQL/localhost "
+            "request) used no tools. Both were correct, but they are reported as not "
+            "MCP-backed. A November 22 network outage caused four timeouts in the "
+            "workflow and science panels; those runs are preserved and the panels "
+            "were rerun after recovery. Earlier iterations exposed real problems "
+            "that were fixed: unfinished answers, an invented page count, "
+            "metadata/vintage confusion, county miscounts (fixed with summary "
+            "counts), and a deployment that silently dropped the MCP App's warehouse "
+            "settings (fixed by releasing only through the code-based bundle).",
+            "Earlier panels (Nov 18–19, Opus 5 then GPT-6.1 Sol) are retained. The "
+            "final human review of the Nov 18 panel scored 16 correct and 2 partially "
+            "correct. Model, prompt and tools changed between rounds, so these are "
+            "not a controlled model comparison. Human and AI scoring of the Nov 22–23 "
+            "panels is pending.",
+        ],
+    ),
+    (
+        "4. Security Considerations",
+        "Data classification",
+        [
+            "Only already-public government data is used. Prototypes run as private, "
+            "authenticated Databricks Apps in a hackathon sandbox; nothing is publicly "
+            "deployed.",
+        ],
+    ),
+    (
+        None,
+        "Scope containment as a control",
+        [
+            "Tools accept only registry IDs, measure IDs, geography IDs and periods, "
+            "validated by Pydantic models with strict patterns. No tool accepts SQL, "
+            "table names or URLs. Warehouse SQL is generated from validated registry "
+            "identifiers with every request value bound as a parameter. Live refresh "
+            "uses only the fixed publisher route in the registry, with no redirects "
+            "and size, time and format validation. The server never computes "
+            "correlations, joins or causal estimates.",
+        ],
+    ),
+    (
+        None,
+        "Secrets & configuration",
+        [
+            "Credentials live in an ignored .env file or the OS keyring and are never "
+            "written to source, staging folders or logs. Apps use injected OAuth "
+            "service-principal credentials. CI runs a secret scan, static analysis "
+            "(Bandit) and dependency audit (pip-audit). Deployment configuration is "
+            "code: a Databricks bundle for the Apps and Terraform for prerequisites.",
+        ],
+    ),
+    (
+        None,
+        "Untrusted input & prompt injection",
+        [
+            "Catalog metadata is labeled untrusted data and the agent is instructed "
+            "never to follow it as instructions. Only advertised MCP tools can be "
+            "called, within call, output-size, context and time budgets. An "
+            "adversarial request for arbitrary SQL and a localhost download was "
+            "refused. This is one case, not a full penetration test.",
+        ],
+    ),
+    (
+        None,
+        "Transport & isolation",
+        [
+            "Databricks Apps provide HTTPS and authentication. The research UI calls "
+            "the MCP App with its own service principal and has no direct warehouse "
+            "access; only the MCP App's principal can read the reviewed table. TLS is "
+            "verified through the OS trust store. Evidence is stored on the MCP App's "
+            "local disk and may not survive restarts; users can download it.",
+        ],
+    ),
+    (
+        "5. Lessons Learned & Recommendations",
+        "What worked",
+        [
+            "Generic tools plus a reviewed registry kept tool code independent of any "
+            "dataset. Independent numeric checks caught errors an LLM judge would "
+            "miss. Summary counts stopped the agent from miscounting rows. Separating "
+            "discovery from computation let the agent be helpful about every topic "
+            "while staying exact about the data it can query.",
+        ],
+    ),
+    (
+        None,
+        "Limitations",
+        [
+            "Only five datasets can return observations; most catalog records are "
+            "discovery-only. The climate and agricultural series cover different "
+            "geography, so they cannot support a correlation. No conversation memory. "
+            "Small evaluation sample; no no-tool baseline; scoring of the newest "
+            "panels is pending. The Databricks workspace is temporary.",
+        ],
+    ),
+    (
+        None,
+        "Recommendations",
+        [
+            "Validate against real publisher files early: they exposed an encoding "
+            "issue, a wrong file name and a wrong series-ID format that synthetic "
+            "fixtures missed. Keep deployment configuration in code and verify hosted "
+            "behavior after every release. Save every evaluation run, including "
+            "failures. Next steps: more registry datasets and connectors, sources "
+            "with matching geography and periods, conversational memory, durable "
+            "evidence storage, and migration to a long-lived workspace.",
+        ],
+    ),
+]
+
+
+def panel_rows():
+    import statistics
+
+    rows = []
+    for name, label in PANELS.items():
+        panel = json.loads(
+            (ROOT / f".local/verification/{name}-eval-panel.json").read_text()
+        )
+        runs = panel["runs"]
+        seconds = [r["seconds"] for r in runs]
+        errors = sum(
+            1
+            for r in runs
+            for s in r.get("trace", [])
+            if isinstance(s.get("result"), dict) and s["result"].get("error")
+        )
+        rows.append(
+            [
+                label,
+                name,
+                f"{sum(r.get('status') == 'complete' for r in runs)}/{len(runs)}",
+                str(errors),
+                f"{statistics.median(seconds):.1f} s",
+                f"{min(seconds):.1f}–{max(seconds):.1f} s",
+            ]
+        )
+    return rows
+
+
+def write_evaluation():
     document = Document(OUT / "templates/MCP-hackathon-sample-evaluation-document.docx")
     body = document._element.body
     for child in list(body):
@@ -239,123 +456,48 @@ def main():
             body.remove(child)
     document.add_heading("Data.gov Research — Evaluation", 0)
     document.add_paragraph(
-        "GSA MCP / AI Agent Hackathon · Trevor Specht · November 19, 2026"
+        "GSA MCP / AI Agent Hackathon · Trevor Specht · November 23, 2026 · "
+        "github.com/trevorspecht/gsa-mcp-hackathon-data-gov"
     )
-    sections = [
-        (
-            "1. Overview and Objectives",
-            (
-                "Evaluate whether a bounded MCP workflow makes public"
-                " datasets easier to discover and supported results v"
-                "erifiable. The prototype exposes eight tools coverin"
-                "g metadata discovery, compatibility, county comparis"
-                "on, scientific-series capabilities/querying and save"
-                "d evidence. It is a milestone, not a universal data-"
-                "joining or causal-analysis system."
-            ),
-        ),
-        (
-            "2. Testing Methodology",
-            (
-                "Core: 12 questions and repeated M1/A1/U3 (18 trials)"
-                ". Additional climate/agriculture inventory panel: 9 "
-                "questions run twice. Model system.ai.gpt-6-1-sol thr"
-                "ough Responses; low reasoning effort; 4,000 output t"
-                "okens. Each question starts fresh. Runs freeze quest"
-                "ions, prompt, source hashes, model completion metada"
-                "ta, arguments and results. Numeric references use in"
-                "dependent arithmetic from the publisher files. Human"
-                " review and AI review are recorded separately; no LL"
-                "M grade substitutes for numerical validation. No con"
-                "trolled no-tool baseline was executed."
-            ),
-        ),
-        (
-            "3. Performance Metrics and Results",
-            (
-                "Core final run 20261119T152023Z: 18/18 complete; all"
-                " eight comparisons matched. Core AI first-pass revie"
-                "w: 13 correct, five correct abstentions; M2 citation"
-                " criterion partial. Earlier Opus human review: 16 co"
-                "rrect and two partially correct. These are different"
-                " runs with changed prompt/model and must not be trea"
-                "ted as a controlled comparison. Additional runs 2026"
-                "1119T232056Z and 20261119T232423Z: nine of nine comp"
-                "lete in each; five scientific queries in each indepe"
-                "ndently match raw-source rows and totals. Unsupporte"
-                "d causal join, absent-year interpolation and arbitra"
-                "ry SQL/local-URL requests were declined. Discovery i"
-                "nventories were metadata-only and explicitly non-exh"
-                "austive."
-            ),
-        ),
-        (
-            "4. Security Considerations",
-            (
-                "Only public government source data is used. Private "
-                "Databricks Apps provide the authentication boundary;"
-                " the UI calls MCP without direct warehouse access. M"
-                "odel-service access was verified by a real UI query;"
-                " an attempted additional grant was denied and no bro"
-                "ader grant was added. Tool inputs are validated; ori"
-                "gins and prepared sources are fixed; SQL is paramete"
-                "rized. Limits bound tool calls, output size, executi"
-                "on time and context. Secrets are excluded from sourc"
-                "e/staging; checks include dependency audit and stati"
-                "c analysis. The explicit SQL/localhost adversarial e"
-                "valuation is one case, not a comprehensive penetrati"
-                "on test. App-local evidence is not durable across re"
-                "starts and is exported."
-            ),
-        ),
-        (
-            "5. Lessons Learned and Recommendations",
-            (
-                "Synthetic fixtures missed real Census encoding and B"
-                "LS series/file issues; publisher validation was esse"
-                "ntial. Summary counts reduced narrative miscounts. C"
-                "ompletion metadata distinguishes interrupted answers"
-                " from success. Historical question wording is preser"
-                "ved and new questions are self-contained. Scientific"
-                " metadata can hide units: practice inputs were acres"
-                ", but published catchment fields are square kilometr"
-                "es. Maryland climate and Chesapeake practices cannot"
-                " be joined as equivalent geography. Future work: bro"
-                "ader bindings, comparable geography, durable storage"
-                ", client-side conversation memory, more adversarial "
-                "tests and a no-tool baseline. Preserve artifacts bef"
-                "ore temporary Databricks resources expire."
-            ),
-        ),
-    ]
-    for title, text in sections:
-        document.add_heading(title, 1)
-        document.add_paragraph(text)
+    for section, subsection, paragraphs in EVALUATION:
+        if section:
+            document.add_heading(section, 1)
+        if subsection:
+            document.add_heading(subsection, 2)
+        if paragraphs is None:
+            table = document.add_table(rows=1, cols=6)
+            headers = ["Panel", "Run", "Completed", "Tool errors", "Median", "Range"]
+            for cell, text in zip(table.rows[0].cells, headers, strict=True):
+                cell.text = text
+            for values in panel_rows():
+                for cell, text in zip(table.add_row().cells, values, strict=True):
+                    cell.text = text
+            for line in [
+                "Numeric accuracy: all 4 county analyses (A1, A2, A3, U3) matched "
+                "the independent reference for rows, order, values and summary "
+                "counts. All 8 science checks (S1–S4, S6, Q1, Q2) matched the "
+                "frozen publisher-derived snapshot.",
+                "Boundaries: unsupported geography (California), measure "
+                "(advertising spend), causation, interpolation of a missing year, "
+                "and a climate–practice join were all declined with explanations. "
+                "Correlation questions called assess_compatibility and reported "
+                "the geography mismatch instead of computing a correlation.",
+                "Tool use: median 4 tool calls per question (maximum 11). Times "
+                "are a small observed sample, not a service-level guarantee.",
+            ]:
+                document.add_paragraph(line)
+            continue
+        for text in paragraphs:
+            document.add_paragraph(text).paragraph_format.space_after = Pt(8)
     document.add_heading("Evidence and reproducibility", 1)
     document.add_paragraph(
-        (
-            "Repository: https://github.com/trevorspecht/gsa-mcp-"
-            "hackathon-data-gov\nCommands: make check; uv run --ex"
-            "tra ui pytest -q; scripts/run_eval.py; scripts/eval_"
-            "report.py\nDetailed source and evaluation documentati"
-            "on: docs/SCIENCE.md, docs/EVALUATION.md, docs/RESEAR"
-            "CH_UI.md. Private verification artifacts are package"
-            "d separately after review, not automatically publish"
-            "ed."
-        )
+        "Commands: make check (lint, 99 tests, docs, secret scan, static "
+        "analysis, dependency audit, build); scripts/run_eval.py --questions "
+        "<panel>; scripts/eval_report.py <panel>. Method details: "
+        "docs/EVALUATION.md, docs/SCIENCE.md, docs/RESEARCH_UI.md. Run files and "
+        "review pages are kept privately and can be shared with judges on request."
     )
-    for name in ("20261119T232056Z", "20261119T232423Z"):
-        run = json.loads(
-            (ROOT / f".local/verification/{name}-eval-panel.json").read_text()
-        )
-        durations = sorted(r["seconds"] for r in run["runs"])
-        document.add_paragraph(
-            f"{name}: median {durations[len(durations) // 2]:.1f}s; "
-            f"range {durations[0]:.1f}–{durations[-1]:.1f}s. "
-            "Small observed sample, not a service-level guarantee."
-        )
     document.save(OUT / "Data.gov-Research-Evaluation.docx")
-    print("Wrote template-based PPTX and DOCX to", OUT)
 
 
 if __name__ == "__main__":
