@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Evaluation review · 20261122T180341Z</title>
+<style>
+body{font:14px/1.45 system-ui,sans-serif;margin:0;color:#1b1b1b;background:#f6f7f9}
+.top{position:sticky;top:0;background:#162e51;color:#fff;padding:10px 20px;z-index:2}
+.top h1{font-size:18px;margin:0} .top p{margin:2px 0 6px;opacity:.85}
+nav a{color:#fff;margin-right:6px;padding:1px 6px;border-radius:3px;text-decoration:none;background:#2c4b7a;font-size:12px}
+nav a.scored{background:#00a91c}
+main{padding:16px 20px;max-width:1500px}
+.run,.ref{background:#fff;border:1px solid #dfe1e2;border-radius:6px;margin:0 0 18px;padding:12px 16px}
+.run header{display:flex;justify-content:space-between;align-items:center}
+h2{margin:4px 0;font-size:17px} h2 small{font-weight:normal;color:#565c65}
+.cols{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.answer{border-right:1px solid #eee;padding-right:16px;overflow:auto;max-height:640px}
+.side{overflow:auto;max-height:640px}
+table{border-collapse:collapse;font-size:12px;margin:6px 0} td,th{border:1px solid #dfe1e2;padding:2px 6px;text-align:left}
+th{background:#f0f0f0} td{word-break:break-all;max-width:420px}
+.answer h1{font-size:18px} .answer h2{font-size:16px} .answer h3{font-size:15px} pre{background:#f6f6f6;padding:6px;overflow:auto;font-size:11px;max-height:320px}
+.auto{padding:2px 8px;border-radius:10px;font-weight:600;font-size:12px}
+.pass{background:#ecf3ec;color:#154c21} .fail{background:#f4e3db;color:#6f3331}
+.warn{background:#faf3d1;color:#5c4809} .info{background:#e7f6f8;color:#00687d}
+ul.checks{list-style:none;padding:0} ul.checks li{margin:3px 0;padding:3px 6px;border-radius:3px}
+.score{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.score label{display:flex;flex-direction:column;font-size:12px;color:#565c65}
+.score .notes{grid-column:1/-1} details{margin:4px 0} summary{cursor:pointer}
+button{margin:4px 6px 0 0}
+.ai-review{border-left:4px solid #6b4fa0;background:#f5f1fa;padding:8px 12px;margin-bottom:12px}
+.ai-review td{word-break:normal}.ai-overview{border-top:4px solid #6b4fa0}
+.ai-overview a{display:inline-block;margin-right:10px}
+.run{scroll-margin-top:160px}
+</style></head><body>
+<div class="top"><h1>Evaluation review · 20261122T180341Z</h1><p>1 runs · model system.ai.gpt-6-1-sol · snapshot ad9580ad34ac9575d0867709 · <span id="progress"></span></p>
+<nav><a href="#run-0" data-nav="Q1#1">Q1</a></nav>
+<div><button id="export">Export scores JSON</button><button id="import">Import scores</button>
+<input type="file" id="file" accept="application/json" hidden>
+<label><input type="checkbox" id="onlyflag"> show only runs with failed/warn checks</label></div></div>
+<main>
+
+<section class="ref"><h2>Independent reference data</h2>
+<p>Computed by this report from the reviewed snapshot file, not from server code. Rates are
+percent of civilian labor force; population change is percent, unemployment change is
+percentage points.</p><details><summary>2022 → 2024: population {&quot;increased&quot;: 21, &quot;decreased&quot;: 3, &quot;unchanged&quot;: 0}; unemployment {&quot;rose&quot;: 18, &quot;fell&quot;: 1, &quot;unchanged&quot;: 5}</summary><table><thead><tr><th>county_fips</th><th>county_name</th><th>population_start</th><th>population_end</th><th>population_change</th><th>unemployment_start</th><th>unemployment_end</th><th>unemployment_change</th></tr></thead><tbody><tr><td>24001</td><td>Allegany County</td><td>67,241</td><td>67,097</td><td>-0.2142</td><td>4</td><td>4.7</td><td>0.7</td></tr><tr><td>24003</td><td>Anne Arundel County</td><td>598,751</td><td>602,350</td><td>0.6011</td><td>2.7</td><td>2.8</td><td>0.1</td></tr><tr><td>24005</td><td>Baltimore County</td><td>848,873</td><td>852,425</td><td>0.4184</td><td>3.1</td><td>3.3</td><td>0.2</td></tr><tr><td>24009</td><td>Calvert County</td><td>94,652</td><td>94,913</td><td>0.2757</td><td>2.8</td><td>2.8</td><td>0</td></tr><tr><td>24011</td><td>Caroline County</td><td>33,539</td><td>34,248</td><td>2.114</td><td>3.1</td><td>3.2</td><td>0.1</td></tr><tr><td>24013</td><td>Carroll County</td><td>175,569</td><td>177,108</td><td>0.8766</td><td>2.5</td><td>2.5</td><td>0</td></tr><tr><td>24015</td><td>Cecil County</td><td>104,939</td><td>106,305</td><td>1.3017</td><td>3.3</td><td>3.5</td><td>0.2</td></tr><tr><td>24017</td><td>Charles County</td><td>170,376</td><td>174,478</td><td>2.4076</td><td>3</td><td>3.3</td><td>0.3</td></tr><tr><td>24019</td><td>Dorchester County</td><td>32,599</td><td>33,138</td><td>1.6534</td><td>3.5</td><td>3.7</td><td>0.2</td></tr><tr><td>24021</td><td>Frederick County</td><td>288,316</td><td>299,317</td><td>3.8156</td><td>2.5</td><td>2.7</td><td>0.2</td></tr><tr><td>24023</td><td>Garrett County</td><td>28,619</td><td>28,393</td><td>-0.7897</td><td>3.5</td><td>3.6</td><td>0.1</td></tr><tr><td>24025</td><td>Harford County</td><td>263,908</td><td>265,514</td><td>0.6085</td><td>2.8</td><td>2.9</td><td>0.1</td></tr><tr><td>24027</td><td>Howard County</td><td>336,439</td><td>339,668</td><td>0.9598</td><td>2.6</td><td>2.7</td><td>0.1</td></tr><tr><td>24029</td><td>Kent County</td><td>19,360</td><td>19,557</td><td>1.0176</td><td>3.6</td><td>3.6</td><td>0</td></tr><tr><td>24031</td><td>Montgomery County</td><td>1,061,132</td><td>1,082,273</td><td>1.9923</td><td>2.6</td><td>2.8</td><td>0.2</td></tr><tr><td>24033</td><td>Prince George&#x27;s County</td><td>953,609</td><td>966,629</td><td>1.3653</td><td>3.3</td><td>3.4</td><td>0.1</td></tr><tr><td>24035</td><td>Queen Anne&#x27;s County</td><td>51,803</td><td>53,688</td><td>3.6388</td><td>2.6</td><td>2.6</td><td>0</td></tr><tr><td>24037</td><td>St. Mary&#x27;s County</td><td>115,001</td><td>116,469</td><td>1.2765</td><td>2.8</td><td>2.9</td><td>0.1</td></tr><tr><td>24039</td><td>Somerset County</td><td>24,696</td><td>25,241</td><td>2.2068</td><td>4</td><td>4.2</td><td>0.2</td></tr><tr><td>24041</td><td>Talbot County</td><td>37,959</td><td>38,244</td><td>0.7508</td><td>3.4</td><td>3.4</td><td>0</td></tr><tr><td>24043</td><td>Washington County</td><td>155,407</td><td>157,228</td><td>1.1718</td><td>3.2</td><td>3.5</td><td>0.3</td></tr><tr><td>24045</td><td>Wicomico County</td><td>104,985</td><td>106,329</td><td>1.2802</td><td>3.4</td><td>3.6</td><td>0.2</td></tr><tr><td>24047</td><td>Worcester County</td><td>54,004</td><td>54,337</td><td>0.6166</td><td>4.7</td><td>4.4</td><td>-0.3</td></tr><tr><td>24510</td><td>Baltimore city</td><td>570,663</td><td>568,271</td><td>-0.4192</td><td>3.8</td><td>4.3</td><td>0.5</td></tr></tbody></table></details><details><summary>2023 → 2024: population {&quot;increased&quot;: 22, &quot;decreased&quot;: 2, &quot;unchanged&quot;: 0}; unemployment {&quot;rose&quot;: 24, &quot;fell&quot;: 0, &quot;unchanged&quot;: 0}</summary><table><thead><tr><th>county_fips</th><th>county_name</th><th>population_start</th><th>population_end</th><th>population_change</th><th>unemployment_start</th><th>unemployment_end</th><th>unemployment_change</th></tr></thead><tbody><tr><td>24001</td><td>Allegany County</td><td>67,296</td><td>67,097</td><td>-0.2957</td><td>3.4</td><td>4.7</td><td>1.3</td></tr><tr><td>24003</td><td>Anne Arundel County</td><td>599,965</td><td>602,350</td><td>0.3975</td><td>2</td><td>2.8</td><td>0.8</td></tr><tr><td>24005</td><td>Baltimore County</td><td>848,676</td><td>852,425</td><td>0.4417</td><td>2.4</td><td>3.3</td><td>0.9</td></tr><tr><td>24009</td><td>Calvert County</td><td>94,828</td><td>94,913</td><td>0.0896</td><td>2</td><td>2.8</td><td>0.8</td></tr><tr><td>24011</td><td>Caroline County</td><td>33,838</td><td>34,248</td><td>1.2117</td><td>2.3</td><td>3.2</td><td>0.9</td></tr><tr><td>24013</td><td>Carroll County</td><td>176,735</td><td>177,108</td><td>0.2111</td><td>1.8</td><td>2.5</td><td>0.7</td></tr><tr><td>24015</td><td>Cecil County</td><td>105,676</td><td>106,305</td><td>0.5952</td><td>2.5</td><td>3.5</td><td>1</td></tr><tr><td>24017</td><td>Charles County</td><td>172,268</td><td>174,478</td><td>1.2829</td><td>2.3</td><td>3.3</td><td>1</td></tr><tr><td>24019</td><td>Dorchester County</td><td>32,922</td><td>33,138</td><td>0.6561</td><td>2.6</td><td>3.7</td><td>1.1</td></tr><tr><td>24021</td><td>Frederick County</td><td>294,154</td><td>299,317</td><td>1.7552</td><td>1.9</td><td>2.7</td><td>0.8</td></tr><tr><td>24023</td><td>Garrett County</td><td>28,502</td><td>28,393</td><td>-0.3824</td><td>2.7</td><td>3.6</td><td>0.9</td></tr><tr><td>24025</td><td>Harford County</td><td>264,771</td><td>265,514</td><td>0.2806</td><td>2.1</td><td>2.9</td><td>0.8</td></tr><tr><td>24027</td><td>Howard County</td><td>337,341</td><td>339,668</td><td>0.6898</td><td>1.9</td><td>2.7</td><td>0.8</td></tr><tr><td>24029</td><td>Kent County</td><td>19,441</td><td>19,557</td><td>0.5967</td><td>2.7</td><td>3.6</td><td>0.9</td></tr><tr><td>24031</td><td>Montgomery County</td><td>1,069,397</td><td>1,082,273</td><td>1.204</td><td>1.9</td><td>2.8</td><td>0.9</td></tr><tr><td>24033</td><td>Prince George&#x27;s County</td><td>956,533</td><td>966,629</td><td>1.0555</td><td>2.4</td><td>3.4</td><td>1</td></tr><tr><td>24035</td><td>Queen Anne&#x27;s County</td><td>52,682</td><td>53,688</td><td>1.9096</td><td>1.9</td><td>2.6</td><td>0.7</td></tr><tr><td>24037</td><td>St. Mary&#x27;s County</td><td>115,479</td><td>116,469</td><td>0.8573</td><td>2.1</td><td>2.9</td><td>0.8</td></tr><tr><td>24039</td><td>Somerset County</td><td>25,044</td><td>25,241</td><td>0.7866</td><td>3.1</td><td>4.2</td><td>1.1</td></tr><tr><td>24041</td><td>Talbot County</td><td>38,067</td><td>38,244</td><td>0.465</td><td>2.4</td><td>3.4</td><td>1</td></tr><tr><td>24043</td><td>Washington County</td><td>156,116</td><td>157,228</td><td>0.7123</td><td>2.6</td><td>3.5</td><td>0.9</td></tr><tr><td>24045</td><td>Wicomico County</td><td>105,585</td><td>106,329</td><td>0.7046</td><td>2.6</td><td>3.6</td><td>1</td></tr><tr><td>24047</td><td>Worcester County</td><td>54,229</td><td>54,337</td><td>0.1992</td><td>3.5</td><td>4.4</td><td>0.9</td></tr><tr><td>24510</td><td>Baltimore city</td><td>567,517</td><td>568,271</td><td>0.1329</td><td>3</td><td>4.3</td><td>1.3</td></tr></tbody></table></details><details><summary>2022 → 2023: population {&quot;increased&quot;: 21, &quot;decreased&quot;: 3, &quot;unchanged&quot;: 0}; unemployment {&quot;rose&quot;: 0, &quot;fell&quot;: 24, &quot;unchanged&quot;: 0}</summary><table><thead><tr><th>county_fips</th><th>county_name</th><th>population_start</th><th>population_end</th><th>population_change</th><th>unemployment_start</th><th>unemployment_end</th><th>unemployment_change</th></tr></thead><tbody><tr><td>24001</td><td>Allegany County</td><td>67,241</td><td>67,296</td><td>0.0818</td><td>4</td><td>3.4</td><td>-0.6</td></tr><tr><td>24003</td><td>Anne Arundel County</td><td>598,751</td><td>599,965</td><td>0.2028</td><td>2.7</td><td>2</td><td>-0.7</td></tr><tr><td>24005</td><td>Baltimore County</td><td>848,873</td><td>848,676</td><td>-0.0232</td><td>3.1</td><td>2.4</td><td>-0.7</td></tr><tr><td>24009</td><td>Calvert County</td><td>94,652</td><td>94,828</td><td>0.1859</td><td>2.8</td><td>2</td><td>-0.8</td></tr><tr><td>24011</td><td>Caroline County</td><td>33,539</td><td>33,838</td><td>0.8915</td><td>3.1</td><td>2.3</td><td>-0.8</td></tr><tr><td>24013</td><td>Carroll County</td><td>175,569</td><td>176,735</td><td>0.6641</td><td>2.5</td><td>1.8</td><td>-0.7</td></tr><tr><td>24015</td><td>Cecil County</td><td>104,939</td><td>105,676</td><td>0.7023</td><td>3.3</td><td>2.5</td><td>-0.8</td></tr><tr><td>24017</td><td>Charles County</td><td>170,376</td><td>172,268</td><td>1.1105</td><td>3</td><td>2.3</td><td>-0.7</td></tr><tr><td>24019</td><td>Dorchester County</td><td>32,599</td><td>32,922</td><td>0.9908</td><td>3.5</td><td>2.6</td><td>-0.9</td></tr><tr><td>24021</td><td>Frederick County</td><td>288,316</td><td>294,154</td><td>2.0249</td><td>2.5</td><td>1.9</td><td>-0.6</td></tr><tr><td>24023</td><td>Garrett County</td><td>28,619</td><td>28,502</td><td>-0.4088</td><td>3.5</td><td>2.7</td><td>-0.8</td></tr><tr><td>24025</td><td>Harford County</td><td>263,908</td><td>264,771</td><td>0.327</td><td>2.8</td><td>2.1</td><td>-0.7</td></tr><tr><td>24027</td><td>Howard County</td><td>336,439</td><td>337,341</td><td>0.2681</td><td>2.6</td><td>1.9</td><td>-0.7</td></tr><tr><td>24029</td><td>Kent County</td><td>19,360</td><td>19,441</td><td>0.4184</td><td>3.6</td><td>2.7</td><td>-0.9</td></tr><tr><td>24031</td><td>Montgomery County</td><td>1,061,132</td><td>1,069,397</td><td>0.7789</td><td>2.6</td><td>1.9</td><td>-0.7</td></tr><tr><td>24033</td><td>Prince George&#x27;s County</td><td>953,609</td><td>956,533</td><td>0.3066</td><td>3.3</td><td>2.4</td><td>-0.9</td></tr><tr><td>24035</td><td>Queen Anne&#x27;s County</td><td>51,803</td><td>52,682</td><td>1.6968</td><td>2.6</td><td>1.9</td><td>-0.7</td></tr><tr><td>24037</td><td>St. Mary&#x27;s County</td><td>115,001</td><td>115,479</td><td>0.4156</td><td>2.8</td><td>2.1</td><td>-0.7</td></tr><tr><td>24039</td><td>Somerset County</td><td>24,696</td><td>25,044</td><td>1.4091</td><td>4</td><td>3.1</td><td>-0.9</td></tr><tr><td>24041</td><td>Talbot County</td><td>37,959</td><td>38,067</td><td>0.2845</td><td>3.4</td><td>2.4</td><td>-1</td></tr><tr><td>24043</td><td>Washington County</td><td>155,407</td><td>156,116</td><td>0.4562</td><td>3.2</td><td>2.6</td><td>-0.6</td></tr><tr><td>24045</td><td>Wicomico County</td><td>104,985</td><td>105,585</td><td>0.5715</td><td>3.4</td><td>2.6</td><td>-0.8</td></tr><tr><td>24047</td><td>Worcester County</td><td>54,004</td><td>54,229</td><td>0.4166</td><td>4.7</td><td>3.5</td><td>-1.2</td></tr><tr><td>24510</td><td>Baltimore city</td><td>570,663</td><td>567,517</td><td>-0.5513</td><td>3.8</td><td>3</td><td>-0.8</td></tr></tbody></table></details><h3>Sources</h3><table><thead><tr><th>publisher</th><th>title</th><th>url</th><th>catalog_identifier</th><th>sha256</th></tr></thead><tbody><tr><td>U.S. Census Bureau</td><td>County Population Estimates, Vintage 2024</td><td>https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv</td><td></td><td>abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9</td></tr><tr><td>Bureau of Labor Statistics</td><td>Local Area Unemployment Statistics, county annual averages</td><td>https://download.bls.gov/pub/time.series/la/la.data.27.Maryland</td><td>DOL-BLS-3060-01</td><td>19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7</td></tr></tbody></table></section>
+
+<section class="run" id="run-0" data-run="Q1#1"
+ data-auto="fail">
+  <header><h2>Q1 <small>run 1 · 12.2 s · science</small></h2><span class="auto fail">auto: fail</span></header>
+  <p class="q"><b>Question:</b> Is there a correlation between climate patterns and agricultural practices over time in Maryland and the Chesapeake Bay watershed?</p>
+  <p class="exp"><b>Expected:</b> Answer uncertainty first; mismatched geography and sparse practice years prevent defensible correlation/causation. Useful verified descriptive context, source evidence, relevant alternative discovery/readiness.</p>
+  <div class="cols">
+    <div class="answer"><h3>Agent answer</h3><p>Agent failed (ValueError); check setup and endpoint logs</p>
+</div>
+    <div class="side">
+      
+      <details><summary>Model completion metadata</summary>
+      <pre>[]</pre>
+      </details>
+      <h3>Automated checks</h3><ul class="checks"><li class="fail">FAIL: Agent exited 1</li><li class="warn">WARN: No tool calls; answer is not MCP-backed</li></ul>
+      <h3>Tool trace (0 calls)</h3>
+      <h3>Your score</h3><div class="score"><label>tool selection<select data-key="tool_selection"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label><label>parameters<select data-key="parameters"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label><label>returned data<select data-key="returned_data"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label><label>interpretation<select data-key="interpretation"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label><label>citations<select data-key="citations"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label><label>limitations<select data-key="limitations"><option value="">—</option><option>pass</option><option>partial</option><option>fail</option><option>n/a</option></select></label>
+      <label>overall<select data-key="overall"><option value="">—</option>
+      <option>correct</option><option>partially correct</option><option>wrong</option><option>correct abstention</option><option>erroneous refusal</option><option>environment-blocked</option></select></label>
+      <label class="notes">notes<textarea data-key="notes" rows="3"></textarea>
+      </label></div>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const KEY = "datagov-eval-20261122T180341Z", PANEL = "20261122T180341Z-eval-panel.json";
+const scores = JSON.parse(localStorage.getItem(KEY) || "{}");
+function sync() {
+  let done = 0;
+  document.querySelectorAll(".run").forEach(s => {
+    const id = s.dataset.run, v = scores[id] || {};
+    s.querySelectorAll("[data-key]").forEach(el => { el.value = v[el.dataset.key] || ""; });
+    const ok = !!v.overall; if (ok) done++;
+    document.querySelector(`[data-nav="${CSS.escape(id)}"]`).classList.toggle("scored", ok);
+  });
+  document.getElementById("progress").textContent = `${done} / ${document.querySelectorAll(".run").length} scored`;
+}
+document.addEventListener("input", e => {
+  const s = e.target.closest(".run"); if (!s || !e.target.dataset.key) return;
+  const id = s.dataset.run; scores[id] = scores[id] || {};
+  scores[id][e.target.dataset.key] = e.target.value;
+  localStorage.setItem(KEY, JSON.stringify(scores)); sync();
+});
+document.getElementById("export").onclick = () => {
+  const blob = new Blob([JSON.stringify({panel: PANEL, scores}, null, 1)], {type: "application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = PANEL.replace("-eval-panel.json", "-eval-scores.json"); a.click();
+};
+document.getElementById("import").onclick = () => document.getElementById("file").click();
+document.getElementById("file").onchange = async e => {
+  const data = JSON.parse(await e.target.files[0].text());
+  Object.assign(scores, data.scores || {}); localStorage.setItem(KEY, JSON.stringify(scores)); sync();
+};
+document.getElementById("onlyflag").onchange = e => document.querySelectorAll(".run").forEach(s => {
+  s.hidden = e.target.checked && s.dataset.auto === "pass";
+});
+sync();
+</script></body></html>

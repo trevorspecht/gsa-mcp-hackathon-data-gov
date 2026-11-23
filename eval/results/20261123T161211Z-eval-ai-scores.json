@@ -1,0 +1,82 @@
+{
+  "reviewer": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+  "reviewed_at": "2026-11-23T20:56:10.693390+00:00",
+  "method": "Read every saved answer and full trace; claims about catalog records were checked against inspected metadata. Science values were checked against the frozen snapshot by eval_report.py. Questions are phrased as a user would and never name tools.",
+  "panel": "20261123T161211Z-eval-panel.json",
+  "panel_sha256": "1b788fe607f92fa2744299c13dad825a9fa9871ce3f076cb4dcdc03d2a406d82",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "scores": {
+    "L1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Four western drought/irrigation records with periods, resolution and formats that match the trace; flags the LANID period discrepancy.",
+      "reasons": {
+        "tool_selection": "Two searches, four inspections and an automatic readiness assessment.",
+        "parameters": "Search terms and inspected IDs grounded in results.",
+        "returned_data": "WLDAS 1979\u20132024 0.01\u00b0, LANID 2018\u201320/2000\u20132020, LGRIP GeoTIFF 2019\u20132021 all match.",
+        "interpretation": "Distinguishes irrigated area from water volume.",
+        "citations": "DOIs for each dataset.",
+        "limitations": "Shortlist scope, untested downloads, missing licenses."
+      }
+    },
+    "L2#1": {
+      "tool_selection": "partial",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Short linked list as requested; no observation queries, scores or tool names. Readiness was not assessed for this list.",
+      "reasons": {
+        "tool_selection": "Searched and inspected, but skipped the readiness assessment the instructions recommend; acceptable given the brevity request.",
+        "parameters": "Limit 3 honors 'short list'.",
+        "returned_data": "Links and formats match inspected metadata.",
+        "interpretation": "No analysis beyond request.",
+        "citations": "Each item linked.",
+        "limitations": "Notes unspecified years and unchecked links."
+      }
+    },
+    "Q1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Checks compatibility first, reports verified practice changes, explains why no correlation can be computed, and offers a matched-geography lead.",
+      "reasons": {
+        "tool_selection": "assess_compatibility before analysis, change analyses with evidence, discovery and readiness.",
+        "parameters": "All four registry series checked; correct periods.",
+        "returned_data": "Cover-crop and tillage changes match frozen reference.",
+        "interpretation": "Does not invent a coefficient; separates insufficient evidence from no effect.",
+        "citations": "USGS DOI and evidence IDs.",
+        "limitations": "Geography, sparsity, measure and attribution limits, plus concrete next step."
+      }
+    },
+    "Q2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct change with units and method caveat; values rounded to one decimal in prose and table.",
+      "reasons": {
+        "tool_selection": "analyze_change and evidence.",
+        "parameters": "2002\u20132012, cover_crop_area.",
+        "returned_data": "Matches reference.",
+        "interpretation": "Endpoint change, not trend.",
+        "citations": "Source and evidence ID.",
+        "limitations": "Allocated estimates, not adoption rate."
+      }
+    }
+  }
+}

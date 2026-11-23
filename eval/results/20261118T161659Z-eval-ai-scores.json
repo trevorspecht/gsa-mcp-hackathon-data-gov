@@ -1,0 +1,343 @@
+{
+  "panel": "20261118T161659Z-eval-panel.json",
+  "panel_sha256": "a6e5106349bff0e60ca02f01274ee10761b5850964656498b6c7055c32b7612d",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "reviewer": "GPT-6 Astra (AI reviewer; user-selected model)",
+  "reviewed_at": "2026-11-19T03:22:05.309042+00:00",
+  "method": "Reviewed all 18 saved answers and tool arguments against their saved traces, without rerunning the answering model. Verified the snapshot hash and all eight comparisons against independent reference arithmetic; checked evidence IDs and snapshot bindings. Metadata claims were checked against captured metadata, not newly downloaded distributions. Overall grades consider substantive prose errors and incomplete answers, not just exit codes. AI-assisted advisory review, not blind or human certification.",
+  "rubric_policy": {
+    "tool_selection": "Appropriate tools for the question; no unnecessary unsupported execution.",
+    "parameters": "Correct scope, filters, periods, IDs; partial for an invalid call even if recovered.",
+    "returned_data": "Faithfulness of values, records and counts to captured tool results; independent numeric checks for comparisons.",
+    "interpretation": "Correct conclusions, units, scope and completeness of the answer.",
+    "citations": "Traceable source or evidence identifiers appropriate to the claim; unsupported additional methodology claims reduce this score.",
+    "limitations": "Relevant caveats without exaggerated certainty or scope.",
+    "overall": "Correct abstention when the central requested claim is unsupported and the response explains why; partially correct for material unsupported claims or incomplete deliverables. A recovered parameter error alone need not invalidate a correct abstention. Stale tool metadata is noted separately from model fabrication."
+  },
+  "scores": {
+    "D1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Meets the discovery request. Titles, record IDs, temporal fields, vocabulary counts and inspected NPS description match the trace. The through-2025 title and 2026 temporal endpoint are publisher-metadata inconsistencies, not invented observations.",
+      "reasons": {
+        "tool_selection": "Federal search, vocabulary lookup and inspection of one returned record are appropriate.",
+        "parameters": "Federal Government filter, water-quality keyword and returned harvest ID are valid.",
+        "returned_data": "Eight search cards and inspected NPS record support the listed titles, dates, 54 sites and 37/17 site split; keyword counts match.",
+        "interpretation": "Accurately labels descriptions as metadata rather than measurements and distinguishes modification from observation dates.",
+        "citations": "Provides harvest IDs, publisher identifier and the NPS landing page for the inspected record.",
+        "limitations": "Explicitly says distributions were not read, no measured values can be reported, and water quality is not executable via the curated analytics path."
+      }
+    },
+    "D2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "partial",
+      "citations": "pass",
+      "limitations": "partial",
+      "overall": "partially correct",
+      "notes": "Useful housing leads, but the saved answer ends mid-field at access_status: unknown_or_conflicting. It never completes the requested explanation of remaining validation. The reason for this abrupt ending is not recorded in this panel.",
+      "reasons": {
+        "tool_selection": "Uses vocabulary discovery, multiple searches and inspections of CHAS and FMR records.",
+        "parameters": "Initial search overconstrains keywords and query, but recovers using the returned CHAS keyword and valid harvest IDs.",
+        "returned_data": "CHAS geography, 2016–2020 text, formats, dictionary and FMR records are supported by the captured metadata.",
+        "interpretation": "Distinguishes CHAS outcomes from benchmark rents, but overstates a single vocabulary response as exhaustive and ends before completing the explanation.",
+        "citations": "Provides useful harvest IDs and landing links for the two inspected records; the trailing record note is incomplete.",
+        "limitations": "Flags missing structured observation dates, but lacks a completed checklist of data-file validation, joinability, units and rights because the answer stops abruptly."
+      }
+    },
+    "D3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "partial",
+      "interpretation": "partial",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "partially correct",
+      "notes": "Location filtering is correct, but page 1 of 10 confuses ten returned records with a total page count. The response ends mid-list at salinity, before completing the inspected-record discussion.",
+      "reasons": {
+        "tool_selection": "Resolves a location and vocabulary, performs spatial search and inspects a returned Maryland-centered record.",
+        "parameters": "Uses returned Maryland ID 21; omitted spatial_within uses false, the requested intersection behavior.",
+        "returned_data": "Records, temporal values and extents match the trace, but the tool reports page 1 plus a next cursor, not ten pages.",
+        "interpretation": "Correctly explains broad-extent false positives, but invents a page total and leaves the inspected-content sentence unfinished.",
+        "citations": "Harvest IDs and publisher attribution are traceable, though the truncated inspected section never provides its available landing URL.",
+        "limitations": "Clearly says extent intersection does not establish Maryland observations and identifies national/global extents and a restricted record."
+      }
+    },
+    "M1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct central denominator explanation. The quoted awaiting source download and domain review label really appears in assess_comparison despite ready_to_execute=true. This is conflicting tool metadata, not a fabricated blocker; reconcile the producer separately. General examples are explanatory rather than measured county values.",
+      "reasons": {
+        "tool_selection": "Uses assess_comparison for definitions and avoids an unnecessary numerical comparison.",
+        "parameters": "Registered metrics, Maryland and 2022–2024 are valid for reading the definitions.",
+        "returned_data": "Labor-force unit, period, aggregation rule and readiness/source labels agree with the returned definitions.",
+        "interpretation": "Correctly distinguishes civilian labor force from residents and percent changes from percentage-point changes.",
+        "citations": "Names registered BLS/Census sources and source identifiers or URLs; a query evidence ID is not required for a definitions-only answer.",
+        "limitations": "Explains different universes and periods and the limited analytic scope; flags the source-status metadata rather than inventing observed values."
+      }
+    },
+    "M1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct central denominator explanation. The quoted awaiting source download and domain review label really appears in assess_comparison despite ready_to_execute=true. This is conflicting tool metadata, not a fabricated blocker; reconcile the producer separately. General examples are explanatory rather than measured county values.",
+      "reasons": {
+        "tool_selection": "Uses assess_comparison for definitions and avoids an unnecessary numerical comparison.",
+        "parameters": "Registered metrics, Maryland and 2022–2024 are valid for reading the definitions.",
+        "returned_data": "Labor-force unit, period, aggregation rule and readiness/source labels agree with the returned definitions.",
+        "interpretation": "Correctly distinguishes civilian labor force from residents and percent changes from percentage-point changes.",
+        "citations": "Names registered BLS/Census sources and source identifiers or URLs; a query evidence ID is not required for a definitions-only answer.",
+        "limitations": "Explains different universes and periods and the limited analytic scope; flags the source-status metadata rather than inventing observed values."
+      }
+    },
+    "M1#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct central denominator explanation. The quoted awaiting source download and domain review label really appears in assess_comparison despite ready_to_execute=true. This is conflicting tool metadata, not a fabricated blocker; reconcile the producer separately. General examples are explanatory rather than measured county values.",
+      "reasons": {
+        "tool_selection": "Uses assess_comparison for definitions and avoids an unnecessary numerical comparison.",
+        "parameters": "Registered metrics, Maryland and 2022–2024 are valid for reading the definitions.",
+        "returned_data": "Labor-force unit, period, aggregation rule and readiness/source labels agree with the returned definitions.",
+        "interpretation": "Correctly distinguishes civilian labor force from residents and percent changes from percentage-point changes.",
+        "citations": "Names registered BLS/Census sources and source identifiers or URLs; a query evidence ID is not required for a definitions-only answer.",
+        "limitations": "Explains different universes and periods and the limited analytic scope; flags the source-status metadata rather than inventing observed values."
+      }
+    },
+    "M2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "partial",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "partially correct",
+      "notes": "The main answer and California example are good, but the sentence The release/harvest timing tells you the vintage wrongly treats harvest timing as evidence of vintage. That contradicts the otherwise careful distinction.",
+      "reasons": {
+        "tool_selection": "Obtains and inspects a real example; an unemployment vocabulary lookup is unnecessary but harmless.",
+        "parameters": "Uses valid keyword/query combinations and the harvest ID returned by the successful population search.",
+        "returned_data": "California dates, null observation_period, Vintage 2026.2 and 2000–2030 distribution titles match captured results.",
+        "interpretation": "Correctly rejects harvest year as observation year, but release/harvest timing does not by itself establish the estimate vintage either.",
+        "citations": "Identifies the inspected California record, publisher and concrete metadata fields so the example is auditable.",
+        "limitations": "Explicitly separates unverified prose/file titles from actual values and notes estimates versus projections and missing temporal metadata."
+      }
+    },
+    "M3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "partial",
+      "citations": "partial",
+      "limitations": "partial",
+      "overall": "partially correct",
+      "notes": "Correct ratio-of-sums rule and registry scope. However, population weighting is asserted to be less wrong without evidence or a general guarantee. Additional state/substate methodology is not supported by either empty search or the registry, and the response ends with Two caveats.",
+      "reasons": {
+        "tool_selection": "Eventually checks the registered aggregation definition; exploratory searches return no methodological source.",
+        "parameters": "Assessment scope is valid; empty overconstrained searches are not proof about LAUS methodology.",
+        "returned_data": "Quotes the actual labor-force denominator and ratio-of-sums rule and correctly notes absent component counts.",
+        "interpretation": "Unweighted averaging is rejected correctly; less wrong population weighting is not generally guaranteed, and the answer is unfinished.",
+        "citations": "Registry attribution is traceable, but additional CPS/CES/UI/control-method claims have no supporting document in the trace.",
+        "limitations": "Identifies missing levels and scope limits, but its unreconciled state-control explanation and unfinished caveat section reduce completeness."
+      }
+    },
+    "A1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Worcester is the sole match: 54,004→54,337 (+0.616621%), unemployment 4.7→4.4 (−0.3 pp). All summary counts, filtered rows, evidence IDs and snapshot bindings match the reference. Abbreviated hashes are display citations; full hashes remain in evidence.",
+      "reasons": {
+        "tool_selection": "Follows assess → compare → retrieve evidence.",
+        "parameters": "Uses 2022–2024 Maryland, population increase and unemployment decrease; sorted result scope is appropriate.",
+        "returned_data": "Exact county set, values, overall counts and cross-tabulation agree with independent calculation and captured tool evidence.",
+        "interpretation": "Accurately distinguishes the one matching county from all 24 compared and reports percent versus percentage points.",
+        "citations": "Gives publisher URLs, vintage, evidence/query/snapshot IDs tied to the retrieved evidence.",
+        "limitations": "Explains different time summaries, denominators, descriptive non-causality and revision risk."
+      }
+    },
+    "A1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Worcester is the sole match: 54,004→54,337 (+0.616621%), unemployment 4.7→4.4 (−0.3 pp). All summary counts, filtered rows, evidence IDs and snapshot bindings match the reference. Abbreviated hashes are display citations; full hashes remain in evidence.",
+      "reasons": {
+        "tool_selection": "Follows assess → compare → retrieve evidence.",
+        "parameters": "Uses 2022–2024 Maryland, population increase and unemployment decrease; sorted result scope is appropriate.",
+        "returned_data": "Exact county set, values, overall counts and cross-tabulation agree with independent calculation and captured tool evidence.",
+        "interpretation": "Accurately distinguishes the one matching county from all 24 compared and reports percent versus percentage points.",
+        "citations": "Gives publisher URLs, vintage, evidence/query/snapshot IDs tied to the retrieved evidence.",
+        "limitations": "Explains different time summaries, denominators, descriptive non-causality and revision risk."
+      }
+    },
+    "A1#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Worcester is the sole match: 54,004→54,337 (+0.616621%), unemployment 4.7→4.4 (−0.3 pp). All summary counts, filtered rows, evidence IDs and snapshot bindings match the reference. Abbreviated hashes are display citations; full hashes remain in evidence.",
+      "reasons": {
+        "tool_selection": "Follows assess → compare → retrieve evidence.",
+        "parameters": "Uses 2022–2024 Maryland, population increase and unemployment decrease; sorted result scope is appropriate.",
+        "returned_data": "Exact county set, values, overall counts and cross-tabulation agree with independent calculation and captured tool evidence.",
+        "interpretation": "Accurately distinguishes the one matching county from all 24 compared and reports percent versus percentage points.",
+        "citations": "Gives publisher URLs, vintage, evidence/query/snapshot IDs tied to the retrieved evidence.",
+        "limitations": "Explains different time summaries, denominators, descriptive non-causality and revision risk."
+      }
+    },
+    "A2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Baltimore city, not Baltimore County: 570,663→568,271 (−2,392; −0.419162%), and 3.8→4.3 (+0.5 pp). One-county summary is correctly scoped.",
+      "reasons": {
+        "tool_selection": "Follows assess, compare and evidence retrieval.",
+        "parameters": "Explicit FIPS 24510 and 2022–2024 avoid confusing city and county.",
+        "returned_data": "All values, one-county counts and derived relative-rate change (~13%) are consistent with the evidence.",
+        "interpretation": "Correctly interprets modest population loss and distinguishes rate-point and relative-percent changes.",
+        "citations": "Provides both source URLs and matching evidence/query/snapshot identifiers.",
+        "limitations": "States annual-average versus July 1 timing, different denominators, non-causality and same-vintage/revision caveats."
+      }
+    },
+    "A3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "All 24 county rows and descending 2023–2024 growth ranking match the reference. Queen Anne’s is first, followed by Frederick and Charles; 22 increased, 2 decreased. The incidental unemployment statement is also supported.",
+      "reasons": {
+        "tool_selection": "Uses the supported comparison route and retrieves evidence; explains why the tool also returns unemployment.",
+        "parameters": "Correct 2023–2024 range, population_change sort and limit 24.",
+        "returned_data": "Entire ranking and rounded displayed values match independent calculations; all 24 unemployment rates rose in this period.",
+        "interpretation": "Ranks percentage growth, not absolute growth, and explicitly includes Baltimore city.",
+        "citations": "Gives Census source/vintage and evidence/query/snapshot IDs; identifies BLS for the additional unemployment fact.",
+        "limitations": "Reports full coverage, observation periods, descriptive-only co-movement and revision caveats."
+      }
+    },
+    "U1#1": {
+      "tool_selection": "pass",
+      "parameters": "partial",
+      "returned_data": "pass",
+      "interpretation": "partial",
+      "citations": "pass",
+      "limitations": "partial",
+      "overall": "partially correct",
+      "notes": "Refusal to invent ad-spend values is correct. But two conjunctive keyword/query searches are narrated as multiple broad searches, and none of those are in the catalog overstates the evidence, despite an earlier disclaimer.",
+      "reasons": {
+        "tool_selection": "Assesses the unsupported metric and tries discovery without substituting a computed supported metric.",
+        "parameters": "Unsupported metric is appropriate for assessment; restrictive query plus multiple keywords severely narrows both discovery attempts.",
+        "returned_data": "Correctly reports an unsupported metric and zero results for the two actual filtered searches.",
+        "interpretation": "Correct central refusal, but treating absence from two compound searches as absence from the catalog is unsupported.",
+        "citations": "Attributes registry facts and names sources; the broad advertising-availability claim has no supporting catalog inventory.",
+        "limitations": "Acknowledges zero hits are not proof of nonexistence, then contradicts that caveat with none of those are in the catalog."
+      }
+    },
+    "U2#1": {
+      "tool_selection": "pass",
+      "parameters": "partial",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correct refusal of unsupported California/2020 scope. The first 2020→2020 call is invalid, but the answer explicitly reports the failure and recovers with an assessment, not an unapproved computation. Stale source-verification text is present in the tool output.",
+      "reasons": {
+        "tool_selection": "Uses assessment only and does not execute a refused comparison.",
+        "parameters": "First start=end=2020 request violates the required increasing interval; later 2020→2024 assessment recovers but is only a diagnostic framing.",
+        "returned_data": "Accurately cites the returned geography/year incompatibilities and empty setup_blockers.",
+        "interpretation": "Distinguishes unsupported coverage from missing credentials or a successful analytical result.",
+        "citations": "Names the assessment, its inputs, source identifier and snapshot; no query/evidence ID should be invented for a refusal.",
+        "limitations": "Explains scope and alternatives and explicitly labels the first tool failure as a failure."
+      }
+    },
+    "U3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "partial",
+      "citations": "partial",
+      "limitations": "partial",
+      "overall": "partially correct",
+      "notes": "The causal refusal, all counts, examples and source citations are correct. However, population-losing counties having rising unemployment is not the opposite of the proposed growth-lowers-unemployment relationship; it is compatible with it. The claim about typical revision magnitudes is also unsupported by the trace.",
+      "reasons": {
+        "tool_selection": "Assesses, compares all counties and retrieves evidence before discussing the premise.",
+        "parameters": "Correct Maryland 2022–2024 scope without direction filtering; all 24 county results are available.",
+        "returned_data": "All counts/cross-tabs, Worcester/Frederick/Allegany examples and evidence bindings match the independent reference.",
+        "interpretation": "Declines causation correctly, but the opposite-way statement about population-losing counties is logically misleading.",
+        "citations": "Core data citations are traceable; the comparison to typical estimate-revision sizes lacks supporting revision evidence.",
+        "limitations": "Explicitly states no causal identification, period/denominator differences and revision risk, but quantifies relative revision significance without evidence."
+      }
+    },
+    "U3#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correct counts, cross-tabulation and causal refusal. No amount of this data should be read narrowly as no amount of the present descriptive comparison alone establishes causation, not a claim that richer designs can never use these series.",
+      "reasons": {
+        "tool_selection": "Runs the assessed descriptive comparison and retrieves evidence without claiming a causal tool.",
+        "parameters": "Correct 2022–2024 Maryland scope, all counties, population-change sorting.",
+        "returned_data": "18/1/5 unemployment and 21/3/0 population counts, cross-tabs and largest-rate-change examples match the reference.",
+        "interpretation": "Separates the descriptive premise check from identification; does not infer a statewide aggregate from an unweighted mean.",
+        "citations": "Provides matching evidence/query/snapshot IDs and both publisher URLs.",
+        "limitations": "Explains confounding, timing, reverse causality, periods and denominators and the need for a different causal design."
+      }
+    },
+    "U3#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correct refusal of a causal inference, accurate county counts and Worcester example, and relevant source/measurement caveats. The initial no is explained as cannot establish causation, not evidence of no causal effect.",
+      "reasons": {
+        "tool_selection": "Uses assess, compare and evidence retrieval appropriately.",
+        "parameters": "All Maryland counties, 2022–2024; county sort changes presentation only.",
+        "returned_data": "Counts/cross-tabulation and Worcester values match independent calculation and trace evidence.",
+        "interpretation": "Clearly distinguishes a descriptive county pattern from a causal claim; no invented state-level aggregate rate.",
+        "citations": "Matching evidence/query/snapshot identifiers and publisher URLs support the descriptive statements.",
+        "limitations": "Describes missing controls/counterfactual and different periods/denominators; flags source revisions and limited scope."
+      }
+    }
+  }
+}

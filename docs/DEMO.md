@@ -10,8 +10,9 @@ related_files: ["EVALUATION.md", "DATABRICKS.md"]
 # Submission artifacts
 
 Deadline: **Monday, November 23, 2026, 11:59 p.m. Eastern** (extended from Nov 20).
-A live demo is not required. Organizer templates are in
-`.local/submission/templates/`. Run `uv run python scripts/build_submission.py` to
+A live demo is not required. Organizer templates are at the repository root
+(`MCP-hackathon-sample-deck.pptx`, `MCP-hackathon-sample-evaluation-document.docx`).
+Run `uv run python scripts/build_submission.py` to
 produce the 12-slide deck and evaluation DOCX in `.local/submission/`. The deck's
 demonstration slide uses screenshots from the hosted private App saved in
 `.local/submission/screens/`; the evaluation tables are computed from the saved
@@ -22,6 +23,7 @@ November 22–23 panel files. Both documents need human proofreading before uplo
 | GitHub repository with documented MCP code | github.com/trevorspecht/gsa-mcp-hackathon-data-gov |
 | Slide deck: problem, solution, technical approach, demonstration | `.local/submission/Data.gov-Research-Hackathon.pptx` |
 | Evaluation: methodology, metrics, security, lessons | `.local/submission/Data.gov-Research-Evaluation.docx` |
+| Evaluation runs, review pages and scores | `eval/results/` in the repository |
 
 ## Demonstration questions (hosted research App)
 

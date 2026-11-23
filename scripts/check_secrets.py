@@ -38,6 +38,23 @@ if "registry/science.json" in findings:
     ]
     if not findings["registry/science.json"]:
         del findings["registry/science.json"]
+# Published evaluation runs contain SHA-256 digests, 32-hex evidence IDs and
+# 24-hex snapshot IDs. Only those exact hex JSON fields are exempt; all else applies.
+HEX_FIELD = re.compile(
+    r'\s*"[^"]{1,120}": "(?:[a-f0-9]{24}|[a-f0-9]{32}|[a-f0-9]{64})",?'
+)
+for path in [p for p in findings if p.startswith("eval/results/")]:
+    lines = Path(path).read_text().splitlines()
+    findings[path] = [
+        item
+        for item in findings[path]
+        if not (
+            item["type"] == "Hex High Entropy String"
+            and HEX_FIELD.fullmatch(lines[item["line_number"] - 1])
+        )
+    ]
+    if not findings[path]:
+        del findings[path]
 if findings:
     for path, entries in findings.items():
         for entry in entries:

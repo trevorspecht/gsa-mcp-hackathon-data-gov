@@ -1,0 +1,226 @@
+{
+  "reviewer": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+  "reviewed_at": "2026-11-23T20:56:10.691544+00:00",
+  "method": "Read every saved answer and full trace. Factual claims about catalog records (identifiers, periods, formats, licenses) were checked against the inspected metadata in the trace. County analyses were independently recomputed by eval_report.py from the reviewed 72-row snapshot. Generic-tool panel; not comparable as a controlled experiment to earlier panels.",
+  "panel": "20261122T230301Z-eval-panel.json",
+  "panel_sha256": "bb2877d3b37479788b5432b32425c91b7c9000e4b19166953cfdc8e8f046c58a",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "scores": {
+    "D1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Federal filter applied; four records listed and one inspected; EPA DOI, ScienceHub license, file name and missing details match the trace.",
+      "reasons": {
+        "tool_selection": "Catalog search with federal filter, inspection and readiness assessment.",
+        "parameters": "Organization type filter and inspected harvest ID come from the search result.",
+        "returned_data": "Titles, publishers, periods and formats match returned metadata.",
+        "interpretation": "Distinguishes study subject from verified findings; no invented observations.",
+        "citations": "DOIs, landing pages and the advertised file link are given.",
+        "limitations": "States metadata only, unverified downloads and missing dictionary/period."
+      }
+    },
+    "D2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Three HUD records correctly described; HUD044/HUD031 IDs, 2016\u20132020 period and 2013 public-use statement all present in the inspected metadata.",
+      "reasons": {
+        "tool_selection": "Search, three inspections and readiness assessment.",
+        "parameters": "IDs grounded in search results.",
+        "returned_data": "Periods, formats and access statements match the trace.",
+        "interpretation": "Separates relevance from verified compatibility; flags API label as unproven.",
+        "citations": "Catalog identifiers and portal links given.",
+        "limitations": "Lists what still needs checking per dataset and search scope."
+      }
+    },
+    "D3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Resolved Maryland to location 21 and passed it; explains extent matching; IOLP CC0 and CSV-export note match metadata.",
+      "reasons": {
+        "tool_selection": "suggest_search_filters then location-filtered search and inspections.",
+        "parameters": "location_id 21 with spatial_within false, as returned by the vocabulary tool.",
+        "returned_data": "Identifiers, formats and license match inspected records.",
+        "interpretation": "Correctly notes national datasets match by metadata extent.",
+        "citations": "DOI and catalog links with identifiers.",
+        "limitations": "Explains extent-matching limitation and unverified schemas."
+      }
+    },
+    "M1#1": {
+      "tool_selection": "pass",
+      "parameters": "n/a",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct denominator, citing the registered measure definition and BLS source.",
+      "reasons": {
+        "tool_selection": "Consulted the registry for the registered definition.",
+        "parameters": "No parameters required.",
+        "returned_data": "Definition matches registry text.",
+        "interpretation": "Clear and accurate.",
+        "citations": "Names registered dataset/measure and BLS source with catalog ID.",
+        "limitations": "Explains who is excluded from the labor force."
+      }
+    },
+    "M2#1": {
+      "tool_selection": "partial",
+      "parameters": "n/a",
+      "returned_data": "n/a",
+      "interpretation": "pass",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct conceptual answer, but no tool call; not MCP-backed.",
+      "reasons": {
+        "tool_selection": "No tools used; acceptable for a conceptual question but unverified against catalog fields.",
+        "parameters": "No tool parameters.",
+        "returned_data": "No data returned.",
+        "interpretation": "Correctly separates observation, publication and harvest dates.",
+        "citations": "No source cited.",
+        "limitations": "Advises reporting unknown periods instead of substituting harvest year."
+      }
+    },
+    "M3#1": {
+      "tool_selection": "pass",
+      "parameters": "n/a",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct labor-force-weighted aggregation; cites registered aggregation rule.",
+      "reasons": {
+        "tool_selection": "Consulted registry definition.",
+        "parameters": "No parameters required.",
+        "returned_data": "Aggregation rule matches registry.",
+        "interpretation": "Explains why simple averages mislead and notes rounding.",
+        "citations": "Registered measure and BLS source cited.",
+        "limitations": "Recommends published state series for official rate."
+      }
+    },
+    "A1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Worcester County is the sole match; automated check confirms rows, values and summary counts.",
+      "reasons": {
+        "tool_selection": "analyze_change with evidence retrieval.",
+        "parameters": "Correct dataset, measures, periods and direction filters.",
+        "returned_data": "Matches independent reference exactly.",
+        "interpretation": "Clarifies rate vs count and endpoint vs trend.",
+        "citations": "Census and BLS sources plus evidence ID.",
+        "limitations": "States temporal definitions and non-causal scope."
+      }
+    },
+    "A2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Baltimore city 24510 correctly distinguished from Baltimore County; percent and percentage-point units correct.",
+      "reasons": {
+        "tool_selection": "analyze_change and evidence.",
+        "parameters": "geography_ids 24510 and 2022/2024.",
+        "returned_data": "Values match reference.",
+        "interpretation": "Correct units and city/county distinction.",
+        "citations": "Sources and evidence ID.",
+        "limitations": "Endpoint comparison, non-causal."
+      }
+    },
+    "A3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "All 24 jurisdictions ranked correctly; 22 increased, 2 decreased matches summary counts.",
+      "reasons": {
+        "tool_selection": "analyze_change sorted by population.",
+        "parameters": "2023\u20132024, sort_by population, limit 50.",
+        "returned_data": "Rows, order and values match reference.",
+        "interpretation": "Defines growth as percent, not absolute change.",
+        "citations": "Census Vintage 2024 source and evidence ID.",
+        "limitations": "One-year change, not a long-term trend."
+      }
+    },
+    "U1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correctly states no registered advertising measure and does not substitute; asks a clarifying question.",
+      "reasons": {
+        "tool_selection": "Checked registry and catalog.",
+        "parameters": "Reasonable search terms.",
+        "returned_data": "Correctly reports no verified spending data.",
+        "interpretation": "No invented values or substituted measure.",
+        "citations": "Does not name the one catalog result it found.",
+        "limitations": "Clear about what is missing."
+      }
+    },
+    "U2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Declines California 2020\u20132024; identifies a 2004\u20132013 CDPH workbook as not matching; names correct Census/BLS sources to obtain.",
+      "reasons": {
+        "tool_selection": "Registry, two searches and readiness.",
+        "parameters": "Search terms target the request.",
+        "returned_data": "CDPH record ID and 2004\u20132013 period match trace.",
+        "interpretation": "Does not substitute Maryland data.",
+        "citations": "Record ID and link.",
+        "limitations": "Explains unit distinctions needed for a future comparison."
+      }
+    },
+    "U3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Declines causal claim; direction counts (21/3; 18/1/5; 15 both) match reference; denominator point is apt.",
+      "reasons": {
+        "tool_selection": "analyze_change, evidence, discovery and readiness.",
+        "parameters": "Default 2022\u20132024 period stated explicitly.",
+        "returned_data": "Counts match independent summary.",
+        "interpretation": "Separates county direction counts from a statewide rate; notes rising rates contradict premise.",
+        "citations": "Sources and evidence ID.",
+        "limitations": "Not proof of no effect; asks which years were meant."
+      }
+    }
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "panel": "20261119T152023Z-eval-panel.json",
+  "panel_sha256": "ae1fd7b7f17c91188f2407cb375aa117e00faca3616a9ba84dae09d1c0151e4d",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "reviewer": "GPT-6 Astra (AI-assisted review; not human certification)",
+  "reviewed_at": "2026-11-19T15:26:38.156501+00:00",
+  "method": "Reviewed every final saved answer, model completion status and trace; independently checked all eight comparisons and source hashes. Discovery checked against saved metadata only. No-tool M2 is a conceptual answer, with citation weakness noted. Model, prompt, output budget and U2 wording changed together: not a controlled model-only comparison.",
+  "scores": {
+    "D1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "EPA description, associated publication, file listing and missing observation period match the trace.",
+      "reasons": {
+        "tool_selection": "Uses catalog search and returned-record inspection; D3 resolves location first.",
+        "parameters": "Search/inspection IDs are grounded in returned results; D1 federal filter and D3 location 21 are correct.",
+        "returned_data": "Listed records and descriptions agree with captured metadata, not fetched measurements.",
+        "interpretation": "Relevance is distinguished from analytic compatibility; no invented page count.",
+        "citations": "Publisher/source links and identifiers allow records to be traced.",
+        "limitations": "States distributions were not downloaded and describes missing periods/terms or broad extents."
+      }
+    },
+    "D2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Complete shortlist and checks-to-do; HADS access caveat and CHAS 2016\u20132020 vintage correctly attributed to metadata. Seattle zoning is not misrepresented as an affordability outcome.",
+      "reasons": {
+        "tool_selection": "Uses catalog search and returned-record inspection; D3 resolves location first.",
+        "parameters": "Search/inspection IDs are grounded in returned results; D1 federal filter and D3 location 21 are correct.",
+        "returned_data": "Listed records and descriptions agree with captured metadata, not fetched measurements.",
+        "interpretation": "Relevance is distinguished from analytic compatibility; no invented page count.",
+        "citations": "Publisher/source links and identifiers allow records to be traced.",
+        "limitations": "States distributions were not downloaded and describes missing periods/terms or broad extents."
+      }
+    },
+    "D3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Real Maryland location filter and two inspected USGS records; broad extent caveat is explicit.",
+      "reasons": {
+        "tool_selection": "Uses catalog search and returned-record inspection; D3 resolves location first.",
+        "parameters": "Search/inspection IDs are grounded in returned results; D1 federal filter and D3 location 21 are correct.",
+        "returned_data": "Listed records and descriptions agree with captured metadata, not fetched measurements.",
+        "interpretation": "Relevance is distinguished from analytic compatibility; no invented page count.",
+        "citations": "Publisher/source links and identifiers allow records to be traced.",
+        "limitations": "States distributions were not downloaded and describes missing periods/terms or broad extents."
+      }
+    },
+    "M1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Grounded in the actual registry, with concise complete wording. No numerical comparison was necessary.",
+      "reasons": {
+        "tool_selection": "Checks the registered definition using assess_comparison.",
+        "parameters": "Valid registered Maryland metric pair and supported years.",
+        "returned_data": "Returned labor-force definition/aggregation supports the explanation.",
+        "interpretation": "Correct denominator.",
+        "citations": "BLS source and identifier are explicitly cited.",
+        "limitations": "Explicit definition and time/adjustment context; no stale awaiting-review claim."
+      }
+    },
+    "M2#1": {
+      "tool_selection": "pass",
+      "parameters": "n/a",
+      "returned_data": "n/a",
+      "interpretation": "pass",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Correct standalone explanation, but no source citation or live example. The automatic no-tool warning is not an environment failure; human reviewer may prefer a sourced explanation.",
+      "reasons": {
+        "tool_selection": "A conceptual metadata-date question can be answered without claiming a live lookup.",
+        "parameters": "No tool inputs needed.",
+        "returned_data": "No observed dataset values claimed; the example is explicitly hypothetical.",
+        "interpretation": "Correctly separates harvest, observation, release and vintage.",
+        "citations": "No external citation supplied; this is a conceptual answer, not a sourced live example.",
+        "limitations": "Explicitly requires unknown periods to remain unknown."
+      }
+    },
+    "M3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Grounded in the actual registry, with concise complete wording. No numerical comparison was necessary.",
+      "reasons": {
+        "tool_selection": "Checks the registered definition using assess_comparison.",
+        "parameters": "Valid registered Maryland metric pair and supported years.",
+        "returned_data": "Returned labor-force definition/aggregation supports the explanation.",
+        "interpretation": "Correct ratio of sums and labor-force weights, not population weights.",
+        "citations": "BLS source and identifier are explicitly cited.",
+        "limitations": "Explicit definition and time/adjustment context; no stale awaiting-review claim."
+      }
+    },
+    "A1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Worcester is the sole match, +0.62% population and \u22120.3 pp unemployment.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "A2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Baltimore city is correctly distinguished from Baltimore County.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "A3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. All 24 ranks match, including rounded display ties.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "U1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correct unsupported-metric refusal plus useful clarifying questions; no promise to calculate ad spend.",
+      "reasons": {
+        "tool_selection": "Uses assess_comparison to establish unsupported scope; does not execute an unsupported query.",
+        "parameters": "Unsupported metric pair is intentional for assessment.",
+        "returned_data": "No unsupported values fabricated or substituted.",
+        "interpretation": "Correctly refuses unavailable calculations.",
+        "citations": "Scope assertion is grounded in assessment; no numeric evidence ID is invented.",
+        "limitations": "Clarifies missing scope/data and limits any offer to supported computation or discovery."
+      }
+    },
+    "U2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Correct unsupported-geography/period refusal with source leads and no California data claim.",
+      "reasons": {
+        "tool_selection": "Uses assess_comparison to establish unsupported scope; does not execute an unsupported query.",
+        "parameters": "Self-contained California 2020\u20132024 input; no invalid equal-year request.",
+        "returned_data": "No unsupported values fabricated or substituted.",
+        "interpretation": "Correctly refuses unavailable calculations.",
+        "citations": "Scope assertion is grounded in assessment; no numeric evidence ID is invented.",
+        "limitations": "Clarifies missing scope/data and limits any offer to supported computation or discovery."
+      }
+    },
+    "U3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Correctly distinguishes unproven causation from proof of no effect; no invented statewide aggregate.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "M1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Grounded in the actual registry, with concise complete wording. No numerical comparison was necessary.",
+      "reasons": {
+        "tool_selection": "Checks the registered definition using assess_comparison.",
+        "parameters": "Valid registered Maryland metric pair and supported years.",
+        "returned_data": "Returned labor-force definition/aggregation supports the explanation.",
+        "interpretation": "Correct denominator.",
+        "citations": "BLS source and identifier are explicitly cited.",
+        "limitations": "Explicit definition and time/adjustment context; no stale awaiting-review claim."
+      }
+    },
+    "M1#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Grounded in the actual registry, with concise complete wording. No numerical comparison was necessary.",
+      "reasons": {
+        "tool_selection": "Checks the registered definition using assess_comparison.",
+        "parameters": "Valid registered Maryland metric pair and supported years.",
+        "returned_data": "Returned labor-force definition/aggregation supports the explanation.",
+        "interpretation": "Correct denominator.",
+        "citations": "BLS source and identifier are explicitly cited.",
+        "limitations": "Explicit definition and time/adjustment context; no stale awaiting-review claim."
+      }
+    },
+    "A1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Worcester is the sole match, +0.62% population and \u22120.3 pp unemployment.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "A1#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Worcester is the sole match, +0.62% population and \u22120.3 pp unemployment.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "U3#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Correctly distinguishes unproven causation from proof of no effect; no invented statewide aggregate.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    },
+    "U3#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Independent numeric checks passed; evidence retrieved and model reported completed. Correctly distinguishes unproven causation from proof of no effect; no invented statewide aggregate.",
+      "reasons": {
+        "tool_selection": "Assessment, comparison and evidence retrieval completed in order.",
+        "parameters": "Requested scope/filters/sort agree with the question; U3 explicitly states its assumed 2022\u20132024 scope.",
+        "returned_data": "All numeric rows, counts and source hashes match the independent snapshot reference.",
+        "interpretation": "Correct units and descriptive interpretation; county counts are not treated as statewide rates.",
+        "citations": "Census/BLS source links and the retrieved evidence ID support the answer.",
+        "limitations": "Relevant scope, temporal-summary and non-causality caveats are stated in the answer."
+      }
+    }
+  }
+}

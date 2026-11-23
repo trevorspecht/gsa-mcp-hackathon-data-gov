@@ -1,0 +1,191 @@
+{
+  "panel": "20261118T161659Z-eval-panel.json",
+  "scores": {
+    "D1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "D2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "returned_data": "pass"
+    },
+    "D3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "partial",
+      "citations": "pass",
+      "returned_data": "partial",
+      "overall": "partially correct"
+    },
+    "M1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "limitations": "partial",
+      "citations": "pass",
+      "interpretation": "pass",
+      "returned_data": "pass",
+      "overall": "correct",
+      "notes": "The \"Practical implications for interpretation\" section includes the statement: \"the caveats flag this explicitly.\" However, caveats are in the full response json, and not otherwise referenced in the agent's text, so it's not clear what it means by \"caveats\"."
+    },
+    "M1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "M1#3": {
+      "tool_selection": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "pass"
+    },
+    "M2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct"
+    },
+    "M3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "returned_data": "partial",
+      "citations": "pass",
+      "limitations": "partial",
+      "overall": "partially correct"
+    },
+    "A1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "A1#2": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "A1#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct"
+    },
+    "A2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct"
+    },
+    "A3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "U1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "limitations": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "U2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "limitations": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "U3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "partial",
+      "limitations": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct"
+    },
+    "U3#2": {
+      "interpretation": "pass",
+      "parameters": "pass",
+      "tool_selection": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "overall": "correct",
+      "limitations": "pass"
+    },
+    "U3#3": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "interpretation": "pass",
+      "returned_data": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct"
+    }
+  },
+  "reviewer": "Human project owner (browser scores)",
+  "exported_at": "2026-11-19T05:01:00.818772+00:00",
+  "panel_sha256": "a6e5106349bff0e60ca02f01274ee10761b5850964656498b6c7055c32b7612d",
+  "corrections": [
+    {
+      "at": "2026-11-19T05:05:25.373217+00:00",
+      "authority": "User explicitly requested all three U3 repeats be correct overall; individual criteria unchanged.",
+      "changes": {
+        "U3#1": {
+          "previous": "partially correct",
+          "corrected": "correct"
+        },
+        "U3#2": {
+          "previous": "partially correct",
+          "corrected": "correct"
+        },
+        "U3#3": {
+          "previous": "correct",
+          "corrected": "correct"
+        }
+      }
+    }
+  ]
+}

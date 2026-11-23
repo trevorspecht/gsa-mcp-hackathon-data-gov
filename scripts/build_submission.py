@@ -101,12 +101,13 @@ SLIDES = [
         "Evaluation results",
         "25/25 runs completed; 0 tool errors; median 16 s per question "
         "(range 7–36 s).\n"
+        "AI review: 19 correct, 6 correct abstentions, 0 partial or wrong.\n"
         "All 4 county analyses matched the reference (rows, values, summary counts).\n"
-        "All 8 climate/agriculture series checks matched the frozen publisher data.\n"
+        "All 9 climate/agriculture series checks matched the frozen publisher data.\n"
         "Correlation questions: compatibility checked, geography mismatch explained, "
         "no correlation invented.\n"
-        "Iterative improvement since Nov 18: Opus 5 → GPT-6.1 Sol, summary counts, "
-        "completion checks, generic tools. Not a controlled model comparison.",
+        "17 runs since Nov 18, failures included, in eval/results/. Changes across "
+        "rounds: model, prompt, summary counts, generic tools; not controlled.",
     ),
     (
         "Security considerations",
@@ -145,7 +146,7 @@ SCREENS = [
 
 
 def main():
-    template = OUT / "templates/MCP-hackathon-sample-deck.pptx"
+    template = ROOT / "MCP-hackathon-sample-deck.pptx"
     deck = Presentation(template)
     if len(deck.slides) != len(SLIDES):
         raise ValueError("Organizer template slide count changed")
@@ -322,8 +323,16 @@ EVALUATION = [
             "Earlier panels (Nov 18–19, Opus 5 then GPT-6.1 Sol) are retained. The "
             "final human review of the Nov 18 panel scored 16 correct and 2 partially "
             "correct. Model, prompt and tools changed between rounds, so these are "
-            "not a controlled model comparison. Human and AI scoring of the Nov 22–23 "
-            "panels is pending.",
+            "not a controlled model comparison.",
+            "AI review of the 25 current-system runs (GPT-6.1 Sol reviewer, reading "
+            "every answer and full trace and checking catalog claims against the "
+            "inspected metadata): 19 correct and 6 correct abstentions; no partial "
+            "or wrong answers. Criterion-level weaknesses: M2 and S7 used no tools "
+            "(M2 also cites no source); L2 skipped the readiness check for a brief "
+            "list; U1 did not name the one catalog record it found. The AI review "
+            "is advisory and separate from human scoring; the same model family "
+            "produced and reviewed the answers. Human scoring of these runs has "
+            "not been done.",
         ],
     ),
     (
@@ -399,8 +408,8 @@ EVALUATION = [
             "Only five datasets can return observations; most catalog records are "
             "discovery-only. The climate and agricultural series cover different "
             "geography, so they cannot support a correlation. No conversation memory. "
-            "Small evaluation sample; no no-tool baseline; scoring of the newest "
-            "panels is pending. The Databricks workspace is temporary.",
+            "Small evaluation sample; no no-tool baseline; the current runs have AI "
+            "but not human scores. The Databricks workspace is temporary.",
         ],
     ),
     (
@@ -449,7 +458,7 @@ def panel_rows():
 
 
 def write_evaluation():
-    document = Document(OUT / "templates/MCP-hackathon-sample-evaluation-document.docx")
+    document = Document(ROOT / "MCP-hackathon-sample-evaluation-document.docx")
     body = document._element.body
     for child in list(body):
         if not child.tag.endswith("sectPr"):
@@ -475,8 +484,8 @@ def write_evaluation():
             for line in [
                 "Numeric accuracy: all 4 county analyses (A1, A2, A3, U3) matched "
                 "the independent reference for rows, order, values and summary "
-                "counts. All 8 science checks (S1–S4, S6, Q1, Q2) matched the "
-                "frozen publisher-derived snapshot.",
+                "counts. All 9 series checks across seven questions (S1–S4, S6, "
+                "Q1, Q2) matched the frozen publisher-derived snapshot.",
                 "Boundaries: unsupported geography (California), measure "
                 "(advertising spend), causation, interpolation of a missing year, "
                 "and a climate–practice join were all declined with explanations. "
@@ -494,8 +503,10 @@ def write_evaluation():
         "Commands: make check (lint, 99 tests, docs, secret scan, static "
         "analysis, dependency audit, build); scripts/run_eval.py --questions "
         "<panel>; scripts/eval_report.py <panel>. Method details: "
-        "docs/EVALUATION.md, docs/SCIENCE.md, docs/RESEARCH_UI.md. Run files and "
-        "review pages are kept privately and can be shared with judges on request."
+        "docs/EVALUATION.md, docs/SCIENCE.md, docs/RESEARCH_UI.md. All 17 run "
+        "files since Nov 18 — including failed and interrupted runs — plus HTML "
+        "review pages and AI/human score files are in eval/results/ in the "
+        "repository; open any review page in a browser."
     )
     document.save(OUT / "Data.gov-Research-Evaluation.docx")
 
