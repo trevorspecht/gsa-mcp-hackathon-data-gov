@@ -10,10 +10,11 @@ related_files: ["EVALUATION.md", "DATABRICKS.md"]
 # Submission artifacts
 
 Deadline: **Monday, November 23, 2026, 11:59 p.m. Eastern** (extended from Nov 20).
-A live demo is not required. Organizer templates are at the repository root
-(`MCP-hackathon-sample-deck.pptx`, `MCP-hackathon-sample-evaluation-document.docx`).
-Run `uv run python scripts/build_submission.py` to
-produce the 12-slide deck and evaluation DOCX in `.local/submission/`. The deck's
+A live demo is not required. Organizer templates are kept locally in
+`.local/submission/templates/`. Run `uv run python scripts/build_submission.py` to
+produce the 12-slide deck (`scripts/build_deck.py`, following the sample deck's slide
+sequence and title-bar style, with diagrams, an evaluation-progress chart and key
+numbers) and evaluation DOCX in `.local/submission/`. The deck's
 demonstration slide uses screenshots from the hosted private App saved in
 `.local/submission/screens/`; the evaluation tables are computed from the saved
 November 22–23 panel files. Both documents need human proofreading before upload.

@@ -3,207 +3,16 @@
 import json
 from pathlib import Path
 
+from build_deck import build_deck
 from docx import Document
-from pptx import Presentation
-from pptx.util import Inches, Pt
+from docx.shared import Pt
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / ".local/submission"
-SLIDES = [
-    (
-        "Data.gov Research",
-        "From a plain-language question to discoverable public data, and, where "
-        "supported, a verifiable answer.\n"
-        "Trevor Specht · GSA MCP / AI Agent Hackathon · November 2026\n"
-        "Track: Dataset Access Server. A working stage in an ongoing project.",
-    ),
-    (
-        "The challenge: finding data is not answering a question",
-        "Data.gov lists hundreds of thousands of datasets with inconsistent "
-        "metadata, formats, periods and definitions.\n"
-        "A search hit does not show whether data can be retrieved, compared or "
-        "used to answer the question.\n"
-        "AI assistants without a structured layer guess: invented values, "
-        "mismatched units, causal overreach.\n"
-        "Mission: make public data usable for government and non-government "
-        "research, service delivery and oversight.",
-    ),
-    (
-        "The solution: discover, assess, query, explain",
-        "Search across all of Data.gov in plain language.\n"
-        "Rank candidates and say plainly which can be queried now and which need "
-        "setup work.\n"
-        "Query reviewed datasets and return values with units, definitions, "
-        "sources and evidence IDs.\n"
-        "Check whether datasets can be compared before relating them, and suggest "
-        "next steps when the evidence is inconclusive.",
-    ),
-    (
-        "Architecture",
-        "Research App (Streamlit) → Databricks-hosted GPT-6.1 Sol agent → "
-        "authenticated MCP server App.\n"
-        "MCP server → Data.gov catalog API (discovery) and a reviewed dataset "
-        "registry (data).\n"
-        "Registry connectors: Databricks SQL warehouse table, packaged reviewed "
-        "snapshot, fixed-route publisher CSV refresh.\n"
-        "The UI has no direct warehouse access; all data flows through validated "
-        "MCP tools. Configuration lives in code (bundle + Terraform).",
-    ),
-    (
-        "Key decision: generic tools, reviewed data as configuration",
-        "Nine tools, none specific to a dataset or question: search, inspect, "
-        "filters, readiness, list_queryable_datasets, query_dataset, "
-        "analyze_change, assess_compatibility, evidence.\n"
-        "Dataset facts (measures, units, definitions, geography, periods, sources) "
-        "live in registry/datasets.json.\n"
-        "Adding a dataset means a reviewed registry entry, not a new tool.\n"
-        "Change rules come from the registry: percent for population, percentage "
-        "points for unemployment rates.",
-    ),
-    (
-        "Key decision: discovery is broader than computation",
-        "Any Data.gov record can be found and inspected; only reviewed datasets "
-        "return observations.\n"
-        "Readiness labels: ready within reviewed scope, setup required, access "
-        "route unverified, metadata only.\n"
-        "Tools never accept SQL, table names or URLs; SQL is generated from "
-        "registry identifiers with bound parameters.\n"
-        "Compatibility checks compare geography and periods; the server never "
-        "computes correlations or causal estimates.",
-    ),
-    (
-        "Key decision: evidence and honest limits",
-        "Every query and analysis saves an evidence record: parameters, SQL or "
-        "source hash, sources and rows.\n"
-        "Summary counts cover every compared geography, so the agent quotes "
-        "counts instead of counting rows.\n"
-        "Missing years stay missing; endpoint change is never presented as a trend.\n"
-        "Unsupported questions get a clear boundary plus useful discovery, not a "
-        "substituted answer.",
-    ),
-    (
-        "Demonstration: answer first, details in tabs",
-        "",
-    ),
-    (
-        "Evaluation setup",
-        "Three panels, 25 questions, run on the generic tools (Nov 22–23): core "
-        "(12), user workflows (4), science and inventory (9).\n"
-        "Categories: discovery, methodology, analysis, unsupported and "
-        "adversarial requests.\n"
-        "Each run saves the exact prompt, model settings, source hashes, tool "
-        "trace and completion status.\n"
-        "Numbers are checked by independent arithmetic against the publisher "
-        "data, not by an LLM judge.\n"
-        "Offline HTML review pages support separate human and AI rubric scoring.",
-    ),
-    (
-        "Evaluation results",
-        "25/25 runs completed; 0 tool errors; median 16 s per question "
-        "(range 7–36 s).\n"
-        "AI review (Claude Opus 5.5, second opinion GPT-6 Astra): 19 correct, 6 "
-        "correct abstentions; no score changed between reviewers.\n"
-        "All 4 county analyses matched the reference (rows, values, summary counts).\n"
-        "All 9 climate/agriculture series checks matched the frozen publisher data.\n"
-        "Correlation questions: compatibility checked, geography mismatch explained, "
-        "no correlation invented.\n"
-        "17 runs since Nov 18, failures included, in eval/results/. Changes across "
-        "rounds: model, prompt, summary counts, generic tools; not controlled.",
-    ),
-    (
-        "Security considerations",
-        "Public government data only; private, authenticated Databricks Apps.\n"
-        "Pydantic-validated inputs; fixed origins; bound SQL parameters; no "
-        "redirects; time, byte, row and tool-call budgets.\n"
-        "Catalog metadata treated as untrusted data, never as instructions.\n"
-        "Secrets kept out of source and staging; secret scan, static analysis and "
-        "dependency audit in CI.\n"
-        "Adversarial SQL/localhost request refused. Not a full penetration test.",
-    ),
-    (
-        "Lessons learned and next steps",
-        "Real publisher files exposed encoding, file-name and series-ID errors "
-        "that synthetic tests missed.\n"
-        "Keeping tools generic forced a clear line between code and reviewed data.\n"
-        "Deployment drift is real: releases now go through the code-based bundle.\n"
-        "Next: more registry datasets and connectors, matched-geography sources, "
-        "conversational memory, durable evidence, a new Databricks workspace.\n"
-        "Repository: github.com/trevorspecht/gsa-mcp-hackathon-data-gov",
-    ),
-]
-
-SCREENS = [
-    (
-        "q-answer.png",
-        "“Is there a correlation between climate patterns and agricultural "
-        "practices…?” Answer tab: limits explained first; no invented correlation.",
-    ),
-    (
-        "charts.png",
-        "“Which Maryland counties gained population while unemployment fell?” "
-        "Data & charts tab: generic bars from analyze_change (Worcester County).",
-    ),
-]
 
 
 def main():
-    template = ROOT / "MCP-hackathon-sample-deck.pptx"
-    deck = Presentation(template)
-    if len(deck.slides) != len(SLIDES):
-        raise ValueError("Organizer template slide count changed")
-    for slide, (title, body) in zip(deck.slides, SLIDES, strict=True):
-        for shape in list(slide.shapes):
-            element = shape._element
-            element.getparent().remove(element)
-        titlebox = slide.shapes.add_textbox(
-            Inches(0.55), Inches(0.35), deck.slide_width - Inches(1.1), Inches(0.8)
-        )
-        titlebox.text_frame.text = title
-        titlebox.text_frame.paragraphs[0].font.size = Pt(27)
-        box = slide.shapes.add_textbox(
-            Inches(0.65),
-            Inches(1.4),
-            deck.slide_width - Inches(1.3),
-            deck.slide_height - Inches(1.7),
-        )
-        frame = box.text_frame
-        frame.word_wrap = True
-        for i, line in enumerate(body.splitlines()):
-            paragraph = frame.paragraphs[0] if i == 0 else frame.add_paragraph()
-            paragraph.text = line
-            paragraph.font.size = Pt(17)
-            paragraph.space_after = Pt(10)
-        slide.notes_slide.notes_text_frame.text = (
-            "Adapted from organizer template; all project claims refer to "
-            "saved actual evidence. " + body
-        )
-    # Slide 8: actual hosted UI screenshots captured during browser verification.
-    slide = deck.slides[7]
-    element = slide.shapes[-1]._element
-    element.getparent().remove(element)
-    width = (deck.slide_width - Inches(1.2)) / len(SCREENS)
-    for index, (name, caption) in enumerate(SCREENS):
-        left = Inches(0.45) + index * width
-        slide.shapes.add_picture(
-            str(OUT / "screens" / name), left, Inches(1.2), width=width - Inches(0.2)
-        )
-        label = slide.shapes.add_textbox(
-            left, Inches(3.95), width - Inches(0.2), Inches(0.7)
-        )
-        label.text_frame.word_wrap = True
-        label.text_frame.text = caption
-        label.text_frame.paragraphs[0].font.size = Pt(11)
-    foot = slide.shapes.add_textbox(Inches(0.6), Inches(4.95), Inches(8.8), Inches(0.5))
-    foot.text_frame.word_wrap = True
-    foot.text_frame.text = (
-        "Two questions in the hosted private App, Nov 23. Five tabs: Answer · "
-        "Sources (datasets used, then other candidates, with links) · Data & charts "
-        "· Explore further (select datasets, preview, compatibility, next step) · "
-        "Evaluation (tool trace, evidence download)."
-    )
-    foot.text_frame.paragraphs[0].font.size = Pt(11)
-    deck.save(OUT / "Data.gov-Research-Hackathon.pptx")
-
+    build_deck()
     write_evaluation()
     print("Wrote template-based PPTX and DOCX to", OUT)
 
@@ -463,7 +272,7 @@ def panel_rows():
 
 
 def write_evaluation():
-    document = Document(ROOT / "MCP-hackathon-sample-evaluation-document.docx")
+    document = Document(OUT / "templates/MCP-hackathon-sample-evaluation-document.docx")
     body = document._element.body
     for child in list(body):
         if not child.tag.endswith("sectPr"):
