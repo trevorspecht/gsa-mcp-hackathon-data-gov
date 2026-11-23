@@ -1,5 +1,5 @@
 {
-  "reviewer": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+  "reviewer": "Claude Opus 5.5 (AI-assisted review; not human certification)",
   "reviewed_at": "2026-11-23T20:56:10.691544+00:00",
   "method": "Read every saved answer and full trace. Factual claims about catalog records (identifiers, periods, formats, licenses) were checked against the inspected metadata in the trace. County analyses were independently recomputed by eval_report.py from the reviewed 72-row snapshot. Generic-tool panel; not comparable as a controlled experiment to earlier panels.",
   "panel": "20261122T230301Z-eval-panel.json",
@@ -222,5 +222,10 @@
         "limitations": "Not proof of no effect; asks which years were meant."
       }
     }
+  },
+  "reviewer_correction": {
+    "at": "2026-11-23T21:55:00+00:00",
+    "previous_label": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+    "note": "Reviewer label corrected by the project owner: this review was performed by Claude Opus 5.5. GPT-6.1 Sol generated the evaluated answers, not this review. Scores, reasons and method text are unchanged."
   }
 }

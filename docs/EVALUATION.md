@@ -48,21 +48,16 @@ are published with their HTML review pages and score files in
 After the tools were made dataset-agnostic, three panels (25 runs: core
 `20261122T230301Z`, user workflows `20261123T161211Z`, science/inventory
 `20261123T161339Z`) completed 25/25 with no tool errors. Every county analysis and
-series check matched the independent reference. A separate AI review (GPT-6.1 Sol,
-read-only, bound to each panel's SHA-256) scored 19 correct and 6 correct
-abstentions. Criterion-level weaknesses: M2 and S7 used no tools, M2 cites no
-source, L2 skipped the readiness check for a brief list, and U1 did not name the
-catalog record it found. The same model family produced and reviewed the answers;
-human scoring of these runs has not been done.
+series check matched the independent reference.
 
-A subsequent GPT-6 Astra second-pass review independently checked the same 25
-saved responses and retained the same overall totals (19 correct, 6 correct
-abstentions), with five criterion-level disagreements. It does not penalize
-justified no-tool behavior; it flags citation traceability in D3 and R2. Prior
-scores/reports are preserved alongside separately named Astra files. See
-[review methods and disagreements](../eval/results/ASTRA-REVIEW.md). Previous
-reviewer labels were not independently attested, and this was not a blinded or
-controlled model-family comparison.
+Two AI reviewers from different model families scored all 25 runs: Claude Opus 5.5,
+then GPT-6 Astra as a second opinion requested by the project owner. Neither
+generated the answers (GPT-6.1 Sol did). **No overall score changed:** both give 19
+correct and 6 correct abstentions, with no partial or wrong answers. Five of 150
+criterion grades differ (citation traceability in D3 and R2; tool-selection or
+citation applicability in M2, U1 and L2). Astra saw the Opus scores, so the second
+review was not blinded. Human scoring of these runs has not been done. Details:
+[second-opinion review](../eval/results/SECOND-OPINION-REVIEW.md).
 
 ## Run and review
 

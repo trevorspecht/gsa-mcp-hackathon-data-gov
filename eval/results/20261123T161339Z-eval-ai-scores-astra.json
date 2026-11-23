@@ -1,12 +1,12 @@
 {
   "reviewer": "GPT-6 Astra (independent second-pass AI review; user-selected reviewer)",
   "reviewed_at": "2026-11-23T21:42:29.086353+00:00",
-  "method": "New assessment of all saved answers, tool arguments and returned evidence. Catalog descriptions, periods, terms and distribution links checked against captured metadata; no new publisher downloads or answer reruns. Existing independent numeric reference checks rerun, with extra county-endpoint, change-unit and evidence-ID checks. Same six-criterion rubric; n/a when no evidence is required, pass for justified no-tool refusal. Prior review was visible, so this is not a blinded review. Review is relative to saved evidence, not independent domain certification or a security audit. Prior reviewer labels are retained as historical metadata, not independently attested model identities.",
+  "method": "New assessment of all saved answers, tool arguments and returned evidence. Catalog descriptions, periods, terms and distribution links checked against captured metadata; no new publisher downloads or answer reruns. Existing independent numeric reference checks rerun, with extra county-endpoint, change-unit and evidence-ID checks. Same six-criterion rubric; n/a when no evidence is required, pass for justified no-tool refusal. Prior review was visible, so this is not a blinded review. Review is relative to saved evidence, not independent domain certification or a security audit. Prior review was by Claude Opus 5.5, a different model family from both Astra and the GPT-6.1 Sol answer model.",
   "panel": "20261123T161339Z-eval-panel.json",
   "panel_sha256": "ea8ca68f78baec91355ff2b24bb1b45506441d0f92e782bc0b2aacdd80790258",
   "snapshot_id": "ad9580ad34ac9575d0867709",
   "prior_review": "20261123T161339Z-eval-ai-scores.json",
-  "prior_review_sha256": "c0066e721c307f323beee3ef8d9dcc2036e535ccb19727ebc215b5951effd774",
+  "prior_review_sha256": "529c78bd22fe4eb6d90885f5f309b3f70a1130e2282133b2637abb17b898215c",
   "scores": {
     "R1#1": {
       "tool_selection": "pass",

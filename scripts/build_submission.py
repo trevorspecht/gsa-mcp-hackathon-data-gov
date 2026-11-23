@@ -101,7 +101,8 @@ SLIDES = [
         "Evaluation results",
         "25/25 runs completed; 0 tool errors; median 16 s per question "
         "(range 7–36 s).\n"
-        "Astra re-review: 19 correct, 6 correct abstentions; human scoring pending.\n"
+        "AI review (Claude Opus 5.5, second opinion GPT-6 Astra): 19 correct, 6 "
+        "correct abstentions; no score changed between reviewers.\n"
         "All 4 county analyses matched the reference (rows, values, summary counts).\n"
         "All 9 climate/agriculture series checks matched the frozen publisher data.\n"
         "Correlation questions: compatibility checked, geography mismatch explained, "
@@ -324,19 +325,19 @@ EVALUATION = [
             "final human review of the Nov 18 panel scored 16 correct and 2 partially "
             "correct. Model, prompt and tools changed between rounds, so these are "
             "not a controlled model comparison.",
-            "GPT-6 Astra independently re-reviewed all 25 saved current-system "
-            "answers and their captured evidence on November 23: 19 correct and "
-            "6 correct abstentions, agreeing with the previous overall grades. "
-            "Five criterion grades differ: D3/R2 citation traceability is partial; "
-            "M2 tool selection and U1 citations are not applicable; L2 tool "
-            "selection passes for the explicitly brief list. S7 correctly calls "
-            "no tools for an unsafe request. M2 citations remain partial.",
-            "Separate Astra JSON/HTML files preserve prior reviews and human scores. "
-            "The numerical checks were rerun; this review did not regenerate "
-            "answers or re-fetch publisher data. Prior grades were visible, so "
-            "this was not blinded. Historical reviewer labels were not independently "
-            "attested; no controlled model-family comparison is claimed. See "
-            "eval/results/ASTRA-REVIEW.md. Human scoring remains pending.",
+            "Two AI reviewers from different model families scored all 25 "
+            "current-system runs, reading every answer and full trace and checking "
+            "catalog claims against the inspected metadata: Claude Opus 5.5, then "
+            "GPT-6 Astra as a second opinion. Neither generated the answers "
+            "(GPT-6.1 Sol did). No overall score changed: both give 19 correct and "
+            "6 correct abstentions, with no partial or wrong answers.",
+            "Five of 150 criterion grades differ: Astra rates citations partial for "
+            "D3 (a link built from a catalog slug) and R2 (shortened identifiers), "
+            "rates M2 tool selection and U1 citations not applicable, and L2 tool "
+            "selection a pass for the brief list. Both agree S7 correctly used no "
+            "tools for an unsafe request. Astra saw the Opus scores, so the second "
+            "review was not blinded. Human scoring of these runs has not been done. "
+            "See eval/results/SECOND-OPINION-REVIEW.md.",
         ],
     ),
     (

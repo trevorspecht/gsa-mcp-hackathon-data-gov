@@ -1,5 +1,5 @@
 {
-  "reviewer": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+  "reviewer": "Claude Opus 5.5 (AI-assisted review; not human certification)",
   "reviewed_at": "2026-11-23T20:56:10.693390+00:00",
   "method": "Read every saved answer and full trace; claims about catalog records were checked against inspected metadata. Science values were checked against the frozen snapshot by eval_report.py. Questions are phrased as a user would and never name tools.",
   "panel": "20261123T161211Z-eval-panel.json",
@@ -78,5 +78,10 @@
         "limitations": "Allocated estimates, not adoption rate."
       }
     }
+  },
+  "reviewer_correction": {
+    "at": "2026-11-23T21:55:00+00:00",
+    "previous_label": "GPT-6.1 Sol (AI-assisted review; not human certification)",
+    "note": "Reviewer label corrected by the project owner: this review was performed by Claude Opus 5.5. GPT-6.1 Sol generated the evaluated answers, not this review. Scores, reasons and method text are unchanged."
   }
 }
