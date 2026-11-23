@@ -138,6 +138,8 @@ async def test_packaged_dataset_query_and_change(settings):
             )
         ).data
         assert change["rows"][0]["cover_crop_area_change"] == 1289.0575
+        assert change["title"].startswith("Chesapeake Bay watershed")
+        assert change["geography"]["level"] == "watershed"
         gap = (
             await client.call_tool(
                 "analyze_change",

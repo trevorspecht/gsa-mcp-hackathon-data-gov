@@ -483,6 +483,8 @@ class Datasets:
         result = {
             "status": "complete",
             "dataset_id": dataset["id"],
+            "title": dataset["title"],
+            "geography": public_geography(dataset),
             "start_period": request.start_period,
             "end_period": request.end_period,
             "measures": [
@@ -577,6 +579,10 @@ class Datasets:
                 "Search the catalog for sources sharing geography and periods",
             ],
         }
+
+
+def public_geography(dataset):
+    return {k: v for k, v in dataset["geography"].items() if k != "single"}
 
 
 def _number(value):

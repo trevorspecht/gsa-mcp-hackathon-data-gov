@@ -84,12 +84,19 @@ and preview download visible; no SyntaxError. No data/tool/grant changes.
   county analyses (A1, A2, A3, U3) pass independent row/value/count reference
   checks; M1/M3 cite registered definitions. M2 answered without tool calls.
   Human/AI scoring pending.
-- Workflow and science panels INCOMPLETE: L1/L2 completed; Q1 ReadTimeout;
-  Q2, R1, R2 hit 400 s runner timeouts when this machine lost all outbound
-  connectivity (Databricks, GitHub and general sites timing out, ~23:30 UTC).
-  Remaining science panel stopped. Failures retained; rerun after network recovers.
-- Tabbed UI deployed (SUCCEEDED, users CAN_USE preserved) but hosted browser
-  verification BLOCKED by the same outage. Commit/push pending network recovery.
+- Network outage Nov 22 (~23:30 UTC) interrupted workflow/science panels;
+  failed runs retained in 20261122T230554Z and 20261122T232926Z.
+- Nov 23 reruns after recovery: workflow 20261123T161211Z 4/4 complete; science
+  20261123T161339Z 9/9 complete. All seven series checks pass the frozen
+  reference; Q1/S5 call assess_compatibility and report geography mismatch rather
+  than computing a correlation. S7 (unsafe SQL/localhost request) refused without
+  tools. Review HTML generated; human/AI scoring pending.
+- Hosted browser verification passed: five tabs; Answer tab answer-only; Sources
+  lists used registry dataset and publisher links; Data & charts renders generic
+  bar charts (cover crops; two county measures); Explore further preview and
+  compatibility work. No UI errors. Fixed missing dataset title/geography on
+  analyze_change results (Sources/charts showed raw IDs); MCP re-released through
+  the bundle. Commit 7e96387 pushed; follow-up fix committed separately.
 
 ## Guided selected-data exploration — November 22
 
