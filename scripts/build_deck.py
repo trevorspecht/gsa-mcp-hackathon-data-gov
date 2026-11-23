@@ -314,15 +314,15 @@ def slide_overview(slide):
             (
                 "p",
                 "Python FastMCP server deployed as an authenticated Databricks App. "
-                "A GPT-6.1 Sol agent calls its nine tools; a separate research App "
-                "is the user interface.",
+                "Any MCP-capable agent can call its nine tools (the model is "
+                "configurable); a separate research App is the user interface.",
             ),
         ],
         size=11,
     )
     boxes = [
         (0.25, "Research App\n(Streamlit UI)", GREY),
-        (2.15, "Databricks agent\nGPT-6.1 Sol", GREY),
+        (2.15, "AI agent\n(configurable model)", GREY),
         (4.05, "MCP server App\n9 generic tools", PALE),
     ]
     for left, label, fill in boxes:
@@ -700,7 +700,7 @@ def slide_eval_setup(slide):
             ("b2", "Core (12): discovery, definitions, county analysis, unsupported"),
             ("b2", "User workflows (4): natural questions that never name tools"),
             ("b2", "Science and inventory (9): climate, practices, joins, unsafe SQL"),
-            ("n", "Agent: GPT-6.1 Sol on Databricks (Responses API)"),
+            ("n", "Agent: Databricks-hosted model, configured in code"),
             (
                 "b2",
                 "Low reasoning effort, 4,000 output tokens, ≤10 turns, ≤12 tool calls",
@@ -756,9 +756,13 @@ def evaluation_rounds():
         return round(100 * done / len(runs))
 
     return [
-        ("Nov 18\nOpus 5", completed("20261118T161659Z"), scored("20261118T161659Z")),
         (
-            "Nov 19\nGPT-6.1 Sol",
+            "Nov 18\nfirst panel",
+            completed("20261118T161659Z"),
+            scored("20261118T161659Z"),
+        ),
+        (
+            "Nov 19\nrevised prompt",
             completed("20261119T152023Z"),
             scored("20261119T152023Z"),
         ),
@@ -822,7 +826,7 @@ def slide_eval_results(slide):
                 "Nov 18: AI review of 18 trials (human review: 16 of 18 "
                 "fully correct). "
                 "Nov 19 and Nov 22–23: AI review; both Opus 5.5 and Astra agree on "
-                "Nov 22–23. Model, prompt and tools changed together: not a "
+                "Nov 22–23. Agent model, prompt and tools changed together: not a "
                 "controlled comparison.",
             ),
         ],
