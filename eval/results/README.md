@@ -15,6 +15,12 @@ call with arguments and results, model completion metadata and timing. Open any
 `*-eval-review.html` in a browser for answers, full traces, automated checks and
 rubric scoring fields (human scores are stored only in your browser).
 
+**November 23 second-pass review:** see [Astra review and disagreements](ASTRA-REVIEW.md).
+The three current-system panels now also have `*-eval-ai-scores-astra.json` and
+`*-eval-review-astra.html`. Original reviews and human scores are preserved.
+Both AI reviews agree on 19 correct / 6 correct abstentions; five criterion grades
+differ. Reviewer names are recorded provenance, not independently attested runtime identities.
+
 Score files are bound to the exact panel file by SHA-256:
 
 - `*-eval-ai-scores.json`: read-only AI review, never a substitute for a human score.

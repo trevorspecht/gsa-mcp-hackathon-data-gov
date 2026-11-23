@@ -1,0 +1,228 @@
+{
+  "reviewer": "GPT-6 Astra (independent second-pass AI review; user-selected reviewer)",
+  "reviewed_at": "2026-11-23T21:42:29.082374+00:00",
+  "method": "New assessment of all saved answers, tool arguments and returned evidence. Catalog descriptions, periods, terms and distribution links checked against captured metadata; no new publisher downloads or answer reruns. Existing independent numeric reference checks rerun, with extra county-endpoint, change-unit and evidence-ID checks. Same six-criterion rubric; n/a when no evidence is required, pass for justified no-tool refusal. Prior review was visible, so this is not a blinded review. Review is relative to saved evidence, not independent domain certification or a security audit. Prior reviewer labels are retained as historical metadata, not independently attested model identities.",
+  "panel": "20261122T230301Z-eval-panel.json",
+  "panel_sha256": "bb2877d3b37479788b5432b32425c91b7c9000e4b19166953cfdc8e8f046c58a",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "prior_review": "20261122T230301Z-eval-ai-scores.json",
+  "prior_review_sha256": "19222fee57f7092e8e1e2ef494131070379e77b7c046fcf74d9fc43018b36b7c",
+  "scores": {
+    "D1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Federal-filtered search, inspection and readiness supply the requested inventory.",
+        "parameters": "Federal Government filter and harvest UUIDs are grounded in search results.",
+        "returned_data": "EPA spreadsheet/publication and NPS coverage/formats agree with inspected records; no observations invented.",
+        "interpretation": "Treats remediation as the publication subject, not a calculated result. NPS dates are metadata claims, not independently verified sampling coverage.",
+        "citations": "EPA DOIs, file link and NPS landing pages are present in the captured sources.",
+        "limitations": "Explicitly states metadata-only review, bounded coverage, missing dictionary and unverified downloads."
+      }
+    },
+    "D2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Three housing records are inspected and assessed rather than treated as query-ready.",
+        "parameters": "Housing-affordability search and returned harvest IDs support the shortlist.",
+        "returned_data": "HUD031/HUD044, HADS 2013 public-file statement and county CHAS 2016–2020 coverage match the trace.",
+        "interpretation": "Distinguishes an advertised API label from a working endpoint and observation period from update dates.",
+        "citations": "HUD portal and ArcGIS links and identifiers are traceable to returned records.",
+        "limitations": "Missing definitions, terms and schema checks are explained; no exhaustive inventory or live-download claim."
+      }
+    },
+    "D3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. Criterion changes recorded separately.",
+      "reasons": {
+        "tool_selection": "Resolves a location before intersection search, then inspects geospatial candidates.",
+        "parameters": "Uses returned Maryland ID 21 and spatial_within=false; geospatial refinement is explicit.",
+        "returned_data": "USGS vector feature classes, GSA CSV-export description and CC0 license match saved metadata.",
+        "interpretation": "Correctly distinguishes metadata-extent intersection from verified individual Maryland features.",
+        "citations": "USGS DOI normalization is traceable; the GSA catalog URL is constructed from the returned slug rather than a returned verified landing-page URL.",
+        "limitations": "Reports national extents, unknown observation periods, missing dictionaries and unverified GIS packages."
+      }
+    },
+    "M1#1": {
+      "tool_selection": "pass",
+      "parameters": "n/a",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Consults registered definitions before answering the denominator question.",
+        "parameters": "Unfiltered registry listing is appropriate; no analytical parameters needed.",
+        "returned_data": "Returned unemployment definition explicitly uses civilian labor force, not population.",
+        "interpretation": "The displayed numerator/denominator formula and exclusion of nonparticipants are consistent with the definition.",
+        "citations": "Identifies dataset, measure, BLS source and DOL-BLS-3060-01.",
+        "limitations": "Does not use population as a substitute denominator or invent a calculated rate."
+      }
+    },
+    "M2#1": {
+      "tool_selection": "n/a",
+      "parameters": "n/a",
+      "returned_data": "n/a",
+      "interpretation": "pass",
+      "citations": "partial",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. Criterion changes recorded separately.",
+      "reasons": {
+        "tool_selection": "Conceptual date distinction needs no retrieval to satisfy this question; no MCP-backed factual lookup is claimed.",
+        "parameters": "No tool call or parameters.",
+        "returned_data": "No observations or metadata record retrieved.",
+        "interpretation": "Separates harvest, publication and observation dates; the example is explicitly hypothetical.",
+        "citations": "No authoritative reference is cited for the conceptual explanation.",
+        "limitations": "Recommends reporting unknown coverage instead of substituting the harvest year."
+      }
+    },
+    "M3#1": {
+      "tool_selection": "pass",
+      "parameters": "n/a",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Registry lookup provides the aggregation rule rather than performing an unsupported statewide query.",
+        "parameters": "No analytical parameters are needed for the definition lookup.",
+        "returned_data": "Summed unemployed/labor-force counts match the registered aggregation instruction.",
+        "interpretation": "Explains weighting and rounding and does not promise to reproduce the published state series.",
+        "citations": "Cites registered measure and BLS source with catalog identifier.",
+        "limitations": "Notes period/seasonal consistency and recommends the official state series."
+      }
+    },
+    "A1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Registry, change analysis and evidence retrieval support the answer; supplementary searches are not needed but harmless.",
+        "parameters": "Selects population and unemployment, 2022–2024 and increase/decrease filters.",
+        "returned_data": "Independent checks confirm Worcester 24047, every endpoint, changes and full-population counts.",
+        "interpretation": "Correctly interprets percentage population change and percentage-point rate change.",
+        "citations": "Census/BLS URLs and evidence ID match captured provenance.",
+        "limitations": "States 24 county equivalents, temporal definitions and non-causal endpoint scope."
+      }
+    },
+    "A2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Uses generic change analysis and retrieves its evidence.",
+        "parameters": "Selects 24510 (Baltimore city), both measures and the requested years.",
+        "returned_data": "Independent checks confirm 570663 to 568271 and 3.8 to 4.3 with correct changes.",
+        "interpretation": "Explicitly distinguishes city from county and percent from percentage points.",
+        "citations": "Publisher links, vintage, BLS ID and retrieved evidence are supplied.",
+        "limitations": "No trend or causal claim; denominators and observation timing are explained."
+      }
+    },
+    "A3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Generic change analysis with sorting directly answers the ranking request.",
+        "parameters": "Selects population, 2023–2024, descending growth and sufficient row limit.",
+        "returned_data": "Independent checks confirm all 24 row positions/endpoints and 22 increasing versus 2 declining jurisdictions.",
+        "interpretation": "Clarifies percentage versus absolute growth and use of unrounded rankings.",
+        "citations": "Census Vintage 2024 file and retrieved evidence ID are given.",
+        "limitations": "County equivalents and one-year endpoint limitations are explicit."
+      }
+    },
+    "U1#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "n/a",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Overall grade agrees with prior review. Criterion changes recorded separately.",
+      "reasons": {
+        "tool_selection": "Checks registry and attempts discovery before requesting missing scope.",
+        "parameters": "Advertising-expenditure search is reasonable; no geography/year is fabricated.",
+        "returned_data": "Available registered measures do not include advertising spending.",
+        "interpretation": "Does not substitute population-only data or invent per-capita spending.",
+        "citations": "No source-specific result is asserted; omitting an irrelevant assessor search hit is appropriate.",
+        "limitations": "Clearly states lack of verified spending and asks county, year and spending type."
+      }
+    },
+    "U2#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Checks registered scope and searches/assesses a California alternative.",
+        "parameters": "Searches reflect California and requested period without querying Maryland as a substitute.",
+        "returned_data": "CDPH identifier/workbook and its 2004–2013 label are supported by saved metadata.",
+        "interpretation": "Correctly refuses the unverified 2020–2024 comparison while describing a future workflow.",
+        "citations": "Supplies a traceable workbook link and identifier without implying it was downloaded.",
+        "limitations": "States both coverage mismatch and unverified access and preserves unit distinctions."
+      }
+    },
+    "U3#1": {
+      "tool_selection": "pass",
+      "parameters": "pass",
+      "returned_data": "pass",
+      "interpretation": "pass",
+      "citations": "pass",
+      "limitations": "pass",
+      "overall": "correct abstention",
+      "notes": "Overall grade agrees with prior review. No criterion-grade disagreement.",
+      "reasons": {
+        "tool_selection": "Checks registry, uses descriptive change counts and retrieves evidence before denying causation.",
+        "parameters": "Explicitly discloses the selected 2022–2024 window; summary is full coverage despite limit=5.",
+        "returned_data": "Independent checks confirm 21 population increases, 18/1/5 rate directions and 15 joint increases.",
+        "interpretation": "Does not equate county direction counts to a statewide unemployment-rate change.",
+        "citations": "Both publisher files and evidence ID match the trace.",
+        "limitations": "Distinguishes unproven cause from no effect and asks which period the user intended."
+      }
+    }
+  }
+}

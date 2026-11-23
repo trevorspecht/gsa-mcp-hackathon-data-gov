@@ -55,6 +55,15 @@ source, L2 skipped the readiness check for a brief list, and U1 did not name the
 catalog record it found. The same model family produced and reviewed the answers;
 human scoring of these runs has not been done.
 
+A subsequent GPT-6 Astra second-pass review independently checked the same 25
+saved responses and retained the same overall totals (19 correct, 6 correct
+abstentions), with five criterion-level disagreements. It does not penalize
+justified no-tool behavior; it flags citation traceability in D3 and R2. Prior
+scores/reports are preserved alongside separately named Astra files. See
+[review methods and disagreements](../eval/results/ASTRA-REVIEW.md). Previous
+reviewer labels were not independently attested, and this was not a blinded or
+controlled model-family comparison.
+
 ## Run and review
 
 ```sh

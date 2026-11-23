@@ -101,7 +101,7 @@ SLIDES = [
         "Evaluation results",
         "25/25 runs completed; 0 tool errors; median 16 s per question "
         "(range 7–36 s).\n"
-        "AI review: 19 correct, 6 correct abstentions, 0 partial or wrong.\n"
+        "Astra re-review: 19 correct, 6 correct abstentions; human scoring pending.\n"
         "All 4 county analyses matched the reference (rows, values, summary counts).\n"
         "All 9 climate/agriculture series checks matched the frozen publisher data.\n"
         "Correlation questions: compatibility checked, geography mismatch explained, "
@@ -324,15 +324,19 @@ EVALUATION = [
             "final human review of the Nov 18 panel scored 16 correct and 2 partially "
             "correct. Model, prompt and tools changed between rounds, so these are "
             "not a controlled model comparison.",
-            "AI review of the 25 current-system runs (GPT-6.1 Sol reviewer, reading "
-            "every answer and full trace and checking catalog claims against the "
-            "inspected metadata): 19 correct and 6 correct abstentions; no partial "
-            "or wrong answers. Criterion-level weaknesses: M2 and S7 used no tools "
-            "(M2 also cites no source); L2 skipped the readiness check for a brief "
-            "list; U1 did not name the one catalog record it found. The AI review "
-            "is advisory and separate from human scoring; the same model family "
-            "produced and reviewed the answers. Human scoring of these runs has "
-            "not been done.",
+            "GPT-6 Astra independently re-reviewed all 25 saved current-system "
+            "answers and their captured evidence on November 23: 19 correct and "
+            "6 correct abstentions, agreeing with the previous overall grades. "
+            "Five criterion grades differ: D3/R2 citation traceability is partial; "
+            "M2 tool selection and U1 citations are not applicable; L2 tool "
+            "selection passes for the explicitly brief list. S7 correctly calls "
+            "no tools for an unsafe request. M2 citations remain partial.",
+            "Separate Astra JSON/HTML files preserve prior reviews and human scores. "
+            "The numerical checks were rerun; this review did not regenerate "
+            "answers or re-fetch publisher data. Prior grades were visible, so "
+            "this was not blinded. Historical reviewer labels were not independently "
+            "attested; no controlled model-family comparison is claimed. See "
+            "eval/results/ASTRA-REVIEW.md. Human scoring remains pending.",
         ],
     ),
     (

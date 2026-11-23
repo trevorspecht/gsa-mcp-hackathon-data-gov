@@ -56,6 +56,16 @@ line/scatter calls; regression test renders both branches. Seven UI tests and
 select-all preview completed with four charts, tables, compatibility assessment
 and preview download visible; no SyntaxError. No data/tool/grant changes.
 
+## Independent Astra re-review — November 23
+
+Three panels previously scored under the recorded GPT-6.1 Sol label were reviewed
+again with the user-selected GPT-6 Astra: all 25 overall grades agree (19 correct,
+6 correct abstentions). Five criterion grades differ; details and separate
+panel-bound score/report files are in eval/results/ASTRA-REVIEW.md. Numerical
+reference checks rerun successfully. Original panels, prior scores/reports and
+human scores remain unchanged. This was not blinded; prior reviewer labels are
+not independently attested. Human scoring of these current panels remains pending.
+
 ## Generic tools and tabbed UI — November 22
 
 - Owner direction: tools must be dataset- and question-agnostic; hackathon scope
