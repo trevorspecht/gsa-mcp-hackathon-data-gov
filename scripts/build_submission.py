@@ -11,10 +11,36 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / ".local/submission"
 
 
+def export_pdfs():
+    """PDF copies for review without PowerPoint/Word (requires LibreOffice)."""
+    import shutil
+    import subprocess
+
+    office = shutil.which("soffice")
+    if not office:
+        print("LibreOffice not found; skipped PDF export")
+        return
+    subprocess.run(
+        [
+            office,
+            "--headless",
+            "--convert-to",
+            "pdf",
+            "--outdir",
+            str(OUT / "pdf"),
+            str(OUT / "Data.gov-Research-Hackathon.pptx"),
+            str(OUT / "Data.gov-Research-Evaluation.docx"),
+        ],
+        check=True,
+        capture_output=True,
+    )
+
+
 def main():
     build_deck()
     write_evaluation()
-    print("Wrote template-based PPTX and DOCX to", OUT)
+    export_pdfs()
+    print("Wrote template-based PPTX, DOCX and PDFs to", OUT)
 
 
 PANELS = {
@@ -261,7 +287,7 @@ def panel_rows():
         rows.append(
             [
                 label,
-                name,
+                f"{name[4:6]}/{name[6:8]} {name[9:11]}:{name[11:13]} UTC",
                 f"{sum(r.get('status') == 'complete' for r in runs)}/{len(runs)}",
                 str(errors),
                 f"{statistics.median(seconds):.1f} s",
@@ -295,6 +321,10 @@ def write_evaluation():
             for values in panel_rows():
                 for cell, text in zip(table.add_row().cells, values, strict=True):
                     cell.text = text
+            for cell in table.rows[0].cells:
+                for run in cell.paragraphs[0].runs:
+                    run.font.bold = True
+            document.add_paragraph()
             for line in [
                 "Numeric accuracy: all 4 county analyses (A1, A2, A3, U3) matched "
                 "the independent reference for rows, order, values and summary "

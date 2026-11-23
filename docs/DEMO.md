@@ -17,7 +17,9 @@ sequence and title-bar style, with diagrams, an evaluation-progress chart and ke
 numbers) and evaluation DOCX in `.local/submission/`. The deck's
 demonstration slide uses screenshots from the hosted private App saved in
 `.local/submission/screens/`; the evaluation tables are computed from the saved
-November 22–23 panel files. Both documents need human proofreading before upload.
+November 22–23 panel files. If LibreOffice is installed, PDF copies are written to
+`.local/submission/pdf/`; the PDFs show the layout as LibreOffice renders it. Both
+documents need human proofreading before upload.
 
 | Required deliverable | Where |
 | --- | --- |

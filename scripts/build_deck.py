@@ -54,10 +54,12 @@ def text_box(slide, left, top, width, height, items, size=11):
         if kind == "gap":
             paragraph.space_after = Pt(2)
             continue
-        if kind != "n":
-            number = 0 if kind == "h" else number
+        if kind == "h":
+            number = 0
+        if kind == "n":
+            number += 1
         run = paragraph.add_run()
-        run.text = text
+        run.text = f"{number}.  {text}" if kind == "n" else text
         run.font.size = Pt(size)
         run.font.color.rgb = INK
         paragraph.space_after = Pt(3)
@@ -71,10 +73,8 @@ def text_box(slide, left, top, width, height, items, size=11):
             paragraph.space_after = Pt(0)
         elif kind in ("b", "b2", "n"):
             level = 1 if kind == "b2" else 0
-            indent = 0.22 + 0.22 * level
-            if kind == "n":
-                number += 1
-            bullet(paragraph, indent, "number" if kind == "n" else level)
+            indent = 0.22 + 0.4 * level
+            bullet(paragraph, indent, "none" if kind == "n" else level)
             if kind == "b2":
                 run.font.size = Pt(size - 1)
                 run.font.color.rgb = MUTED
@@ -88,8 +88,9 @@ def bullet(paragraph, indent, style):
     for tag in ("a:buNone", "a:buChar", "a:buAutoNum"):
         for old in p_pr.findall(qn(tag)):
             p_pr.remove(old)
-    if style == "number":
-        node = p_pr.makeelement(qn("a:buAutoNum"), {"type": "arabicPeriod"})
+    if style == "none":
+        p_pr.set("indent", "0")
+        node = p_pr.makeelement(qn("a:buNone"), {})
     else:
         node = p_pr.makeelement(qn("a:buChar"), {"char": "•" if style == 0 else "–"})
     p_pr.append(node)
@@ -120,7 +121,9 @@ def shape(
     else:
         item.line.color.rgb = line
         item.line.width = Pt(1)
-    item.shadow.inherit = False
+    style = item._element.find(qn("p:style"))
+    if style is not None:
+        item._element.remove(style)
     frame = item.text_frame
     frame.word_wrap = True
     frame.vertical_anchor = MSO_ANCHOR.MIDDLE
@@ -138,14 +141,19 @@ def shape(
 
 
 def stat(slide, left, top, width, value, label, fill=PALE, color=BLUE):
-    shape(slide, MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, 0.95, fill)
-    text_box(slide, left, top + 0.05, width, 0.5, [("p", value)], size=22)
-    slide.shapes[-1].text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
-    slide.shapes[-1].text_frame.paragraphs[0].runs[0].font.bold = True
-    slide.shapes[-1].text_frame.paragraphs[0].runs[0].font.color.rgb = color
-    text_box(slide, left, top + 0.55, width, 0.4, [("p", label)], size=9)
-    slide.shapes[-1].text_frame.paragraphs[0].alignment = PP_ALIGN.CENTER
-    slide.shapes[-1].text_frame.paragraphs[0].runs[0].font.color.rgb = MUTED
+    """One shape holding value and label, so text cannot drift off the box."""
+    box = shape(slide, MSO_SHAPE.ROUNDED_RECTANGLE, left, top, width, 0.95, fill)
+    frame = box.text_frame
+    for index, (text, size, bold, tint) in enumerate(
+        [(value, 22, True, color), (label, 9, False, MUTED)]
+    ):
+        paragraph = frame.paragraphs[0] if index == 0 else frame.add_paragraph()
+        paragraph.alignment = PP_ALIGN.CENTER
+        run = paragraph.add_run()
+        run.text = text.replace("\n", " ")
+        run.font.size = Pt(size)
+        run.font.bold = bold
+        run.font.color.rgb = tint
 
 
 def arrow(slide, left, top, width=0.32, height=0.22):
