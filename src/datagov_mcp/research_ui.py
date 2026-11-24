@@ -362,14 +362,26 @@ def display_exploration(used=()):
         )
         with st.spinner("Following up on the original question…"):
             try:
-                st.session_state["result"] = asyncio.run(
-                    run_agent(prompt, settings, agent_workspace(settings))
-                )
-                for key in ("exploration", "exploration_options"):
-                    st.session_state.pop(key, None)
-                st.rerun()
+                # Kept separate from the main answer and from exploration previews.
+                st.session_state["followup"] = {
+                    "step": followup,
+                    "result": asyncio.run(
+                        run_agent(prompt, settings, agent_workspace(settings))
+                    ),
+                }
             except Exception:
                 st.error("Follow-up failed; the previous answer is preserved.")
+    shown = st.session_state.get("followup")
+    if shown:
+        st.subheader("Next step: " + shown["step"])
+        result = shown["result"]
+        if result.get("status") != "complete":
+            st.warning("This response did not complete. Treat it as incomplete.")
+        st.markdown(result.get("answer") or "No answer returned.")
+        for index, step, value in completed(result.get("trace", []), DATA_TOOLS):
+            display_data(value, f"followup-{index}")
+        with st.expander("Follow-up tool trace"):
+            st.json(result.get("trace", []), expanded=False)
 
 
 async def explore_selection(dataset_ids, live):
@@ -438,7 +450,7 @@ def main():
                     run_agent(question, settings, agent_workspace(settings))
                 )
                 st.session_state["original_question"] = question
-                for key in ("exploration", "exploration_options"):
+                for key in ("exploration", "exploration_options", "followup"):
                     st.session_state.pop(key, None)
             except Exception:
                 st.error(

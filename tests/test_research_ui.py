@@ -183,3 +183,31 @@ display_candidate({"identifier":"https://example.gov/data", "title":"Example",
     assert not app.exception
     assert app.get("link_button")[0].proto.url == "https://example.gov/data"
     assert "Long metadata detail" not in str([m.value for m in app.markdown])
+
+
+def test_followup_shows_in_explore_and_keeps_preview(monkeypatch):
+    app = AppTest.from_string(f"""
+import streamlit as st
+from datagov_mcp import research_ui
+
+async def fake_agent(prompt, settings, workspace):
+    return {{"status": "complete", "answer": "Follow-up answer.", "trace": []}}
+
+research_ui.run_agent = fake_agent
+research_ui.agent_workspace = lambda settings: None
+research_ui.AgentSettings = lambda: None
+st.session_state['original_question'] = 'Climate and cover crops'
+st.session_state.setdefault('exploration', {{"datasets": [{SERIES["result"]!r}],
+ "compatibility": {{"pairs": []}}}})
+st.session_state.setdefault('result', {{"status": "complete",
+ "answer": "Original answer.", "trace": []}})
+research_ui.display_exploration()
+""").run(timeout=20)
+    next(b for b in app.button if b.label == "Research this next step").click()
+    app.run(timeout=20)
+    assert not app.exception
+    assert app.session_state["result"]["answer"] == "Original answer."
+    assert app.session_state["exploration"]["datasets"]
+    assert any("Follow-up answer." in m.value for m in app.markdown)
+    assert any(s.value.startswith("Next step:") for s in app.subheader)
+    assert len(app.dataframe) == 1
