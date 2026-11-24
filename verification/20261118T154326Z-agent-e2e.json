@@ -1,0 +1,2 @@
+{"error": {"code": "MODEL_ERROR", "message": "Model endpoint rejected the request", "hint": "Check tool-calling support and CAN QUERY permission"}}
+exit 1

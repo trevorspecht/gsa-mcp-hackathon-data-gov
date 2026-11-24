@@ -20,7 +20,8 @@ and methodology still require validation before any analytic result is claimed.
 2. BLS Maryland LAUS series file:
    `https://download.bls.gov/pub/time.series/la/la.data.27.Maryland`
 
-Place downloaded files under `.local/raw/`. Verify publisher provenance, the
+The exact publisher files used for the reviewed snapshot are committed in
+`data/raw/` (hashes in `data/reviewed/manifest.json`); new downloads go there too. Verify publisher provenance, the
 Census Vintage 2024 dictionary, BLS series coding and the M13 annual-average
 definition using authoritative documentation. Review that county boundaries and
 periods are comparable. Exact catalog identifiers remain to be bound after source
@@ -34,7 +35,7 @@ All population observations use the same vintage. The population measure is a
 July 1 estimate while unemployment is an annual average; comparisons are descriptive.
 
 ```sh
-uv run datagov-prepare --population .local/raw/co-est2024-alldata.csv --laus .local/raw/la.data.27.Maryland
+uv run datagov-prepare --population data/raw/co-est2024-alldata.csv --laus data/raw/la.data.27.Maryland
 ```
 
 Use `--domain-reviewed` only after completing the source/methodology review above.

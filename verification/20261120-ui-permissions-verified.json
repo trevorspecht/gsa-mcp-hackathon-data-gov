@@ -1,0 +1,37 @@
+{
+  "access_control_list": [
+    {
+      "all_permissions": [
+        {
+          "inherited": false,
+          "permission_level": "CAN_USE"
+        }
+      ],
+      "group_name": "users"
+    },
+    {
+      "all_permissions": [
+        {
+          "inherited": false,
+          "permission_level": "CAN_MANAGE"
+        }
+      ],
+      "display_name": "<owner>",
+      "user_name": "<owner-email>"
+    },
+    {
+      "all_permissions": [
+        {
+          "inherited": true,
+          "inherited_from_object": [
+            "/apps"
+          ],
+          "permission_level": "CAN_MANAGE"
+        }
+      ],
+      "group_name": "admins"
+    }
+  ],
+  "object_id": "/apps/204a572d-9bed-4fec-879b-650bc06ed944",
+  "object_type": "apps"
+}

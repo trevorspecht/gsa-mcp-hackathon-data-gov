@@ -1,0 +1,63 @@
+{
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "state_fips": "24",
+  "years": [
+    2022,
+    2023,
+    2024
+  ],
+  "county_fips": [
+    "24001",
+    "24003",
+    "24005",
+    "24009",
+    "24011",
+    "24013",
+    "24015",
+    "24017",
+    "24019",
+    "24021",
+    "24023",
+    "24025",
+    "24027",
+    "24029",
+    "24031",
+    "24033",
+    "24035",
+    "24037",
+    "24039",
+    "24041",
+    "24043",
+    "24045",
+    "24047",
+    "24510"
+  ],
+  "sources": [
+    {
+      "id": "census_population",
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+      "sha256": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9",
+      "publisher": "U.S. Census Bureau",
+      "title": "County Population Estimates, Vintage 2024",
+      "release": "Vintage 2024",
+      "catalog_identifier": null,
+      "verification": "operator-supplied publisher file; schema and coverage checked"
+    },
+    {
+      "id": "bls_laus",
+      "url": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+      "sha256": "19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7",
+      "publisher": "Bureau of Labor Statistics",
+      "title": "Local Area Unemployment Statistics, county annual averages",
+      "release": "record source file hash and retrieval date; estimates may be revised",
+      "catalog_identifier": "DOL-BLS-3060-01",
+      "verification": "operator-supplied publisher file; schema and coverage checked"
+    }
+  ],
+  "data_sha256": "d99b31fdee7116eee0764316e0cde2b7fc45ed28fc85526052df3984b2c266be",
+  "row_count": 72,
+  "domain_reviewed": true,
+  "loaded_table": "`users`.`trevor_specht`.`county_indicators`",
+  "prepared_at": "2026-11-18T03:06:39.197185+00:00",
+  "review_note": "Verify publisher provenance, M13 annual averages, measure 03, Vintage 2024 and geographic comparability"
+}

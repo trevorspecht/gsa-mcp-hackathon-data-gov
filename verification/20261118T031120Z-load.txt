@@ -1,0 +1,6 @@
+{
+  "mode": "loaded",
+  "rows": 72,
+  "snapshot_id": "ad9580ad34ac9575d0867709"
+}
+exit 0

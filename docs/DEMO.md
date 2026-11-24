@@ -10,23 +10,21 @@ related_files: ["EVALUATION.md", "DATABRICKS.md"]
 # Submission artifacts
 
 Deadline: **Monday, November 23, 2026, 11:59 p.m. Eastern** (extended from Nov 20).
-A live demo is not required. Organizer templates are kept locally in
-`.local/submission/templates/`. Run `uv run python scripts/build_submission.py` to
-produce the 12-slide deck (`scripts/build_deck.py`, following the sample deck's slide
-sequence and title-bar style, with diagrams, an evaluation-progress chart and key
-numbers) and evaluation DOCX in `.local/submission/`. The deck's
-demonstration slide uses screenshots from the hosted private App saved in
-`.local/submission/screens/`; the evaluation tables are computed from the saved
-November 22–23 panel files. If LibreOffice is installed, PDF copies are written to
-`.local/submission/pdf/`; the PDFs show the layout as LibreOffice renders it. Both
-documents need human proofreading before upload.
+A live demo is not required. Run `uv run python scripts/build_submission.py` to
+rebuild the 12-slide deck (`scripts/build_deck.py`, following the sample deck's slide
+sequence and title-bar style), the evaluation DOCX and their PDFs in `submission/`.
+Organizer templates are kept locally in `.local/submission/templates/`. Demo-slide
+screenshots are in `submission/screens/`; evaluation tables are computed from
+`eval/results/`. PDFs require LibreOffice and show its layout; PowerPoint or Word may
+differ slightly. Both documents need human proofreading before upload.
 
 | Required deliverable | Where |
 | --- | --- |
 | GitHub repository with documented MCP code | github.com/trevorspecht/gsa-mcp-hackathon-data-gov |
-| Slide deck: problem, solution, technical approach, demonstration | `.local/submission/Data.gov-Research-Hackathon.pptx` |
-| Evaluation: methodology, metrics, security, lessons | `.local/submission/Data.gov-Research-Evaluation.docx` |
-| Evaluation runs, review pages and scores | `eval/results/` in the repository |
+| Slide deck: problem, solution, technical approach, demonstration | `submission/Data.gov-Research-Hackathon.pptx` (and `submission/pdf/`) |
+| Evaluation: methodology, metrics, security, lessons | `submission/Data.gov-Research-Evaluation.docx` (and `submission/pdf/`) |
+| Evaluation runs, review pages and scores | `eval/results/` |
+| Deployment and data-load verification logs | `verification/` |
 
 ## Demonstration questions (hosted research App)
 

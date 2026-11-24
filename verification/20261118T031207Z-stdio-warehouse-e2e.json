@@ -1,0 +1,350 @@
+[11/17/26 22:12:09] INFO     Starting MCP server 'Data.gov      transport.py:241
+                             Semantic MCP' with transport                       
+                             'stdio'                                            
+2026-11-18T03:12:09Z INFO {"event": "tool_call", "tool": "assess_comparison", "outcome": "success", "elapsed_seconds": 0.001}
+2026-11-18T03:12:11Z INFO {"event": "tool_call", "tool": "compare_public_indicators", "outcome": "success", "elapsed_seconds": 1.916}
+2026-11-18T03:12:11Z INFO {"event": "tool_call", "tool": "get_analysis_evidence", "outcome": "success", "elapsed_seconds": 0.001}
+{
+ "checked_at": "2026-11-18T03:12:08.518728+00:00",
+ "mode": "stdio MCP -> real warehouse table",
+ "assess_comparison": {
+  "compatible": true,
+  "ready_to_execute": true,
+  "status": "ready",
+  "incompatibilities": [],
+  "setup_blockers": [],
+  "comparison": {
+   "metric_ids": [
+    "population",
+    "unemployment_rate"
+   ],
+   "state_fips": "24",
+   "start_year": 2022,
+   "end_year": 2024,
+   "county_fips": [],
+   "population_direction": "any",
+   "unemployment_direction": "any",
+   "sort_by": "county",
+   "limit": 24
+  },
+  "metrics": [
+   {
+    "id": "population",
+    "label": "Resident population",
+    "synonyms": [
+     "population",
+     "residents",
+     "population growth",
+     "demographics"
+    ],
+    "source_id": "census_population",
+    "column": "population",
+    "unit": "people",
+    "observation": "July 1 estimate for each year, all years from Vintage 2024",
+    "change_unit": "percent",
+    "change_definition": "100 * (end - start) / start",
+    "aggregation": "sum only across disjoint counties in the same year and vintage",
+    "search_terms": [
+     "county population estimates",
+     "population"
+    ],
+    "organization_slug": "census"
+   },
+   {
+    "id": "unemployment_rate",
+    "label": "Annual average unemployment rate",
+    "synonyms": [
+     "unemployment",
+     "unemployment rate",
+     "joblessness",
+     "labor market"
+    ],
+    "source_id": "bls_laus",
+    "column": "unemployment_rate",
+    "unit": "percent of civilian labor force",
+    "observation": "Annual average, not seasonally adjusted",
+    "change_unit": "percentage points",
+    "change_definition": "end - start",
+    "aggregation": "do not average county rates; use summed unemployed and labor force",
+    "search_terms": [
+     "local area unemployment statistics",
+     "unemployment"
+    ],
+    "organization_slug": "bls"
+   }
+  ],
+  "join": {
+   "keys": [
+    "county_fips",
+    "year"
+   ],
+   "cardinality": "one-to-one after annual selection and uniqueness validation",
+   "missing": "report missing counties/years; never replace missing values with zero",
+   "caveats": [
+    "July 1 population and annual-average unemployment describe different temporal summaries.",
+    "The labor force is not the total population denominator.",
+    "A descriptive comparison does not establish causation.",
+    "Preserve five-digit FIPS including leading zeros; include Baltimore city (24510).",
+    "All population observations must use the same estimate vintage."
+   ]
+  },
+  "sources": [
+   {
+    "id": "census_population",
+    "publisher": "U.S. Census Bureau",
+    "title": "County Population Estimates, Vintage 2024",
+    "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+    "release": "Vintage 2024",
+    "catalog_identifier": null,
+    "verification": "awaiting source download and domain review"
+   },
+   {
+    "id": "bls_laus",
+    "publisher": "Bureau of Labor Statistics",
+    "title": "Local Area Unemployment Statistics, county annual averages",
+    "url": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+    "release": "record source file hash and retrieval date; estimates may be revised",
+    "catalog_identifier": "DOL-BLS-3060-01",
+    "verification": "awaiting source download and domain review"
+   }
+  ],
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "note": "Registered semantic compatibility and readiness are separate"
+ },
+ "compare_public_indicators": {
+  "status": "complete",
+  "rows": [
+   {
+    "county_fips": "24001",
+    "county_name": "Allegany County",
+    "population_start": 67241.0,
+    "population_end": 67097.0,
+    "population_change": -0.214155054208,
+    "unemployment_start": 4.0,
+    "unemployment_end": 4.7,
+    "unemployment_change": 0.7000000000000002
+   },
+   {
+    "county_fips": "24510",
+    "county_name": "Baltimore city",
+    "population_start": 570663.0,
+    "population_end": 568271.0,
+    "population_change": -0.41916157171571,
+    "unemployment_start": 3.8,
+    "unemployment_end": 4.3,
+    "unemployment_change": 0.5
+   },
+   {
+    "county_fips": "24023",
+    "county_name": "Garrett County",
+    "population_start": 28619.0,
+    "population_end": 28393.0,
+    "population_change": -0.78968517418498,
+    "unemployment_start": 3.5,
+    "unemployment_end": 3.6,
+    "unemployment_change": 0.10000000000000009
+   }
+  ],
+  "matched_count": 3,
+  "truncated": false,
+  "missing_counties": [],
+  "complete_counties": 24,
+  "requested_counties": 24,
+  "evidence_id": "fa2b75ee99f54db6aca9d1c95daf84f0",
+  "query_id": "01f1e2fd-d965-1151-a17a-6e58e1076abe",
+  "snapshot_id": "ad9580ad34ac9575d0867709",
+  "units": {
+   "population_change": "percent",
+   "unemployment_change": "percentage points"
+  },
+  "caveats": [
+   "July 1 population and annual-average unemployment describe different temporal summaries.",
+   "The labor force is not the total population denominator.",
+   "A descriptive comparison does not establish causation.",
+   "Preserve five-digit FIPS including leading zeros; include Baltimore city (24510).",
+   "All population observations must use the same estimate vintage."
+  ]
+ },
+ "get_analysis_evidence": {
+  "evidence_id": "fa2b75ee99f54db6aca9d1c95daf84f0",
+  "created_at": "2026-11-18T03:12:11.394776+00:00",
+  "request": {
+   "metric_ids": [
+    "population",
+    "unemployment_rate"
+   ],
+   "state_fips": "24",
+   "start_year": 2022,
+   "end_year": 2024,
+   "county_fips": [],
+   "population_direction": "decrease",
+   "unemployment_direction": "any",
+   "sort_by": "unemployment_change",
+   "limit": 5
+  },
+  "sql": "WITH start_period AS (\n  SELECT county_fips, county_name, population, unemployment_rate\n  FROM `users`.`trevor_specht`.`county_indicators`\n  WHERE state_fips = :state AND year = :start_year AND snapshot_id = :snapshot\n), end_period AS (\n  SELECT county_fips, county_name, population, unemployment_rate\n  FROM `users`.`trevor_specht`.`county_indicators`\n  WHERE state_fips = :state AND year = :end_year AND snapshot_id = :snapshot\n)\nSELECT COALESCE(s.county_fips, e.county_fips) AS county_fips,\n       COALESCE(s.county_name, e.county_name) AS county_name,\n       s.population AS population_start,\n       e.population AS population_end,\n       100.0 * (e.population - s.population) / NULLIF(s.population, 0)\n         AS population_change,\n       s.unemployment_rate AS unemployment_start,\n       e.unemployment_rate AS unemployment_end,\n       e.unemployment_rate - s.unemployment_rate AS unemployment_change\nFROM start_period s\nFULL OUTER JOIN end_period e ON s.county_fips = e.county_fips\nORDER BY county_fips\nLIMIT 100\n",
+  "parameters": {
+   "state": "24",
+   "start_year": 2022,
+   "end_year": 2024,
+   "snapshot": "ad9580ad34ac9575d0867709"
+  },
+  "query_id": "01f1e2fd-d965-1151-a17a-6e58e1076abe",
+  "snapshot": {
+   "snapshot_id": "ad9580ad34ac9575d0867709",
+   "state_fips": "24",
+   "years": [
+    2022,
+    2023,
+    2024
+   ],
+   "county_fips": [
+    "24001",
+    "24003",
+    "24005",
+    "24009",
+    "24011",
+    "24013",
+    "24015",
+    "24017",
+    "24019",
+    "24021",
+    "24023",
+    "24025",
+    "24027",
+    "24029",
+    "24031",
+    "24033",
+    "24035",
+    "24037",
+    "24039",
+    "24041",
+    "24043",
+    "24045",
+    "24047",
+    "24510"
+   ],
+   "sources": [
+    {
+     "id": "census_population",
+     "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+     "sha256": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9",
+     "publisher": "U.S. Census Bureau",
+     "title": "County Population Estimates, Vintage 2024",
+     "release": "Vintage 2024",
+     "catalog_identifier": null,
+     "verification": "operator-supplied publisher file; schema and coverage checked"
+    },
+    {
+     "id": "bls_laus",
+     "url": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+     "sha256": "19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7",
+     "publisher": "Bureau of Labor Statistics",
+     "title": "Local Area Unemployment Statistics, county annual averages",
+     "release": "record source file hash and retrieval date; estimates may be revised",
+     "catalog_identifier": "DOL-BLS-3060-01",
+     "verification": "operator-supplied publisher file; schema and coverage checked"
+    }
+   ],
+   "data_sha256": "d99b31fdee7116eee0764316e0cde2b7fc45ed28fc85526052df3984b2c266be",
+   "row_count": 72,
+   "domain_reviewed": true,
+   "loaded_table": "`users`.`trevor_specht`.`county_indicators`",
+   "prepared_at": "2026-11-18T03:06:39.197185+00:00",
+   "review_note": "Verify publisher provenance, M13 annual averages, measure 03, Vintage 2024 and geographic comparability"
+  },
+  "registry_version": "1",
+  "metrics": [
+   {
+    "id": "population",
+    "label": "Resident population",
+    "synonyms": [
+     "population",
+     "residents",
+     "population growth",
+     "demographics"
+    ],
+    "source_id": "census_population",
+    "column": "population",
+    "unit": "people",
+    "observation": "July 1 estimate for each year, all years from Vintage 2024",
+    "change_unit": "percent",
+    "change_definition": "100 * (end - start) / start",
+    "aggregation": "sum only across disjoint counties in the same year and vintage",
+    "search_terms": [
+     "county population estimates",
+     "population"
+    ],
+    "organization_slug": "census"
+   },
+   {
+    "id": "unemployment_rate",
+    "label": "Annual average unemployment rate",
+    "synonyms": [
+     "unemployment",
+     "unemployment rate",
+     "joblessness",
+     "labor market"
+    ],
+    "source_id": "bls_laus",
+    "column": "unemployment_rate",
+    "unit": "percent of civilian labor force",
+    "observation": "Annual average, not seasonally adjusted",
+    "change_unit": "percentage points",
+    "change_definition": "end - start",
+    "aggregation": "do not average county rates; use summed unemployed and labor force",
+    "search_terms": [
+     "local area unemployment statistics",
+     "unemployment"
+    ],
+    "organization_slug": "bls"
+   }
+  ],
+  "result": {
+   "rows": [
+    {
+     "county_fips": "24001",
+     "county_name": "Allegany County",
+     "population_start": 67241.0,
+     "population_end": 67097.0,
+     "population_change": -0.214155054208,
+     "unemployment_start": 4.0,
+     "unemployment_end": 4.7,
+     "unemployment_change": 0.7000000000000002
+    },
+    {
+     "county_fips": "24510",
+     "county_name": "Baltimore city",
+     "population_start": 570663.0,
+     "population_end": 568271.0,
+     "population_change": -0.41916157171571,
+     "unemployment_start": 3.8,
+     "unemployment_end": 4.3,
+     "unemployment_change": 0.5
+    },
+    {
+     "county_fips": "24023",
+     "county_name": "Garrett County",
+     "population_start": 28619.0,
+     "population_end": 28393.0,
+     "population_change": -0.78968517418498,
+     "unemployment_start": 3.5,
+     "unemployment_end": 3.6,
+     "unemployment_change": 0.10000000000000009
+    }
+   ],
+   "matched_count": 3,
+   "truncated": false,
+   "missing_counties": [],
+   "complete_counties": 24,
+   "requested_counties": 24
+  },
+  "caveats": [
+   "July 1 population and annual-average unemployment describe different temporal summaries.",
+   "The labor force is not the total population denominator.",
+   "A descriptive comparison does not establish causation.",
+   "Preserve five-digit FIPS including leading zeros; include Baltimore city (24510).",
+   "All population observations must use the same estimate vintage."
+  ]
+ }
+}

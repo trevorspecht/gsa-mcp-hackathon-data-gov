@@ -1,0 +1,796 @@
+{
+ "checked_at": "2026-11-18T02:56:40.058976+00:00",
+ "mode": "read-only workspace discovery (PAT)",
+ "results": {
+  "me": {
+   "user": "<owner-email>"
+  },
+  "warehouse": {
+   "name": "Serverless Starter Warehouse",
+   "state": "State.RUNNING",
+   "size": "Small",
+   "serverless": true,
+   "type": "GetWarehouseResponseWarehouseType.PRO"
+  },
+  "warehouses": [
+   {
+    "id": "50d2bd4ddf65e0f5",
+    "name": "Serverless Starter Warehouse",
+    "state": "State.RUNNING"
+   }
+  ],
+  "catalogs": [
+   {
+    "name": "system",
+    "type": "CatalogType.SYSTEM_CATALOG",
+    "owner_is_me": null
+   },
+   {
+    "name": "samples",
+    "type": "CatalogType.SYSTEM_CATALOG",
+    "owner_is_me": null
+   },
+   {
+    "name": "users",
+    "type": "CatalogType.MANAGED_CATALOG",
+    "owner_is_me": null
+   },
+   {
+    "name": "workspace",
+    "type": "CatalogType.MANAGED_CATALOG",
+    "owner_is_me": null
+   },
+   {
+    "name": "models",
+    "type": "CatalogType.MANAGED_CATALOG",
+    "owner_is_me": null
+   }
+  ],
+  "schemas": {
+   "users": [
+    "adam_arruda",
+    "ahmed_abdulhakeem",
+    "aileen_t_jones",
+    "alejo_landeros",
+    "alex_gomez",
+    "alex_vuotto",
+    "alexander_vuotto_ctr",
+    "allen_sales",
+    "amanda_xu",
+    "amar_yechuri",
+    "ana_alza",
+    "andrew_g_brown",
+    "andrew_v_ly",
+    "ankur_saini",
+    "anna_fernandez",
+    "anthony_sutton",
+    "ashlee_long-washington",
+    "aziakonou_ewonou",
+    "benjamin_teich",
+    "brandon_c_johnsen",
+    "brandon_collier_7",
+    "brent_duncan",
+    "brett_pfrommer",
+    "brittany_pettyjohn",
+    "by49",
+    "cameron_johnson3",
+    "chatterjee_rahul",
+    "chiangjy",
+    "chris_coutin",
+    "chris_morse",
+    "christina_perez_sandoval_1",
+    "ciara_reed",
+    "cindy_good",
+    "conroyri",
+    "daniel_e_rosado_castro",
+    "david_milstein",
+    "default",
+    "diana_benson",
+    "dinne_kopelevich1",
+    "doaa_mohamed",
+    "dominique_fuqua",
+    "dunetza",
+    "edwin_m_irungu_ctr",
+    "ellis_parker",
+    "erica_morrison",
+    "etsegenet_alemu",
+    "fauna_mahootian",
+    "frank_x_guo",
+    "gabriel_alvarado",
+    "gabriela_piatkowski"
+   ],
+   "workspace": [
+    "default",
+    "information_schema"
+   ],
+   "models": [
+    "ai",
+    "information_schema"
+   ]
+  },
+  "serving_endpoints": [
+   {
+    "name": "databricks-gpt-6-astra",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-5-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-6-1-terra",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-6-1-sol",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-grok-4-7",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-6-sol",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-6-sol",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-6-luna",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-grok-4-6",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-6-luna",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-6-terra",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-glm-5-3-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-glm-5-2",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-glm-5-3",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-kimi-k3",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-4-7",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-4-8",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-3-5-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-3-6-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-3-7-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-4-argon",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-3-8-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-4",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-5-pro",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-4-mini",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-4-nano",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-2",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-4-6",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemini-3-1-flash-lite",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-oss-120b",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-sonnet-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-sonnet-5-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-sonnet-4-6",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-sonnet-4-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-haiku-5-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-haiku-4-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-mini",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-oss-20b",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-nano",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-qwen3-next-80b-a3b-instruct",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-qwen35-122b-a10b",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gemma-3-12b",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gte-large-en",
+    "task": "llm/v1/embeddings",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-bge-large-en",
+    "task": "llm/v1/embeddings",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5-1",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-gpt-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-meta-llama-3-1-8b-instruct",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-meta-llama-3-3-70b-instruct",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-4-5",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-claude-opus-4-1",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-qwen3-embedding-0-6b",
+    "task": "llm/v1/embeddings",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-deepseek-v4-1-flash",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-openjev-qwen35-4b",
+    "task": "llm/v1/systemone",
+    "state": "EndpointStateReady.READY"
+   },
+   {
+    "name": "databricks-llama-4-maverick",
+    "task": "llm/v1/chat",
+    "state": "EndpointStateReady.READY"
+   }
+  ],
+  "apps": [
+   {
+    "name": "2026h",
+    "status": null
+   },
+   {
+    "name": "agent-cdc-places",
+    "status": null
+   },
+   {
+    "name": "agent-fpac-soil-dev",
+    "status": null
+   },
+   {
+    "name": "agent-fpac-soil-openai-sdk",
+    "status": null
+   },
+   {
+    "name": "agent-income-zip",
+    "status": null
+   },
+   {
+    "name": "agent-nfs",
+    "status": null
+   },
+   {
+    "name": "agent-openai-agents-sdk",
+    "status": null
+   },
+   {
+    "name": "aircarrier-front-center-dev",
+    "status": null
+   },
+   {
+    "name": "aircarrier-mcp-probe",
+    "status": null
+   },
+   {
+    "name": "airport",
+    "status": null
+   },
+   {
+    "name": "card-transaction-chat",
+    "status": null
+   },
+   {
+    "name": "card-txn-llm-client",
+    "status": null
+   },
+   {
+    "name": "civicgate-b-host-test-20261022",
+    "status": null
+   },
+   {
+    "name": "civicgate-dbx-port",
+    "status": null
+   },
+   {
+    "name": "civicgate-mvp",
+    "status": null
+   },
+   {
+    "name": "cscrm-usa-spending-mcp",
+    "status": null
+   },
+   {
+    "name": "cscrm-usa-spending-mcp-v2",
+    "status": null
+   },
+   {
+    "name": "csosa-mcp-contracts",
+    "status": null
+   },
+   {
+    "name": "csosa-mcp-server",
+    "status": null
+   },
+   {
+    "name": "data-app-rajamehdi",
+    "status": null
+   },
+   {
+    "name": "dpu-demo",
+    "status": null
+   },
+   {
+    "name": "dpu-reuse-mcp",
+    "status": null
+   },
+   {
+    "name": "federal-spending-client-app",
+    "status": null
+   },
+   {
+    "name": "fema-outliers-vizualization",
+    "status": null
+   },
+   {
+    "name": "fema-oversight-mcp",
+    "status": null
+   },
+   {
+    "name": "foia-intake-agent",
+    "status": null
+   },
+   {
+    "name": "fraudulent-transaction-chat",
+    "status": null
+   },
+   {
+    "name": "fraudulent-transaction-mcp",
+    "status": null
+   },
+   {
+    "name": "gov-code-app",
+    "status": null
+   },
+   {
+    "name": "grants-fit-scorer",
+    "status": null
+   },
+   {
+    "name": "gsa-mcp-server",
+    "status": null
+   },
+   {
+    "name": "lancelot-client",
+    "status": null
+   },
+   {
+    "name": "mcp-a-creator",
+    "status": null
+   },
+   {
+    "name": "mcp-acv-grounding-lao",
+    "status": null
+   },
+   {
+    "name": "mcp-aircarrier-analyst",
+    "status": null
+   },
+   {
+    "name": "mcp-aircarrier-docs",
+    "status": null
+   },
+   {
+    "name": "mcp-aircarrier-ops",
+    "status": null
+   },
+   {
+    "name": "mcp-alt-text",
+    "status": null
+   },
+   {
+    "name": "mcp-alz-compass",
+    "status": null
+   },
+   {
+    "name": "mcp-app-template-test",
+    "status": null
+   },
+   {
+    "name": "mcp-bakehouse-sales",
+    "status": null
+   },
+   {
+    "name": "mcp-blm-grazing-practice",
+    "status": null
+   },
+   {
+    "name": "mcp-card-transaction",
+    "status": null
+   },
+   {
+    "name": "mcp-ecfr-verifier-lao",
+    "status": null
+   },
+   {
+    "name": "mcp-employee-analytics",
+    "status": null
+   },
+   {
+    "name": "mcp-foia-intake",
+    "status": null
+   },
+   {
+    "name": "mcp-fpac-soil",
+    "status": null
+   },
+   {
+    "name": "mcp-fpac-soil-dev",
+    "status": null
+   },
+   {
+    "name": "mcp-greeter",
+    "status": null
+   },
+   {
+    "name": "mcp-hackathon-state-tsg",
+    "status": null
+   },
+   {
+    "name": "mcp-hackathon-tester",
+    "status": null
+   },
+   {
+    "name": "mcp-income-zip",
+    "status": null
+   },
+   {
+    "name": "mcp-lancelot-beta",
+    "status": null
+   },
+   {
+    "name": "mcp-mc",
+    "status": null
+   },
+   {
+    "name": "mcp-mining-gis",
+    "status": null
+   },
+   {
+    "name": "mcp-modiscope-server",
+    "status": null
+   },
+   {
+    "name": "mcp-n2ia-server-app",
+    "status": null
+   },
+   {
+    "name": "mcp-nfs",
+    "status": null
+   },
+   {
+    "name": "mcp-nih-grants-outputs",
+    "status": null
+   },
+   {
+    "name": "mcp-nih-reporter",
+    "status": null
+   },
+   {
+    "name": "mcp-nitrd-agent",
+    "status": null
+   },
+   {
+    "name": "mcp-nitrd-classifier",
+    "status": null
+   },
+   {
+    "name": "mcp-nitrd-e2e-runner",
+    "status": null
+   },
+   {
+    "name": "mcp-nitrd-reviewer-portal",
+    "status": null
+   },
+   {
+    "name": "mcp-server-analyst",
+    "status": null
+   },
+   {
+    "name": "mcp-server-cdc-places",
+    "status": null
+   },
+   {
+    "name": "mcp-server-ecfr",
+    "status": null
+   },
+   {
+    "name": "mcp-server-fhwa",
+    "status": null
+   },
+   {
+    "name": "mcp-server-hello-world",
+    "status": null
+   },
+   {
+    "name": "mcp-tab-transformer",
+    "status": null
+   },
+   {
+    "name": "mcp-tabformer-v2",
+    "status": null
+   },
+   {
+    "name": "mcp-template-test",
+    "status": null
+   },
+   {
+    "name": "mcp-usda-datasets",
+    "status": null
+   },
+   {
+    "name": "mcp-vetpath",
+    "status": null
+   },
+   {
+    "name": "mcp-waterboards",
+    "status": null
+   },
+   {
+    "name": "mcp-weather",
+    "status": null
+   },
+   {
+    "name": "mcp-weather-satish",
+    "status": null
+   },
+   {
+    "name": "modiscope",
+    "status": null
+   },
+   {
+    "name": "my-first-app",
+    "status": null
+   },
+   {
+    "name": "opioid-drug-mcp-server",
+    "status": null
+   },
+   {
+    "name": "opioid-drugs-mcp-server",
+    "status": null
+   },
+   {
+    "name": "opioid-mcp-server",
+    "status": null
+   },
+   {
+    "name": "patent-compliance-agent",
+    "status": null
+   },
+   {
+    "name": "payroll-compliance-mcp",
+    "status": null
+   },
+   {
+    "name": "paysim-fraud-analysis-fincen",
+    "status": null
+   },
+   {
+    "name": "rm-hello-world",
+    "status": null
+   },
+   {
+    "name": "soils-mcp-ui-agent",
+    "status": null
+   },
+   {
+    "name": "sru-syntax-mcp",
+    "status": null
+   },
+   {
+    "name": "ssa-test-hello-world",
+    "status": null
+   },
+   {
+    "name": "t2d-compass",
+    "status": null
+   },
+   {
+    "name": "tabformer-mcp-chat-v3",
+    "status": null
+   },
+   {
+    "name": "team20-alt-text-agent",
+    "status": null
+   },
+   {
+    "name": "transformer-source-v4",
+    "status": null
+   },
+   {
+    "name": "usaf-ticket-demo",
+    "status": null
+   },
+   {
+    "name": "usaf-ticket-demo2",
+    "status": null
+   },
+   {
+    "name": "uspto-patent-mcp",
+    "status": null
+   },
+   {
+    "name": "vcare-pathway-checklist",
+    "status": null
+   },
+   {
+    "name": "waterboards-mcp-demo",
+    "status": null
+   },
+   {
+    "name": "weather-chat-satish",
+    "status": null
+   }
+  ],
+  "metastore": {
+   "error": "AttributeError",
+   "message": "'MetastoreAssignment' object has no attribute 'metastore_name'"
+  }
+ }
+}

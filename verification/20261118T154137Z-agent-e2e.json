@@ -1,0 +1,2 @@
+Agent failed (RuntimeError); check setup and endpoint logs
+exit 1

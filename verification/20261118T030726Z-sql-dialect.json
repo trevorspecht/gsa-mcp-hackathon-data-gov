@@ -1,0 +1,50 @@
+{
+ "checked_at": "2026-11-18T03:07:28.576949+00:00",
+ "mode": "read-only dialect check, inline VALUES, no tables created",
+ "statement_id": "01f1e2fd-30e0-1a2a-848b-c5d8ea268be3",
+ "state": "StatementState.SUCCEEDED",
+ "rows": 24,
+ "columns": [
+  "county_fips",
+  "county_name",
+  "population_start",
+  "population_end",
+  "population_change",
+  "unemployment_start",
+  "unemployment_end",
+  "unemployment_change"
+ ],
+ "independent_python_mismatches": [],
+ "sample": [
+  {
+   "county_fips": "24005",
+   "county_name": "Baltimore County",
+   "population_start": "848873",
+   "population_end": "852425",
+   "population_change": "0.418437151376",
+   "unemployment_start": "3.1",
+   "unemployment_end": "3.3",
+   "unemployment_change": "0.2"
+  },
+  {
+   "county_fips": "24031",
+   "county_name": "Montgomery County",
+   "population_start": "1061132",
+   "population_end": "1082273",
+   "population_change": "1.992306329467",
+   "unemployment_start": "2.6",
+   "unemployment_end": "2.8",
+   "unemployment_change": "0.2"
+  },
+  {
+   "county_fips": "24510",
+   "county_name": "Baltimore city",
+   "population_start": "570663",
+   "population_end": "568271",
+   "population_change": "-0.419161571716",
+   "unemployment_start": "3.8",
+   "unemployment_end": "4.3",
+   "unemployment_change": "0.5"
+  }
+ ]
+}

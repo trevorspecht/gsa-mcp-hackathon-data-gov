@@ -1,0 +1,650 @@
+[
+  {
+    "county_fips": "24001",
+    "county_name": "Allegany County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 67241,
+    "unemployment_rate": 4.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24001",
+    "county_name": "Allegany County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 67296,
+    "unemployment_rate": 3.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24001",
+    "county_name": "Allegany County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 67097,
+    "unemployment_rate": 4.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24003",
+    "county_name": "Anne Arundel County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 598751,
+    "unemployment_rate": 2.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24003",
+    "county_name": "Anne Arundel County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 599965,
+    "unemployment_rate": 2.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24003",
+    "county_name": "Anne Arundel County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 602350,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24005",
+    "county_name": "Baltimore County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 848873,
+    "unemployment_rate": 3.1,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24005",
+    "county_name": "Baltimore County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 848676,
+    "unemployment_rate": 2.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24005",
+    "county_name": "Baltimore County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 852425,
+    "unemployment_rate": 3.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24009",
+    "county_name": "Calvert County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 94652,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24009",
+    "county_name": "Calvert County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 94828,
+    "unemployment_rate": 2.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24009",
+    "county_name": "Calvert County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 94913,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24011",
+    "county_name": "Caroline County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 33539,
+    "unemployment_rate": 3.1,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24011",
+    "county_name": "Caroline County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 33838,
+    "unemployment_rate": 2.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24011",
+    "county_name": "Caroline County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 34248,
+    "unemployment_rate": 3.2,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24013",
+    "county_name": "Carroll County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 175569,
+    "unemployment_rate": 2.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24013",
+    "county_name": "Carroll County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 176735,
+    "unemployment_rate": 1.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24013",
+    "county_name": "Carroll County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 177108,
+    "unemployment_rate": 2.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24015",
+    "county_name": "Cecil County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 104939,
+    "unemployment_rate": 3.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24015",
+    "county_name": "Cecil County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 105676,
+    "unemployment_rate": 2.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24015",
+    "county_name": "Cecil County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 106305,
+    "unemployment_rate": 3.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24017",
+    "county_name": "Charles County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 170376,
+    "unemployment_rate": 3.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24017",
+    "county_name": "Charles County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 172268,
+    "unemployment_rate": 2.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24017",
+    "county_name": "Charles County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 174478,
+    "unemployment_rate": 3.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24019",
+    "county_name": "Dorchester County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 32599,
+    "unemployment_rate": 3.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24019",
+    "county_name": "Dorchester County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 32922,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24019",
+    "county_name": "Dorchester County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 33138,
+    "unemployment_rate": 3.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24021",
+    "county_name": "Frederick County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 288316,
+    "unemployment_rate": 2.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24021",
+    "county_name": "Frederick County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 294154,
+    "unemployment_rate": 1.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24021",
+    "county_name": "Frederick County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 299317,
+    "unemployment_rate": 2.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24023",
+    "county_name": "Garrett County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 28619,
+    "unemployment_rate": 3.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24023",
+    "county_name": "Garrett County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 28502,
+    "unemployment_rate": 2.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24023",
+    "county_name": "Garrett County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 28393,
+    "unemployment_rate": 3.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24025",
+    "county_name": "Harford County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 263908,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24025",
+    "county_name": "Harford County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 264771,
+    "unemployment_rate": 2.1,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24025",
+    "county_name": "Harford County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 265514,
+    "unemployment_rate": 2.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24027",
+    "county_name": "Howard County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 336439,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24027",
+    "county_name": "Howard County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 337341,
+    "unemployment_rate": 1.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24027",
+    "county_name": "Howard County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 339668,
+    "unemployment_rate": 2.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24029",
+    "county_name": "Kent County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 19360,
+    "unemployment_rate": 3.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24029",
+    "county_name": "Kent County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 19441,
+    "unemployment_rate": 2.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24029",
+    "county_name": "Kent County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 19557,
+    "unemployment_rate": 3.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24031",
+    "county_name": "Montgomery County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 1061132,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24031",
+    "county_name": "Montgomery County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 1069397,
+    "unemployment_rate": 1.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24031",
+    "county_name": "Montgomery County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 1082273,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24033",
+    "county_name": "Prince George's County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 953609,
+    "unemployment_rate": 3.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24033",
+    "county_name": "Prince George's County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 956533,
+    "unemployment_rate": 2.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24033",
+    "county_name": "Prince George's County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 966629,
+    "unemployment_rate": 3.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24035",
+    "county_name": "Queen Anne's County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 51803,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24035",
+    "county_name": "Queen Anne's County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 52682,
+    "unemployment_rate": 1.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24035",
+    "county_name": "Queen Anne's County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 53688,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24037",
+    "county_name": "St. Mary's County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 115001,
+    "unemployment_rate": 2.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24037",
+    "county_name": "St. Mary's County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 115479,
+    "unemployment_rate": 2.1,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24037",
+    "county_name": "St. Mary's County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 116469,
+    "unemployment_rate": 2.9,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24039",
+    "county_name": "Somerset County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 24696,
+    "unemployment_rate": 4.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24039",
+    "county_name": "Somerset County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 25044,
+    "unemployment_rate": 3.1,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24039",
+    "county_name": "Somerset County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 25241,
+    "unemployment_rate": 4.2,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24041",
+    "county_name": "Talbot County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 37959,
+    "unemployment_rate": 3.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24041",
+    "county_name": "Talbot County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 38067,
+    "unemployment_rate": 2.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24041",
+    "county_name": "Talbot County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 38244,
+    "unemployment_rate": 3.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24043",
+    "county_name": "Washington County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 155407,
+    "unemployment_rate": 3.2,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24043",
+    "county_name": "Washington County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 156116,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24043",
+    "county_name": "Washington County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 157228,
+    "unemployment_rate": 3.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24045",
+    "county_name": "Wicomico County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 104985,
+    "unemployment_rate": 3.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24045",
+    "county_name": "Wicomico County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 105585,
+    "unemployment_rate": 2.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24045",
+    "county_name": "Wicomico County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 106329,
+    "unemployment_rate": 3.6,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24047",
+    "county_name": "Worcester County",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 54004,
+    "unemployment_rate": 4.7,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24047",
+    "county_name": "Worcester County",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 54229,
+    "unemployment_rate": 3.5,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24047",
+    "county_name": "Worcester County",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 54337,
+    "unemployment_rate": 4.4,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24510",
+    "county_name": "Baltimore city",
+    "state_fips": "24",
+    "year": 2022,
+    "population": 570663,
+    "unemployment_rate": 3.8,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24510",
+    "county_name": "Baltimore city",
+    "state_fips": "24",
+    "year": 2023,
+    "population": 567517,
+    "unemployment_rate": 3.0,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  },
+  {
+    "county_fips": "24510",
+    "county_name": "Baltimore city",
+    "state_fips": "24",
+    "year": 2024,
+    "population": 568271,
+    "unemployment_rate": 4.3,
+    "snapshot_id": "ad9580ad34ac9575d0867709"
+  }
+]

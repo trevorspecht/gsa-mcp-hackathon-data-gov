@@ -17,7 +17,7 @@ tools as every other registered dataset. Observations come from the small review
 publisher CSV route: `query_dataset` with `live=true` refreshes them within
 25-second and 100-KB limits, with strict unit/coverage validation and source hashes.
 USGS entries have no live route. No arbitrary downloads, SQL or cross-source joins
-are accepted. Raw files stay in `.local/raw/climate-ag`.
+are accepted. Raw publisher files are committed in `data/raw/climate-ag`.
 
 ## Climate observations
 

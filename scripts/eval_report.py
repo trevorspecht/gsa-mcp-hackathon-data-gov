@@ -504,7 +504,7 @@ def panel_questions(panel):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("panel", type=Path, help="*-eval-panel.json file")
-    parser.add_argument("--data", type=Path, default=ROOT / ".local/data")
+    parser.add_argument("--data", type=Path, default=ROOT / "data/reviewed")
     parser.add_argument("--ai-review", type=Path, help="Separate AI score JSON")
     args = parser.parse_args()
     panel = json.loads(args.panel.read_text())

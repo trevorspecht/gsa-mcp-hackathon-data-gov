@@ -52,6 +52,10 @@ sync:
     - .local/evidence/**
     - .local/verification/**
     - .local/tools/**
+    - data/**
+    - submission/**
+    - verification/**
+    - eval/results/**
     - .venv/**
     - '*.tgz'
 

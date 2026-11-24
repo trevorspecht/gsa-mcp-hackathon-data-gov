@@ -27,7 +27,7 @@ Score files are bound to the exact panel file by SHA-256:
 - `*-eval-human-scores.json`: the project owner's exported browser scores.
 
 Regenerate a page with `uv run python scripts/eval_report.py eval/results/<run>-eval-panel.json`
-(needs the private reviewed county snapshot in `.local/data` for county checks).
+(county checks use the reviewed snapshot in `data/reviewed/`).
 
 ## Runs
 

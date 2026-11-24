@@ -1,0 +1,36 @@
+uv run ruff check .
+All checks passed!
+uv run ruff format --check .
+72 files already formatted
+uv run pytest -q
+........................................................................ [ 72%]
+...........................                                              [100%]
+99 passed in 2.79s
+uv run python scripts/check_docs.py
+PASS Markdown structure and related links: 18 files
+/Library/Developer/CommandLineTools/usr/bin/make security
+uv run bandit -q -r src
+[tester]	WARNING	nosec encountered (B104), but no failed test on file src/datagov_mcp/app.py:96
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/datasets.py:305
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/datasets.py:305
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/datasets.py:306
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/datasets.py:306
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/datasets.py:306
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/load.py:52
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/load.py:76
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/load.py:76
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/load.py:76
+[tester]	WARNING	nosec encountered (B608), but no failed test on file src/datagov_mcp/load.py:76
+uv run python scripts/check_secrets.py
+PASS secrets scan of publishable sources
+uv run pip-audit --progress-spinner off
+No known vulnerabilities found
+Name                 Skip Reason
+-------------------- -----------------------------------------------------------------------------------
+datagov-semantic-mcp Dependency not found on PyPI and could not be audited: datagov-semantic-mcp (0.1.0)
+/Library/Developer/CommandLineTools/usr/bin/make build
+uv build
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/datagov_semantic_mcp-0.1.0.tar.gz
+Successfully built dist/datagov_semantic_mcp-0.1.0-py3-none-any.whl

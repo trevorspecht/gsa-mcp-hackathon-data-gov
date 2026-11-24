@@ -1,0 +1,556 @@
+{
+  "tools": [
+    "find_data_for_question",
+    "inspect_dataset",
+    "suggest_search_filters",
+    "assess_dataset_readiness",
+    "list_queryable_datasets",
+    "query_dataset",
+    "analyze_change",
+    "assess_compatibility",
+    "get_analysis_evidence"
+  ],
+  "registry": {
+    "datasets": [
+      {
+        "dataset_id": "md_county_population_unemployment",
+        "title": "Maryland county population and unemployment rate",
+        "publisher": "U.S. Census Bureau; Bureau of Labor Statistics",
+        "description": "Reviewed Vintage 2024 county population estimates joined to BLS LAUS annual-average unemployment rates for every Maryland county and Baltimore city.",
+        "geography": {
+          "level": "county",
+          "area": "Maryland",
+          "id_label": "five-digit county FIPS code"
+        },
+        "measures": [
+          {
+            "id": "population",
+            "label": "Resident population",
+            "type": "integer",
+            "unit": "people",
+            "observation": "July 1 estimate for each year, all years from Vintage 2024",
+            "definition": "Resident population estimate",
+            "change": "percent",
+            "change_unit": "percent",
+            "aggregation": "Sum only across disjoint counties in the same year and vintage"
+          },
+          {
+            "id": "unemployment_rate",
+            "label": "Annual average unemployment rate",
+            "type": "number",
+            "unit": "percent of civilian labor force",
+            "observation": "Annual average, not seasonally adjusted",
+            "definition": "Unemployed persons divided by the civilian labor force (not total population)",
+            "change": "difference",
+            "change_unit": "percentage points",
+            "aggregation": "Do not average county rates; sum unemployed and labor-force counts instead"
+          }
+        ],
+        "periods": [
+          2022,
+          2023,
+          2024
+        ],
+        "ready": true,
+        "setup_blockers": [],
+        "storage": "Reviewed warehouse snapshot",
+        "live_refresh": false,
+        "sources": [
+          {
+            "id": "census_population",
+            "publisher": "U.S. Census Bureau",
+            "title": "County Population Estimates, Vintage 2024",
+            "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+            "release": "Vintage 2024",
+            "catalog_identifier": null,
+            "verification": "Snapshot source schema/coverage checked; domain reviewed",
+            "sha256": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9",
+            "snapshot_id": "ad9580ad34ac9575d0867709"
+          },
+          {
+            "id": "bls_laus",
+            "publisher": "Bureau of Labor Statistics",
+            "title": "Local Area Unemployment Statistics, county annual averages",
+            "url": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+            "release": "record source file hash and retrieval date; estimates may be revised",
+            "catalog_identifier": "DOL-BLS-3060-01",
+            "verification": "Snapshot source schema/coverage checked; domain reviewed",
+            "sha256": "19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7",
+            "snapshot_id": "ad9580ad34ac9575d0867709"
+          }
+        ],
+        "catalog_identifiers": [
+          "DOL-BLS-3060-01"
+        ],
+        "caveats": [
+          "July 1 population and annual-average unemployment describe different temporal summaries.",
+          "The labor force is not the total population denominator.",
+          "A descriptive comparison does not establish causation.",
+          "All population observations use the same estimate vintage; missing values are never zero."
+        ]
+      },
+      {
+        "dataset_id": "md_annual_temperature",
+        "title": "Maryland annual average temperature",
+        "publisher": "NOAA NCEI",
+        "description": "Statewide January\u2013December average temperature from NOAA Climate at a Glance (NClimDiv).",
+        "geography": {
+          "level": "state",
+          "area": "Maryland",
+          "id_label": "state FIPS code"
+        },
+        "measures": [
+          {
+            "id": "average_temperature",
+            "label": "Annual average temperature",
+            "type": "number",
+            "unit": "degrees Fahrenheit",
+            "observation": "Calendar-year statewide average",
+            "definition": "Mean of monthly statewide average temperature, January\u2013December",
+            "change": "difference",
+            "change_unit": "degrees Fahrenheit",
+            "aggregation": "Do not average across years as a trend estimate"
+          }
+        ],
+        "periods": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "ready": true,
+        "setup_blockers": [],
+        "storage": "Reviewed packaged snapshot; live publisher refresh available",
+        "live_refresh": true,
+        "sources": [
+          {
+            "publisher": "NOAA NCEI",
+            "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/tavg/12/12/1985-2012.csv",
+            "file": "md-tavg.csv",
+            "sha256": "5b48d65908a6574afc7b01507a7be076d11e0c420baf5e11879d672445ae3a2f",
+            "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+          }
+        ],
+        "catalog_identifiers": [
+          "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        ],
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Annual weather variability is not itself evidence of a long-term climate trend; two endpoints are not a trend estimate.",
+          "Published climate values may be revised; this snapshot records exact source hashes."
+        ]
+      },
+      {
+        "dataset_id": "md_annual_precipitation",
+        "title": "Maryland annual precipitation",
+        "publisher": "NOAA NCEI",
+        "description": "Statewide January\u2013December total precipitation from NOAA Climate at a Glance (NClimDiv).",
+        "geography": {
+          "level": "state",
+          "area": "Maryland",
+          "id_label": "state FIPS code"
+        },
+        "measures": [
+          {
+            "id": "precipitation",
+            "label": "Annual precipitation",
+            "type": "number",
+            "unit": "inches",
+            "observation": "Calendar-year statewide total",
+            "definition": "Sum of monthly statewide precipitation, January\u2013December",
+            "change": "difference",
+            "change_unit": "inches",
+            "aggregation": "Annual totals do not describe seasonal timing or extremes"
+          }
+        ],
+        "periods": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "ready": true,
+        "setup_blockers": [],
+        "storage": "Reviewed packaged snapshot; live publisher refresh available",
+        "live_refresh": true,
+        "sources": [
+          {
+            "publisher": "NOAA NCEI",
+            "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/pcp/12/12/1985-2012.csv",
+            "file": "md-pcp.csv",
+            "sha256": "5d635cfcf901f93d0101523b65450a662c3e71d90cd203096ac31803b1d5c996",
+            "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+          }
+        ],
+        "catalog_identifiers": [
+          "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        ],
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Annual weather variability is not itself evidence of a long-term climate trend; two endpoints are not a trend estimate.",
+          "Published climate values may be revised; this snapshot records exact source hashes."
+        ]
+      },
+      {
+        "dataset_id": "chesapeake_cover_crops",
+        "title": "Chesapeake Bay watershed estimated cover-crop implementation",
+        "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+        "description": "Spatially allocated estimates of reported cover-crop implementation, summed across 50,871 NHDPlus V1 catchments.",
+        "geography": {
+          "level": "watershed",
+          "area": "Chesapeake Bay watershed (multiple states)",
+          "id_label": "watershed identifier"
+        },
+        "measures": [
+          {
+            "id": "cover_crop_area",
+            "label": "Estimated cover-crop area",
+            "type": "number",
+            "unit": "square kilometres",
+            "observation": "Reported practice years only",
+            "definition": "Allocated area of reported cover-crop implementation",
+            "change": "difference",
+            "change_unit": "square kilometres",
+            "aggregation": "Do not add to tillage area; practices can overlap. Not an adoption rate."
+          }
+        ],
+        "periods": [
+          2002,
+          2012
+        ],
+        "ready": true,
+        "setup_blockers": [],
+        "storage": "Reviewed packaged snapshot",
+        "live_refresh": false,
+        "sources": [
+          {
+            "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+            "url": "https://doi.org/10.5066/P9SRZS8P",
+            "file": "covcrop.csv",
+            "sha256": "c016fc5f1bda6eb15d41c5052f888448c3ae1d8860b5d25594b95c7854745c4e",
+            "catalog_identifier": "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+          }
+        ],
+        "catalog_identifiers": [
+          "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+        ],
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Spatially allocated estimates from reported practices, not direct measurements at every catchment. Practices were reported for soil/water-quality management, not proven climate-driven adoption.",
+          "Only listed observation years exist. Do not interpolate missing years or add cover-crop and tillage areas: practices can overlap."
+        ]
+      },
+      {
+        "dataset_id": "chesapeake_conservation_tillage",
+        "title": "Chesapeake Bay watershed estimated conservation-tillage implementation",
+        "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+        "description": "Spatially allocated estimates of reported conservation-tillage implementation, summed across 50,871 NHDPlus V1 catchments.",
+        "geography": {
+          "level": "watershed",
+          "area": "Chesapeake Bay watershed (multiple states)",
+          "id_label": "watershed identifier"
+        },
+        "measures": [
+          {
+            "id": "conservation_tillage_area",
+            "label": "Estimated conservation-tillage area",
+            "type": "number",
+            "unit": "square kilometres",
+            "observation": "Reported practice years only",
+            "definition": "Allocated area of reported conservation-tillage implementation",
+            "change": "difference",
+            "change_unit": "square kilometres",
+            "aggregation": "Do not add to cover-crop area; practices can overlap. Not an adoption rate."
+          }
+        ],
+        "periods": [
+          1985,
+          1992,
+          2002,
+          2012
+        ],
+        "ready": true,
+        "setup_blockers": [],
+        "storage": "Reviewed packaged snapshot",
+        "live_refresh": false,
+        "sources": [
+          {
+            "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+            "url": "https://doi.org/10.5066/P9SRZS8P",
+            "file": "contill.csv",
+            "sha256": "6f93d9b64b044f9570c4d04d5d60ae58e6eaeedf352d3f8b4cb627cd12679f37",
+            "catalog_identifier": "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+          }
+        ],
+        "catalog_identifiers": [
+          "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+        ],
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Spatially allocated estimates from reported practices, not direct measurements at every catchment. Practices were reported for soil/water-quality management, not proven climate-driven adoption.",
+          "Only listed observation years exist. Do not interpolate missing years or add cover-crop and tillage areas: practices can overlap."
+        ]
+      }
+    ],
+    "scope": "Reviewed registry only; geography and periods are fixed coverage"
+  },
+  "county": {
+    "status": "complete",
+    "dataset_id": "md_county_population_unemployment",
+    "start_period": 2022,
+    "end_period": 2024,
+    "measures": [
+      {
+        "id": "population",
+        "label": "Resident population",
+        "unit": "people",
+        "change_definition": "100 \u00d7 (end \u2212 start) / start",
+        "change_unit": "percent"
+      },
+      {
+        "id": "unemployment_rate",
+        "label": "Annual average unemployment rate",
+        "unit": "percent of civilian labor force",
+        "change_definition": "end \u2212 start",
+        "change_unit": "percentage points"
+      }
+    ],
+    "summary": {
+      "geographies_compared": 24,
+      "directions": {
+        "population": {
+          "increased": 21,
+          "decreased": 3,
+          "unchanged": 0
+        },
+        "unemployment_rate": {
+          "increased": 18,
+          "decreased": 1,
+          "unchanged": 5
+        }
+      },
+      "joint_directions": {
+        "increased": {
+          "increased": 15,
+          "decreased": 1,
+          "unchanged": 5
+        },
+        "decreased": {
+          "increased": 3,
+          "decreased": 0,
+          "unchanged": 0
+        },
+        "unchanged": {
+          "increased": 0,
+          "decreased": 0,
+          "unchanged": 0
+        }
+      },
+      "note": "Counts cover every complete requested geography before filters, sorting and limit; quote these instead of counting rows."
+    },
+    "rows": [
+      {
+        "geography_id": "24047",
+        "geography_name": "Worcester County",
+        "population_start": 54004,
+        "population_end": 54337,
+        "population_change": 0.616620991037701,
+        "unemployment_rate_start": 4.7,
+        "unemployment_rate_end": 4.4,
+        "unemployment_rate_change": -0.2999999999999998
+      }
+    ],
+    "matched_count": 1,
+    "truncated": false,
+    "missing_geographies": [],
+    "sources": [
+      {
+        "id": "census_population",
+        "publisher": "U.S. Census Bureau",
+        "title": "County Population Estimates, Vintage 2024",
+        "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+        "release": "Vintage 2024",
+        "catalog_identifier": null,
+        "verification": "Snapshot source schema/coverage checked; domain reviewed",
+        "sha256": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9",
+        "snapshot_id": "ad9580ad34ac9575d0867709"
+      },
+      {
+        "id": "bls_laus",
+        "publisher": "Bureau of Labor Statistics",
+        "title": "Local Area Unemployment Statistics, county annual averages",
+        "url": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+        "release": "record source file hash and retrieval date; estimates may be revised",
+        "catalog_identifier": "DOL-BLS-3060-01",
+        "verification": "Snapshot source schema/coverage checked; domain reviewed",
+        "sha256": "19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7",
+        "snapshot_id": "ad9580ad34ac9575d0867709"
+      }
+    ],
+    "source_evidence_id": "a19cb9ba629941be8f54a839a8793b5e",
+    "caveats": [
+      "July 1 population and annual-average unemployment describe different temporal summaries.",
+      "The labor force is not the total population denominator.",
+      "A descriptive comparison does not establish causation.",
+      "All population observations use the same estimate vintage; missing values are never zero.",
+      "Change between two endpoints is not a trend estimate or causal effect."
+    ],
+    "evidence_id": "136b94b34ed34ed29748ab9d6dbf937e"
+  },
+  "live": {
+    "status": "complete",
+    "dataset_id": "md_annual_precipitation",
+    "title": "Maryland annual precipitation",
+    "geography": {
+      "level": "state",
+      "area": "Maryland",
+      "id_label": "state FIPS code"
+    },
+    "measures": [
+      {
+        "id": "precipitation",
+        "label": "Annual precipitation",
+        "unit": "inches",
+        "observation": "Calendar-year statewide total"
+      }
+    ],
+    "rows": [
+      {
+        "geography_id": "24",
+        "geography_name": "Maryland",
+        "period": 2008,
+        "precipitation": 45.0
+      },
+      {
+        "geography_id": "24",
+        "geography_name": "Maryland",
+        "period": 2009,
+        "precipitation": 51.27
+      },
+      {
+        "geography_id": "24",
+        "geography_name": "Maryland",
+        "period": 2010,
+        "precipitation": 40.89
+      },
+      {
+        "geography_id": "24",
+        "geography_name": "Maryland",
+        "period": 2011,
+        "precipitation": 51.11
+      },
+      {
+        "geography_id": "24",
+        "geography_name": "Maryland",
+        "period": 2012,
+        "precipitation": 40.4
+      }
+    ],
+    "row_count": 5,
+    "available_periods": [
+      1985,
+      1986,
+      1987,
+      1988,
+      1989,
+      1990,
+      1991,
+      1992,
+      1993,
+      1994,
+      1995,
+      1996,
+      1997,
+      1998,
+      1999,
+      2000,
+      2001,
+      2002,
+      2003,
+      2004,
+      2005,
+      2006,
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012
+    ],
+    "missing_periods": [],
+    "sources": [
+      {
+        "publisher": "NOAA NCEI",
+        "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/pcp/12/12/1985-2012.csv",
+        "file": "md-pcp.csv",
+        "sha256": "5d635cfcf901f93d0101523b65450a662c3e71d90cd203096ac31803b1d5c996",
+        "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+      }
+    ],
+    "provenance": {
+      "storage": "Live publisher file",
+      "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/pcp/12/12/1985-2012.csv",
+      "bytes": 441,
+      "retrieved_at": "2026-11-22T23:01:57.287553+00:00"
+    },
+    "caveats": [
+      "Frozen historical demonstration, not current conditions or climate attribution.",
+      "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+      "Annual weather variability is not itself evidence of a long-term climate trend; two endpoints are not a trend estimate.",
+      "Published climate values may be revised; this snapshot records exact source hashes."
+    ],
+    "evidence_id": "f0b66de6ceed423f83232ed869b8840f"
+  }
+}

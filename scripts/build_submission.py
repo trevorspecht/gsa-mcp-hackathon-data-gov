@@ -1,4 +1,8 @@
-"""Adapt organizer templates with actual project evidence; keep outputs local."""
+"""Build the submission deck, evaluation document and PDFs from project evidence.
+
+Organizer templates are kept locally (.local/submission/templates); outputs are
+written to the committed submission/ folder.
+"""
 
 import json
 from pathlib import Path
@@ -8,7 +12,8 @@ from docx import Document
 from docx.shared import Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / ".local/submission"
+OUT = ROOT / "submission"
+TEMPLATES = ROOT / ".local/submission/templates"
 
 
 def export_pdfs():
@@ -298,7 +303,7 @@ def panel_rows():
 
 
 def write_evaluation():
-    document = Document(OUT / "templates/MCP-hackathon-sample-evaluation-document.docx")
+    document = Document(TEMPLATES / "MCP-hackathon-sample-evaluation-document.docx")
     body = document._element.body
     for child in list(body):
         if not child.tag.endswith("sectPr"):

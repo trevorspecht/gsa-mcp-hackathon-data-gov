@@ -19,8 +19,8 @@ from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / ".local/submission"
-TEMPLATE = OUT / "templates/MCP-hackathon-sample-deck.pptx"
+OUT = ROOT / "submission"
+TEMPLATE = ROOT / ".local/submission/templates/MCP-hackathon-sample-deck.pptx"
 RESULTS = ROOT / "eval/results"
 
 INK = RGBColor(0x1F, 0x1F, 0x1F)

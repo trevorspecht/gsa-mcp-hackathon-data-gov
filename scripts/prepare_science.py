@@ -12,7 +12,7 @@ from decimal import Decimal
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / ".local/raw/climate-ag"
+RAW = ROOT / "data/raw/climate-ag"
 
 
 def climate(content, units):

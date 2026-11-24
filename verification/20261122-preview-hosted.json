@@ -1,0 +1,619 @@
+{
+  "options": {
+    "datasets": [
+      {
+        "dataset_id": "md_temperature",
+        "title": "Maryland annual average temperature",
+        "geography": "Maryland statewide",
+        "available_years": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "source": {
+          "publisher": "NOAA NCEI",
+          "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/tavg/12/12/1985-2012.csv",
+          "file": "md-tavg.csv",
+          "sha256": "5b48d65908a6574afc7b01507a7be076d11e0c420baf5e11879d672445ae3a2f",
+          "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        },
+        "unit": "degrees Fahrenheit",
+        "retrieval": "live NOAA file"
+      },
+      {
+        "dataset_id": "md_precipitation",
+        "title": "Maryland annual precipitation",
+        "geography": "Maryland statewide",
+        "available_years": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "source": {
+          "publisher": "NOAA NCEI",
+          "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/pcp/12/12/1985-2012.csv",
+          "file": "md-pcp.csv",
+          "sha256": "5d635cfcf901f93d0101523b65450a662c3e71d90cd203096ac31803b1d5c996",
+          "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        },
+        "unit": "inches",
+        "retrieval": "live NOAA file"
+      },
+      {
+        "dataset_id": "chesapeake_cover_crops",
+        "title": "Chesapeake estimated cover-crop implementation",
+        "geography": "Chesapeake Bay watershed",
+        "available_years": [
+          2002,
+          2012
+        ],
+        "source": {
+          "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+          "url": "https://doi.org/10.5066/P9SRZS8P",
+          "file": "covcrop.csv",
+          "sha256": "c016fc5f1bda6eb15d41c5052f888448c3ae1d8860b5d25594b95c7854745c4e",
+          "catalog_identifier": "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+        },
+        "unit": "square kilometres",
+        "retrieval": "reviewed USGS historical snapshot"
+      },
+      {
+        "dataset_id": "chesapeake_conservation_tillage",
+        "title": "Chesapeake estimated conservation-tillage implementation",
+        "geography": "Chesapeake Bay watershed",
+        "available_years": [
+          1985,
+          1992,
+          2002,
+          2012
+        ],
+        "source": {
+          "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+          "url": "https://doi.org/10.5066/P9SRZS8P",
+          "file": "contill.csv",
+          "sha256": "6f93d9b64b044f9570c4d04d5d60ae58e6eaeedf352d3f8b4cb627cd12679f37",
+          "catalog_identifier": "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+        },
+        "unit": "square kilometres",
+        "retrieval": "reviewed USGS historical snapshot"
+      }
+    ],
+    "next_steps": [
+      "Select reviewed series and preview actual observations",
+      "Check geography and year overlap before considering analysis"
+    ]
+  },
+  "preview": {
+    "status": "complete",
+    "datasets": [
+      {
+        "status": "complete",
+        "dataset_id": "md_temperature",
+        "title": "Maryland annual average temperature",
+        "unit": "degrees Fahrenheit",
+        "geography": "Maryland statewide",
+        "rows": [
+          {
+            "year": 1985,
+            "value": 54.8
+          },
+          {
+            "year": 1986,
+            "value": 54.6
+          },
+          {
+            "year": 1987,
+            "value": 54.7
+          },
+          {
+            "year": 1988,
+            "value": 53.7
+          },
+          {
+            "year": 1989,
+            "value": 53.5
+          },
+          {
+            "year": 1990,
+            "value": 56.6
+          },
+          {
+            "year": 1991,
+            "value": 56.5
+          },
+          {
+            "year": 1992,
+            "value": 53.5
+          },
+          {
+            "year": 1993,
+            "value": 54.2
+          },
+          {
+            "year": 1994,
+            "value": 54.4
+          },
+          {
+            "year": 1995,
+            "value": 54.4
+          },
+          {
+            "year": 1996,
+            "value": 53.2
+          },
+          {
+            "year": 1997,
+            "value": 54.0
+          },
+          {
+            "year": 1998,
+            "value": 57.0
+          },
+          {
+            "year": 1999,
+            "value": 55.7
+          },
+          {
+            "year": 2000,
+            "value": 54.1
+          },
+          {
+            "year": 2001,
+            "value": 55.3
+          },
+          {
+            "year": 2002,
+            "value": 56.3
+          },
+          {
+            "year": 2003,
+            "value": 53.9
+          },
+          {
+            "year": 2004,
+            "value": 55.2
+          },
+          {
+            "year": 2005,
+            "value": 55.2
+          },
+          {
+            "year": 2006,
+            "value": 56.5
+          },
+          {
+            "year": 2007,
+            "value": 55.7
+          },
+          {
+            "year": 2008,
+            "value": 55.3
+          },
+          {
+            "year": 2009,
+            "value": 54.6
+          },
+          {
+            "year": 2010,
+            "value": 55.9
+          },
+          {
+            "year": 2011,
+            "value": 56.5
+          },
+          {
+            "year": 2012,
+            "value": 57.5
+          }
+        ],
+        "available_years": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "source": {
+          "publisher": "NOAA NCEI",
+          "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/tavg/12/12/1985-2012.csv",
+          "file": "md-tavg.csv",
+          "sha256": "5b48d65908a6574afc7b01507a7be076d11e0c420baf5e11879d672445ae3a2f",
+          "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        },
+        "retrieval": "live publisher file",
+        "bytes": 431,
+        "retrieved_at": "2026-11-22T18:03:42.129089+00:00",
+        "method": "Publisher calendar-year statewide observations, January\u2013December.",
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Annual weather variability is not itself evidence of a long-term climate trend; two endpoints are not a trend estimate.",
+          "Published climate values may be revised; this snapshot records exact source hashes."
+        ],
+        "columns": [
+          "year",
+          "value"
+        ],
+        "evidence_id": "ebc892afdca54fb59582668c992ccaee"
+      },
+      {
+        "status": "complete",
+        "dataset_id": "md_precipitation",
+        "title": "Maryland annual precipitation",
+        "unit": "inches",
+        "geography": "Maryland statewide",
+        "rows": [
+          {
+            "year": 1985,
+            "value": 40.69
+          },
+          {
+            "year": 1986,
+            "value": 36.55
+          },
+          {
+            "year": 1987,
+            "value": 38.51
+          },
+          {
+            "year": 1988,
+            "value": 37.86
+          },
+          {
+            "year": 1989,
+            "value": 51.18
+          },
+          {
+            "year": 1990,
+            "value": 46.27
+          },
+          {
+            "year": 1991,
+            "value": 35.79
+          },
+          {
+            "year": 1992,
+            "value": 42.32
+          },
+          {
+            "year": 1993,
+            "value": 45.72
+          },
+          {
+            "year": 1994,
+            "value": 45.83
+          },
+          {
+            "year": 1995,
+            "value": 39.53
+          },
+          {
+            "year": 1996,
+            "value": 58.97
+          },
+          {
+            "year": 1997,
+            "value": 38.77
+          },
+          {
+            "year": 1998,
+            "value": 42.46
+          },
+          {
+            "year": 1999,
+            "value": 44.27
+          },
+          {
+            "year": 2000,
+            "value": 43.92
+          },
+          {
+            "year": 2001,
+            "value": 36.02
+          },
+          {
+            "year": 2002,
+            "value": 41.47
+          },
+          {
+            "year": 2003,
+            "value": 60.74
+          },
+          {
+            "year": 2004,
+            "value": 46.59
+          },
+          {
+            "year": 2005,
+            "value": 44.03
+          },
+          {
+            "year": 2006,
+            "value": 44.97
+          },
+          {
+            "year": 2007,
+            "value": 36.05
+          },
+          {
+            "year": 2008,
+            "value": 45.0
+          },
+          {
+            "year": 2009,
+            "value": 51.27
+          },
+          {
+            "year": 2010,
+            "value": 40.89
+          },
+          {
+            "year": 2011,
+            "value": 51.11
+          },
+          {
+            "year": 2012,
+            "value": 40.4
+          }
+        ],
+        "available_years": [
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "source": {
+          "publisher": "NOAA NCEI",
+          "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/statewide/time-series/18/pcp/12/12/1985-2012.csv",
+          "file": "md-pcp.csv",
+          "sha256": "5d635cfcf901f93d0101523b65450a662c3e71d90cd203096ac31803b1d5c996",
+          "catalog_identifier": "https://data.noaa.gov/waf/NOAA/NESDIS/ncei/aim/iso/xml/C00005.xml"
+        },
+        "retrieval": "live publisher file",
+        "bytes": 441,
+        "retrieved_at": "2026-11-22T18:03:42.461632+00:00",
+        "method": "Publisher calendar-year statewide observations, January\u2013December.",
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Annual weather variability is not itself evidence of a long-term climate trend; two endpoints are not a trend estimate.",
+          "Published climate values may be revised; this snapshot records exact source hashes."
+        ],
+        "columns": [
+          "year",
+          "value"
+        ],
+        "evidence_id": "a8f535ddb7a245878159151d0a4cbce4"
+      },
+      {
+        "status": "complete",
+        "dataset_id": "chesapeake_cover_crops",
+        "title": "Chesapeake estimated cover-crop implementation",
+        "geography": "Chesapeake Bay watershed",
+        "unit": "square kilometres",
+        "rows": [
+          {
+            "year": 2002,
+            "value": 481.509
+          },
+          {
+            "year": 2012,
+            "value": 1770.5665
+          }
+        ],
+        "source": {
+          "publisher": "U.S. Geological Survey / Chesapeake Bay Program",
+          "url": "https://doi.org/10.5066/P9SRZS8P",
+          "file": "covcrop.csv",
+          "sha256": "c016fc5f1bda6eb15d41c5052f888448c3ae1d8860b5d25594b95c7854745c4e",
+          "catalog_identifier": "http://datainventory.doi.gov/id/dataset/USGS_5b3bb606e4b040769c18bdc9"
+        },
+        "method": "Sum published square-kilometre estimates across 50,871 unique NHDPlus V1 catchments; Decimal arithmetic before serialization.",
+        "snapshot_id": "4aa4d12744b68926035a39e9",
+        "caveats": [
+          "Frozen historical demonstration, not current conditions or climate attribution.",
+          "Maryland statewide climate and Chesapeake watershed practices have different geography; no direct join or causal inference is supported.",
+          "Spatially allocated estimates from reported practices, not direct measurements at every catchment. Practices were reported for soil/water-quality management, not proven climate-driven adoption.",
+          "Only listed observation years exist. Do not interpolate missing years or add cover-crop and tillage areas: practices can overlap."
+        ],
+        "available_years": [
+          2002,
+          2012
+        ],
+        "summary": {
+          "observations": 2,
+          "first_year": 2002,
+          "last_year": 2012,
+          "first_value": 481.509,
+          "last_value": 1770.5665,
+          "endpoint_difference": 1289.0575,
+          "note": "Difference uses first/last available observations, not an inferred trend or causal effect."
+        },
+        "evidence_id": "84ef3618a7e540b78008d745291be333",
+        "retrieval": "reviewed historical snapshot; not a live download",
+        "columns": [
+          "year",
+          "value"
+        ]
+      }
+    ],
+    "compatibility": {
+      "pairs": [
+        {
+          "dataset_ids": [
+            "md_temperature",
+            "md_precipitation"
+          ],
+          "overlapping_years": [
+            1985,
+            1986,
+            1987,
+            1988,
+            1989,
+            1990,
+            1991,
+            1992,
+            1993,
+            1994,
+            1995,
+            1996,
+            1997,
+            1998,
+            1999,
+            2000,
+            2001,
+            2002,
+            2003,
+            2004,
+            2005,
+            2006,
+            2007,
+            2008,
+            2009,
+            2010,
+            2011,
+            2012
+          ],
+          "same_geography": true,
+          "status": "descriptive_alignment_only",
+          "reason": "Matching annual geography/years permit descriptive alignment; not statistical validation, independent samples or causal evidence"
+        },
+        {
+          "dataset_ids": [
+            "md_temperature",
+            "chesapeake_cover_crops"
+          ],
+          "overlapping_years": [
+            2002,
+            2012
+          ],
+          "same_geography": false,
+          "status": "not_comparable",
+          "reason": "Different geography or fewer than three overlapping years"
+        },
+        {
+          "dataset_ids": [
+            "md_precipitation",
+            "chesapeake_cover_crops"
+          ],
+          "overlapping_years": [
+            2002,
+            2012
+          ],
+          "same_geography": false,
+          "status": "not_comparable",
+          "reason": "Different geography or fewer than three overlapping years"
+        }
+      ],
+      "limitations": [
+        "No correlation coefficients, interpolation or causal joins computed",
+        "Climate and watershed practice estimates describe different geography",
+        "Autocorrelation, trends and confounders need an analysis design"
+      ],
+      "next_steps": [
+        "Inspect the preview tables, units and missing years",
+        "Find repeated climate/practice observations for matching geography",
+        "Explore climate descriptively; do not infer practice adoption"
+      ]
+    },
+    "budget": "Up to 4 reviewed series; 25 seconds/source, 100 KB/live file",
+    "scope": "Explicit previews; no arbitrary URLs, SQL or correlations"
+  }
+}

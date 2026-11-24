@@ -1,0 +1,87 @@
+{
+ "checked_at": "2026-11-18T03:05:58.856699+00:00",
+ "sources": {
+  "census": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/counties/totals/co-est2024-alldata.csv",
+  "census_layout": "https://www2.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2020-2024/CO-EST2024-ALLDATA.pdf",
+  "bls": "https://download.bls.gov/pub/time.series/la/la.data.27.Maryland",
+  "bls_docs": [
+   "la.txt",
+   "la.series",
+   "la.measure",
+   "la.period",
+   "la.footnote"
+  ]
+ },
+ "sha256": {
+  "CO-EST2024-ALLDATA.pdf": "02a942b2277e91c1912b2fbea28c9f17615e57c38cb5b4b40ce955fa1dcf511e",
+  "co-est2024-alldata.csv": "abcc8720d669e793bbfdcd440eeec37a78db3b452adbe4ccd1eadf7c72b522b9",
+  "la.area": "7f1dcbd6a2506d92d65641609cf08bd04f0a534503c6d0f23497f284dce1fc45",
+  "la.data.27.Maryland": "19f8221287405f64466e26aa59b4dd388d10546aa354a3bdcf754e0a13d534c7",
+  "la.footnote": "e68dbc2ea353d57047b57ec28ac01a4f5d06cff98a87c16fe4ab32daa2d2df34",
+  "la.measure": "b43486145486a91cf5f9cb1a1109b1a2a4ca0d0c5a9a7d5e0f7178949b5dfee7",
+  "la.period": "3a6636301c03a15da1cfa37522aeaccda45fa2bf92d325677d7b6c258ab0cd7d",
+  "la.series": "b855794e0456b4613d380820b06c17a6dfa5f3ecc6a528415067b10e3957b2c8",
+  "la.txt": "8edf04c0c21ef474f3729d9f67ebe06679017c6789f6ca95415a4d5186095beb"
+ },
+ "findings": {
+  "bls_file_name": "la.data.20.Maryland returns 404; Maryland is la.data.27.Maryland",
+  "bls_series_format": "LAUCN + 5-digit FIPS + 10 zeros + measure 03 (20 chars); parser regex corrected",
+  "bls_seasonal_code_all_county_rate_series": [
+   "U"
+  ],
+  "bls_county_rate_series_count": 24,
+  "bls_M13": "la.period: M13 = Annual Average; la.txt: annual averages available for NSA series",
+  "bls_footnotes_2022_2024": "none; 2025 carries G (11-month average, Oct 2025 not collected) and is excluded",
+  "bls_api_crosscheck": "BLS public API v2 annual averages match file for 24001, 24031, 24510 (2022-2024)",
+  "census_encoding": "latin-1 (non-UTF-8 byte in 'Dona Ana County'); parser falls back to latin-1",
+  "census_layout": "Release March 2025; POPESTIMATEyyyy = 7/1/yyyy resident total population; SUMLEV 050 county",
+  "census_state_total_equals_county_sum": {
+   "2022": [
+    6192440,
+    6192440
+   ],
+   "2023": [
+    6217062,
+    6217062
+   ],
+   "2024": [
+    6263220,
+    6263220
+   ]
+  },
+  "rows": {
+   "census": 72,
+   "bls": 72
+  },
+  "samples": {
+   "24001-2022": [
+    67241,
+    4.0
+   ],
+   "24001-2024": [
+    67097,
+    4.7
+   ],
+   "24031-2022": [
+    1061132,
+    2.6
+   ],
+   "24031-2024": [
+    1082273,
+    2.8
+   ],
+   "24510-2022": [
+    570663,
+    3.8
+   ],
+   "24510-2024": [
+    568271,
+    4.3
+   ]
+  },
+  "catalog_binding": {
+   "bls": "Data.gov identifier DOL-BLS-3060-01 (dol-bls), describedBy la.txt",
+   "census": "no Vintage 2024 county totals record found on catalog.data.gov (only Vintage 2013-2019 API records); left null"
+  }
+ }
+}

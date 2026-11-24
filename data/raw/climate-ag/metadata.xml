@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>Andrew Sekellick</origin>
+        <pubdate>20180820</pubdate>
+        <title>Implementation of conservation tillage and cover crops in the Chesapeake Bay watershed, 1985 to 2012</title>
+        <geoform>tabular digital data</geoform>
+        <onlink>https://doi.org/10.5066/P9SRZS8P</onlink>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>Conservation tillage practices and cover crops are used throughout the Chesapeake Bay watershed to reduce soil loss and improve water quality. Implementation of these Best Management Practices (BMPs) were reported to the Chesapeake Bay Program (CBP) by each state in the watershed (New York, Pennsylvania, Maryland, Delaware, West Virginia, and Virginia). Estimates of acres of implementation per CBP land river modeling segment for the years 1985 through 2014 were provided to the U.S. Geological Survey. These data were distributed to agricultural land use cells in the National Land Cover Dataset (NLCD) dataset and summed for National Hydrography Dataset (NHD) Plus version 1 catchments to provide estimates of implementation at spatial scales commonly used for modeling purposes for the years 1985, 1992, 2002, and 2012 for conservation tillage, as well as 2002 and 2012 for cover crops.</abstract>
+      <purpose>This dataset is intended to support modeling and data analysis of the estimated effect of BMPs on water quality in the Chesapeake Bay watershed. Data are a compilation of information used by the CBP as part of the Phase 5.3.2 Watershed model, processed at the NHD Plus version 1 catchment scale.</purpose>
+      <supplinf>This dataset uses land river segment scale implementation of conservation tillage and cover crops for the years 1985, 1992, 2002, and 2012. The source data for that information is available at: https://doi.org/10.5066/P9OVU9PX. Land cover data from the National Land Cover Database were downloaded from http://www.mrlc.gov. National Hydrography Dataset Plus Version 1 catchment shapefiles for the Chesapeake Bay watershed were downloaded from http://www.horizon-systems.com/NHDPlus/NHDPlusV1_data.php.</supplinf>
+    </descript>
+    <timeperd>
+      <timeinfo>
+        <rngdates>
+          <begdate>1985</begdate>
+          <enddate>2012</enddate>
+        </rngdates>
+      </timeinfo>
+      <current>publication date</current>
+    </timeperd>
+    <status>
+      <progress>Complete</progress>
+      <update>None planned</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-82.4414</westbc>
+        <eastbc>-72.9492</eastbc>
+        <northbc>42.8760</northbc>
+        <southbc>36.0313</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>None</themekt>
+        <themekey>Chesapeake Bay watershed</themekey>
+        <themekey>conservation practice</themekey>
+        <themekey>Watershed Model</themekey>
+        <themekey>Best management practice</themekey>
+        <themekey>BMP</themekey>
+        <themekey>conservation tillage practice</themekey>
+        <themekey>cover crops</themekey>
+        <themekey>soil loss</themekey>
+      </theme>
+      <theme>
+        <themekt>USGS Metadata Identifier</themekt>
+        <themekey>USGS:5b3bb606e4b040769c18bdc9</themekey>
+      </theme>
+      <place>
+        <placekt>None</placekt>
+        <placekey>United States</placekey>
+        <placekey>USA</placekey>
+        <placekey>Delaware</placekey>
+        <placekey>District of Columbia</placekey>
+        <placekey>Maryland</placekey>
+        <placekey>New York</placekey>
+        <placekey>Pennsylvania</placekey>
+        <placekey>Virginia</placekey>
+        <placekey>West Virginia</placekey>
+        <placekey>Appomattox River</placekey>
+        <placekey>Chesapeake Bay</placekey>
+        <placekey>Choptank River</placekey>
+        <placekey>James River</placekey>
+        <placekey>Mattaponi River</placekey>
+        <placekey>Non-RIM Eastern Shore</placekey>
+        <placekey>Non-RIM Western Shore</placekey>
+        <placekey>Pamunkey River</placekey>
+        <placekey>Patuxent River</placekey>
+        <placekey>Potomac River</placekey>
+        <placekey>Rappahannock River</placekey>
+        <placekey>Susquehanna River</placekey>
+      </place>
+    </keywords>
+    <accconst>none</accconst>
+    <useconst>none</useconst>
+    <ptcontac>
+      <cntinfo>
+        <cntperp>
+          <cntper>Andrew J Sekellick</cntper>
+          <cntorg>U.S. Geological Survey, Northeast Region</cntorg>
+        </cntperp>
+        <cntpos>Physical Scientist</cntpos>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>5522 Research Park Drive</address>
+          <city>Baltimore</city>
+          <state>MD</state>
+          <postal>21228</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>443-498-5564</cntvoice>
+        <cntemail>ajsekell@usgs.gov</cntemail>
+      </cntinfo>
+    </ptcontac>
+  </idinfo>
+  <dataqual>
+    <attracc>
+      <attraccr>No formal attribute accuracy tests were conducted</attraccr>
+    </attracc>
+    <logic>No formal logical accuracy tests were conducted</logic>
+    <complete>Data set is considered complete for the information presented, as described in the abstract. Users are advised to read the rest of the metadata record carefully for additional details.</complete>
+    <posacc>
+      <horizpa>
+        <horizpar>No formal positional accuracy tests were conducted</horizpar>
+      </horizpa>
+      <vertacc>
+        <vertaccr>No formal positional accuracy tests were conducted</vertaccr>
+      </vertacc>
+    </posacc>
+    <lineage>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>Andrew J. Sekellick</origin>
+            <pubdate>2018</pubdate>
+            <title>Estimated effect of best management practice implementation in the Chesapeake Bay watershed from 1985 to 2014</title>
+            <geoform>dataset</geoform>
+            <pubinfo>
+              <pubplace>https://www.sciencebase.gov</pubplace>
+              <publish>U.S. Geological Survey</publish>
+            </pubinfo>
+            <onlink>https://doi.org/10.5066/p9ovu9px</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy</typesrc>
+        <srctime>
+          <timeinfo>
+            <rngdates>
+              <begdate>1985</begdate>
+              <enddate>2014</enddate>
+            </rngdates>
+          </timeinfo>
+          <srccurr>publication date</srccurr>
+        </srctime>
+        <srccitea>CBP Phase 5.3.2 BMP Implementation</srccitea>
+        <srccontr>BMP values</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>Homer, C.; Dewitz, J.; Fry, J.; Coan, M.; Hossain, N.; Larson, C.; Herold, N.; McKerrow, A.; VanDriel, J. N.; Wickham, J</origin>
+            <pubdate>2007</pubdate>
+            <title>Completion of the 2001 National Land Cover Database for the conterminous United States</title>
+            <geoform>raster digital data</geoform>
+            <onlink>http://www.mrlc.gov</onlink>
+          </citeinfo>
+        </srccite>
+        <typesrc>Digital and/or Hardcopy</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>2001</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>publication date</srccurr>
+        </srctime>
+        <srccitea>NLCD</srccitea>
+        <srccontr>cultivated land area</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>U.S. Environmental Protection Agency</origin>
+            <pubdate>20100901</pubdate>
+            <title>NHDPlus Version 1 (NHDPlusV1) User Guide</title>
+            <geoform>vector digital data</geoform>
+            <onlink>http://www.horizon-systems.com/NHDPlus/NHDPlusV1_home.php</onlink>
+          </citeinfo>
+        </srccite>
+        <srcscale>100000</srcscale>
+        <typesrc>Digital and/or Hardcopy</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>20071231</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>publication date</srccurr>
+        </srctime>
+        <srccitea>NHDPlus V1</srccitea>
+        <srccontr>Catchments for the Chesapeake Bay watershed</srccontr>
+      </srcinfo>
+      <procstep>
+        <procdesc>A dataset containing implementation of conservation tillage and cover crops at the CBP Phase 5.3.2 Watershed model land river segment scale were downloaded from https://doi.org/10.5066/P9OVU9PX. These data contain the amount of implementation of each practice in acres for each year from 1985 through 2014. Land cover data for the year 2001 were downloaded from National Land cover Database at http://www.mrlc.gov. National Hydrography Dataset Plus Version 1 catchment shapefiles for the Chesapeake Bay watershed were downloaded from http://www.horizon-systems.com/NHDPlus/NHDPlusV1_data.php.</procdesc>
+        <procdate>20170417</procdate>
+      </procstep>
+      <procstep>
+        <procdesc>The total cultivated crop area (value 81) for each land-river segment in the Chesapeake Bay watershed were calculated from NLCD 2001 data.</procdesc>
+        <procdate>20170417</procdate>
+      </procstep>
+      <procstep>
+        <procdesc>The land-river segment level implementation of conservation tillage and cover crops in acres were divided by the total cultivated crop area by land-river segment to create values for acres of implementation per available crop area for the years 1985, 1992, 2002, and 2012 for conservation tillage, as well as 2002 and 2012 for cover crops. Rasters with these values were created for each year.</procdesc>
+        <procdate>20170417</procdate>
+      </procstep>
+      <procstep>
+        <procdesc>Rasters with pixels of 900 square meters were created from NLCD 2001 of cultivated crop land area with values set to 900. These rasters were multiplied by the implementation acres per available crop land area rasters for conservation tillage for the years 1985, 1992, 2002, and 2012, as well as 2002 and 2012 for cover crops.</procdesc>
+        <procdate>20170417</procdate>
+      </procstep>
+      <procstep>
+        <procdesc>The resulting rasters were summarized for each year for each of the Chesapeake Bay watershed catchments in the NHD Plus V1 dataset, resulting in a data table for conservation tillage implementation by catchment for the years 1985, 1992, 2002, and 2012, as well as a data table for cover crop implementation by catchment for 2002 and 2012.</procdesc>
+        <procdate>20170417</procdate>
+      </procstep>
+    </lineage>
+  </dataqual>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>contill.csv</enttypl>
+        <enttypd>Comma Separated Value (CSV) file containing conservation tillage data.</enttypd>
+        <enttypds>U.S. Geological Survey</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>comid</attrlabl>
+        <attrdef>Common identifier of an NHD Flowline.</attrdef>
+        <attrdefs>U.S. Geological Survey</attrdefs>
+        <attrdomv>
+          <udom>Each catchment has a unique identification number. Further information on how the identification numbers are assigned is available here http://www.horizon-systems.com/NHDPlus/NHDPlusV1_documentation.php.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>cont1985</attrlabl>
+        <attrdef>Square kilometers of conservation tillage implementation for the year 1985.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>15.3178</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>cont1992</attrlabl>
+        <attrdef>Square kilometers of conservation tillage implementation for the year 1992.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>14.75</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>cont2002</attrlabl>
+        <attrdef>Square kilometers of conservation tillage implementation for the year 2002.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>10.1602</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>cont2012</attrlabl>
+        <attrdef>Square kilometers of conservation tillage implementation for the year 2012.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>12.1966</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>covcrop.csv</enttypl>
+        <enttypd>Comma Separated Value (CSV) file containing cover crop data.</enttypd>
+        <enttypds>U.S. Geological Survey</enttypds>
+      </enttyp>
+      <attr>
+        <attrlabl>comid</attrlabl>
+        <attrdef>Common identifier of an NHD Flowline.</attrdef>
+        <attrdefs>U.S. Geological Survey</attrdefs>
+        <attrdomv>
+          <udom>Each catchment has a unique identification number. Further information on how the identification numbers are assigned is available here http://www.horizon-systems.com/NHDPlus/NHDPlusV1_documentation.php.</udom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>covc2002</attrlabl>
+        <attrdef>Square kilometers of cover crop implementation for the year 2002.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>2.7916</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+      <attr>
+        <attrlabl>covc2012</attrlabl>
+        <attrdef>Square kilometers of cover crop implementation for the year 2012.</attrdef>
+        <attrdefs>Chesapeake Bay Program</attrdefs>
+        <attrdomv>
+          <rdom>
+            <rdommin>0.0</rdommin>
+            <rdommax>5.5464</rdommax>
+            <attrunit>Square kilometers</attrunit>
+          </rdom>
+        </attrdomv>
+      </attr>
+    </detailed>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>U.S. Geological Survey</cntorg>
+          <cntper>GS ScienceBase</cntper>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>Denver Federal Center, Building 810, Mail Stop 302</address>
+          <city>Denver</city>
+          <state>CO</state>
+          <postal>80225</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>1-888-275-8747</cntvoice>
+        <cntemail>sciencebase@usgs.gov</cntemail>
+      </cntinfo>
+    </distrib>
+    <distliab>Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected. Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS), no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall the act of distribution constitute any such warranty.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>Digital Data</formname>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>https://doi.org/10.5066/P9SRZS8P</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+      <fees>None</fees>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20200821</metd>
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Andrew J Sekellick</cntper>
+          <cntorg>U.S. Geological Survey, Northeast Region</cntorg>
+        </cntperp>
+        <cntpos>Physical Scientist</cntpos>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>5522 Research Park Drive</address>
+          <city>Baltimore</city>
+          <state>MD</state>
+          <postal>21228</postal>
+          <country>United States</country>
+        </cntaddr>
+        <cntvoice>443-498-5580</cntvoice>
+        <cntfax>443-498-5510</cntfax>
+        <cntemail>ajsekell@usgs.gov</cntemail>
+      </cntinfo>
+    </metc>
+    <metstdn>Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
+    <metuc>Record created using USGS Metadata Wizard tool. (https://github.com/usgs/fort-pymdwizard)</metuc>
+  </metainfo>
+</metadata>

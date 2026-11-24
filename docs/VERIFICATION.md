@@ -66,7 +66,8 @@ Status at that time: BLOCKED pending network access. Superseded by the section b
 
 ### Live Databricks vertical slice — November 18 (macOS, outside sandbox)
 
-All outputs are under `.local/verification/` with matching timestamps.
+The files cited below are published in [verification/](../verification/README.md)
+(owner email and name redacted); the full local log set stays in `.local/verification/`.
 
 - `*-workspace-discovery.json`: PAT authenticates; warehouse running; catalogs and
   READY chat endpoints listed. Owner has ALL PRIVILEGES on `users.trevor_specht`.

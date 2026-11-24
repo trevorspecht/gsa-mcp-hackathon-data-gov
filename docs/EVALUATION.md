@@ -70,7 +70,7 @@ open .local/verification/<ts>-eval-review.html
 The review page is one offline HTML file. Each run shows the question and
 expected behavior, the rendered answer and every tool call with its arguments,
 returned rows and summary counts. Automated checks recompute comparison rows and
-summary counts independently from `.local/data/indicators.json` and flag any
+summary counts independently from `data/reviewed/indicators.json` and flag any
 difference. The top of the page holds reference tables for each period and the
 source hashes. Pick rubric and overall scores in the page. They are saved in the
 browser; **Export scores JSON** writes `<ts>-eval-scores.json`, which you can
