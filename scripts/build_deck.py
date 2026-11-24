@@ -765,17 +765,17 @@ def evaluation_rounds():
 
     return [
         (
-            "Nov 18\nfirst panel",
+            "Round 1\nfirst panel",
             completed("20261118T161659Z"),
             scored("20261118T161659Z"),
         ),
         (
-            "Nov 19\nrevised prompt",
+            "Round 2\nrevised prompt",
             completed("20261119T152023Z"),
             scored("20261119T152023Z"),
         ),
         (
-            "Nov 22–23\ngeneric tools",
+            "Round 3\ngeneric tools",
             completed("20261122T230301Z", "20261123T161211Z", "20261123T161339Z"),
             round(100 * 25 / 25),
         ),
@@ -831,10 +831,9 @@ def slide_eval_results(slide):
         [
             (
                 "p",
-                "Nov 18: AI review of 18 trials (human review: 16 of 18 "
-                "fully correct). "
-                "Nov 19 and Nov 22–23: AI review; both Opus 5.5 and Astra agree on "
-                "Nov 22–23. Agent model, prompt and tools changed together: not a "
+                "Round 1: AI review of 18 trials (human review: 16 of 18 fully "
+                "correct). Rounds 2 and 3: AI review; Opus 5.5 and Astra agree on "
+                "round 3. Agent model, prompt and tools changed together: not a "
                 "controlled comparison.",
             ),
         ],
@@ -860,7 +859,7 @@ def slide_eval_results(slide):
         3.7,
         2.5,
         [
-            ("h", "Current system (Nov 22–23)"),
+            ("h", "Current system"),
             ("b", "19 correct, 6 correct abstentions, 0 partial or wrong"),
             ("b", "4 county analyses and 9 series checks match"),
             (
@@ -868,7 +867,7 @@ def slide_eval_results(slide):
                 "Correlation questions: geography mismatch explained, "
                 "no correlation invented",
             ),
-            ("b", "All 17 runs since Nov 18, failures included, in eval/results/"),
+            ("b", "All 17 runs, failures included, in eval/results/"),
         ],
         size=10,
     )
