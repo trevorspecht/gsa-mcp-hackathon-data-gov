@@ -8,6 +8,11 @@ related_files: ["../../docs/EVALUATION.md"]
 
 # Evaluation results
 
+**Start here:** [EVALUATION-SUMMARY.pdf](EVALUATION-SUMMARY.pdf) is a six-page visual
+summary of every run over time: completion, graded quality, numeric checks,
+response time, current-system grades by question and a run-by-run table.
+Regenerate it with `uv run python scripts/eval_summary.py`.
+
 Every evaluation run of the Data.gov Research MCP server, November 18–23, 2026,
 including failed and interrupted runs. Each `*-eval-panel.json` holds the exact
 questions, system prompt and hash, model settings, source-file hashes, every tool

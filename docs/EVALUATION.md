@@ -9,6 +9,8 @@ related_files: ["../README.md", "DEMO.md"]
 
 # Evaluation
 
+A six-page visual summary of all runs over time is in
+[eval/results/EVALUATION-SUMMARY.pdf](../eval/results/EVALUATION-SUMMARY.pdf).
 All runs, HTML review pages and score files referenced below are published in
 [eval/results/](../eval/results/README.md). Paths under `.local/verification/` refer
 to where a run was first written; the same filenames are in `eval/results/`.

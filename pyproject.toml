@@ -49,6 +49,7 @@ dev = [
   "markdown-it-py==4.3.0",
   "python-pptx>=1.0.2",
   "python-docx>=1.2.0",
+  "matplotlib>=3.11.2",
 ]
 
 [tool.ruff]
@@ -62,3 +63,6 @@ select = ["E", "F", "I"]
 testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/eval_summary.py" = ["E501"]  # page text is laid out line by line

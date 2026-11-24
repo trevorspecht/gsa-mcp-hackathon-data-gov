@@ -18,7 +18,8 @@ Public government data only; hosted use is confined to authenticated Databricks 
 
 Hackathon deliverables (slide deck, evaluation document, PDFs) are in
 [submission/](submission/README.md); every evaluation run is in
-[eval/results/](eval/results/README.md).
+[eval/results/](eval/results/README.md), with a visual summary of how evaluations
+went over time in [EVALUATION-SUMMARY.pdf](eval/results/EVALUATION-SUMMARY.pdf).
 
 ## Start
 
