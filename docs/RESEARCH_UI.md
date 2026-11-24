@@ -46,12 +46,10 @@ new question is asked; this is not general conversation memory.
 
 ## Hackathon judge access
 
-On November 20, the owner approved and the operator verified `CAN_USE` for the
-workspace `users` group on `datagov-research-ui`. Owner and inherited admin
-`CAN_MANAGE` permissions were preserved. Judges who are members of this temporary
-workspace can sign in and use the App at:
-
-https://datagov-research-ui-7474654188777746.aws.databricksapps.com/
+Judges do not have access to the live App, and the hackathon workspace is disabled
+on November 30, 2026; see the [reviewer guide](../REVIEWERS.md) for offline evidence.
+During the hackathon (from November 20) the workspace `users` group had `CAN_USE` on
+`datagov-research-ui`, with owner and inherited admin `CAN_MANAGE` preserved.
 
 The reviewed local configuration is `config/hackathon-ui-permissions.json`.
 Reapply only to this approved temporary workspace using an additive update:
@@ -61,9 +59,8 @@ databricks apps update-permissions datagov-research-ui -p hackathon --json @conf
 ```
 
 This does not grant direct MCP or warehouse permissions to workspace users.
-Research executes through the UI service principal. An actual judge-account
-session remains untested; workspace membership and App sign-in are required.
-Do not carry this workspace-wide grant into another workspace without review.
+Research executes through the UI service principal. Do not carry this
+workspace-wide grant into another workspace without review.
 
 ## Local use
 

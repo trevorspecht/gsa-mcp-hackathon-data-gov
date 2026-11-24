@@ -4,7 +4,7 @@ description: "Plain-language Data.gov discovery and evidence-backed queries of r
 status: draft
 tier: 1
 last_updated: "2026-11-23"
-related_files: ["PROJECT_PLAN.md", "docs/EVALUATION.md", "submission/README.md"]
+related_files: ["REVIEWERS.md", "PROJECT_PLAN.md", "docs/EVALUATION.md", "submission/README.md"]
 ---
 
 # Data.gov Research MCP
@@ -16,10 +16,17 @@ check whether datasets can be compared before relating them. Built for the GSA
 MCP & AI Agent Hackathon (November 2026) and continuing as an ongoing project.
 Public government data only; hosted use is confined to authenticated Databricks Apps.
 
-Hackathon deliverables (slide deck, evaluation document, PDFs) are in
-[submission/](submission/README.md); every evaluation run is in
-[eval/results/](eval/results/README.md), with a visual summary of how evaluations
-went over time in [EVALUATION-SUMMARY.pdf](eval/results/EVALUATION-SUMMARY.pdf).
+> **Hackathon judges:** start with the **[reviewer guide](REVIEWERS.md)**. It maps
+> each judging criterion to the evidence in this repository. The live Databricks Apps
+> are not available to judges (the hackathon workspace is disabled November 30), so
+> everything needed is here:
+>
+> - [Slide deck (PDF)](submission/pdf/Data.gov-Research-Hackathon.pdf) ·
+>   [Evaluation document (PDF)](submission/pdf/Data.gov-Research-Evaluation.pdf) ·
+>   [Evaluation summary charts (PDF)](eval/results/EVALUATION-SUMMARY.pdf)
+> - [Every evaluation run](eval/results/README.md), with offline HTML pages showing
+>   each answer and full tool trace
+> - Try it without Databricks: `uv sync --locked && uv run python scripts/try_offline.py`
 
 ## Start
 
@@ -128,6 +135,7 @@ unemployment (Census/BLS, warehouse), Maryland annual temperature and precipitat
 | `eval/` | Question panels; `eval/results/` holds every run, review page and score |
 | `verification/` | Published live deployment, data-load and hosted-agent checks |
 | `submission/` | Hackathon slide deck, evaluation document, PDFs and screenshots |
+| `REVIEWERS.md` | Guide for judges: where to find evidence for each criterion |
 | `databricks.yml`, `resources/`, `infra/` | Databricks bundle and Terraform configuration |
 
 `.local/` (git-ignored) holds credentials-adjacent and generated material: CLI
