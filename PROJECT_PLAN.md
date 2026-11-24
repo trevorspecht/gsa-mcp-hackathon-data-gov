@@ -142,7 +142,7 @@ Details: eval/results/SECOND-OPINION-REVIEW.md. Human scoring pending.
   bar charts (cover crops; two county measures); Explore further preview and
   compatibility work. No UI errors. Fixed missing dataset title/geography on
   analyze_change results (Sources/charts showed raw IDs); MCP re-released through
-  the bundle. Commit 7e96387 pushed; follow-up fix committed separately.
+  the bundle. Refactor and follow-up fix pushed.
 
 ## Guided selected-data exploration — November 22
 
@@ -258,7 +258,7 @@ refused before HTTP. User OAuth support exists but interactive login was not run
 | BUILD-06 | Compare indicators and persist evidence | LIVE VERIFIED | Real-table comparisons via stdio and hosted App; SQL dialect check 0 mismatches vs independent Python |
 | BUILD-07 | Databricks App bundle and private deployment | LIVE VERIFIED | Owner-approved App `mcp-datagov-semantic` RUNNING; SP has USE SCHEMA + SELECT on table only. Fixes: uv-project staging (pip = Py3.11), bare App host normalization |
 | BUILD-08 | Evaluation, demo and submission materials | DONE | Deck, evaluation document, PDFs and screenshots in `submission/`; video demo recorded and all materials submitted by the owner Nov 23. All 17 runs published in eval/results |
-| BUILD-09 | Remote repo, license choice and CI configuration | DONE | Pushed to public `trevorspecht/gsa-mcp-hackathon-data-gov` (GPL-3.0 kept from the repo). CI `check` run 44350605532 passed on `main` |
+| BUILD-09 | Remote repo, license choice and CI configuration | DONE | Pushed to public `trevorspecht/gsa-mcp-hackathon-data-gov` (GPL-3.0 kept from the repo). CI `check` passes on `main` |
 | BUILD-10 | Live Databricks model-agent evaluation | DONE; HUMAN SCORING OF CURRENT RUNS PENDING | Final Sol Responses panel `20261119T152023Z`: 18/18 complete, all 8 comparisons match reference, no incomplete outputs/tool errors. AI review: 13 correct / 5 correct abstentions; M2 citation criterion partial. New scored HTML ready. Earlier attempts and human Opus scores preserved; details in docs/EVALUATION.md |
 | BUILD-11 | Gateway and spatial-filter live contract checks | TODO | Direct discovery already verified; gateway requires personal key, spatial filter requires bounded real geometry test |
 | BUILD-12 | Finalize publisher catalog bindings and registry provenance | PARTIAL | BLS bound to Data.gov `DOL-BLS-3060-01`; no Vintage 2024 Census county-totals record exists on catalog.data.gov (only V2013–2019 API records), so Census stays null. Search cards still report queryable=false |
