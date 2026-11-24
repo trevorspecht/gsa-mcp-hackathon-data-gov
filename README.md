@@ -1,25 +1,15 @@
----
-title: "Data.gov Research MCP"
-description: "Plain-language Data.gov discovery and evidence-backed queries of reviewed datasets"
-status: draft
-tier: 1
-last_updated: "2026-11-23"
-related_files: ["REVIEWERS.md", "PROJECT_PLAN.md", "docs/EVALUATION.md", "submission/README.md"]
----
-
 # Data.gov Research MCP
 
 An MCP server that lets an AI assistant answer plain-language questions with
 public government data: search the whole Data.gov catalog, say which datasets can
 be queried now, query reviewed datasets with units, definitions and sources, and
-check whether datasets can be compared before relating them. Built for the GSA
-MCP & AI Agent Hackathon (November 2026) and continuing as an ongoing project.
+check whether datasets can be compared before relating them. A work in progress, built for the GSA MCP & AI Agent Hackathon (November 2026) and continuing as an ongoing project.
 Public government data only; hosted use is confined to authenticated Databricks Apps.
 
 > **Hackathon judges:** start with the **[reviewer guide](REVIEWERS.md)**. It maps
-> each judging criterion to the evidence in this repository. The live Databricks Apps
-> are not available to judges (the hackathon workspace is disabled November 30), so
-> everything needed is here:
+> each judging criterion to the evidence in this repository.
+
+Submission materials, plus additional evaluation statistics are available here:
 >
 > - [Slide deck (PDF)](submission/pdf/Data.gov-Research-Hackathon.pdf) ·
 >   [Evaluation document (PDF)](submission/pdf/Data.gov-Research-Evaluation.pdf) ·
@@ -42,9 +32,7 @@ The default server uses **stdio**: an MCP client launches it and exchanges JSON-
 through standard input/output. Waiting silently for client input is normal.
 Copy `.env.example` to `.env` only if `.env` does not already exist. Fill in
 Databricks values there; never put credentials in client JSON or commit them.
-The documented public direct catalog interface works without an API key.
-Select `CATALOG_INTERFACE=gateway` and supply `DATA_GOV_API_KEY` to use v4 instead.
-Transport selection is explicit; quota errors never trigger interface switching.
+The documented public direct catalog interface, `catalog.data.gov`, works without an API key. To use GSA's API gateway, `api.gsa.gov/technology/datagov/v4`, instead, select `CATALOG_INTERFACE=gateway` and supply `DATA_GOV_API_KEY`.
 
 ## Verify
 
