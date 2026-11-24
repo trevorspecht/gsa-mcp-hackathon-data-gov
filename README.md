@@ -1,17 +1,24 @@
 ---
-title: "Data.gov Semantic MCP"
-description: "Discover public datasets and compare reviewed county indicators with evidence"
+title: "Data.gov Research MCP"
+description: "Plain-language Data.gov discovery and evidence-backed queries of reviewed datasets"
 status: draft
 tier: 1
-last_updated: "2026-11-18"
-related_files: ["PROJECT_PLAN.md", "docs/decisions/0001-semantic-registry.md"]
+last_updated: "2026-11-23"
+related_files: ["PROJECT_PLAN.md", "docs/EVALUATION.md", "submission/README.md"]
 ---
 
-# Data.gov Semantic MCP
+# Data.gov Research MCP
 
-An AI-assisted GSA hackathon prototype: broad live Data.gov metadata discovery,
-reviewed semantic definitions, and bounded Census/BLS comparisons in Databricks.
-Public government data only; hosted use is confined to an authenticated sandbox.
+An MCP server that lets an AI assistant answer plain-language questions with
+public government data: search the whole Data.gov catalog, say which datasets can
+be queried now, query reviewed datasets with units, definitions and sources, and
+check whether datasets can be compared before relating them. Built for the GSA
+MCP & AI Agent Hackathon (November 2026) and continuing as an ongoing project.
+Public government data only; hosted use is confined to authenticated Databricks Apps.
+
+Hackathon deliverables (slide deck, evaluation document, PDFs) are in
+[submission/](submission/README.md); every evaluation run is in
+[eval/results/](eval/results/README.md).
 
 ## Start
 
@@ -38,14 +45,17 @@ make check  # lint, tests, documentation, secrets, SAST, dependency audit, build
 make live   # bounded real catalog calls through an MCP subprocess
 ```
 
-Live checks write timestamped observations under `.local/verification/`.
-Live warehouse, hosted App and agent evidence: see [verification](docs/VERIFICATION.md).
-CI runs `make check` on pushes and pull requests (`.github/workflows/check.yml`).
+Live checks write timestamped observations under the ignored `.local/verification/`;
+published deployment and data-load logs are in [verification/](verification/README.md),
+summarized in [docs/VERIFICATION.md](docs/VERIFICATION.md). CI runs `make check`
+and a Terraform validation on pushes and pull requests (`.github/workflows/check.yml`);
+the separate release workflow is disabled until a destination workspace is configured.
 To review agent answers visually, see [evaluation](docs/EVALUATION.md#run-and-review).
 
 ## Databricks agent
 
-The selected client is a Databricks-hosted tool-calling model. See
+The client used here is a Databricks-hosted tool-calling model (configurable in
+`.env`); any MCP-capable client can call the server. See
 [workspace and agent setup](docs/DATABRICKS.md) and [source preparation](docs/DATA.md).
 After the authenticated MCP App exists and `.env` is populated:
 
@@ -96,8 +106,9 @@ A catalog match is not proof of analytic compatibility.
 
 ## Research interface and science example
 
-The separate private **Data.gov Research** App provides topic inventories,
-source metadata, validated tables/charts and downloadable evidence. See
+The separate private **Data.gov Research** App shows each answer first, then tabs
+for sources, data and charts, guided exploration (select datasets, preview data,
+check compatibility, run a suggested next step) and the full tool trace. See
 [UI setup](docs/RESEARCH_UI.md). Conversation memory is not implemented.
 
 The current registry contains five worked examples: Maryland county population and
@@ -124,5 +135,6 @@ evidence cache, organizer templates and the full local log set.
 
 ## Status and ownership
 
-See `PROJECT_PLAN.md` for live task state. AI-generated code requires human review
-before deployment. No remote repository or workspace resource is created by setup.
+See [PROJECT_PLAN.md](PROJECT_PLAN.md) for current status and next steps. Licensed
+under GPL-3.0. AI-generated code requires human review before deployment. Setup does
+not create workspace resources.

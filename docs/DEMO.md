@@ -1,22 +1,23 @@
 ---
-title: "Hackathon demonstration and slide outline"
-description: "A short evidence-first demo with submission slide content"
+title: "Hackathon submission and demonstration"
+description: "Submitted deliverables, how to rebuild them and the demo questions"
 status: draft
 tier: 2
-last_updated: "2026-11-18"
-related_files: ["EVALUATION.md", "DATABRICKS.md"]
+last_updated: "2026-11-23"
+related_files: ["EVALUATION.md", "RESEARCH_UI.md", "../submission/README.md"]
 ---
 
 # Submission artifacts
 
-Deadline: **Monday, November 23, 2026, 11:59 p.m. Eastern** (extended from Nov 20).
-A live demo is not required. Run `uv run python scripts/build_submission.py` to
+Submitted by the owner on November 23, 2026 (deadline 11:59 p.m. Eastern),
+including a recorded video demo of the hosted research App. Run `uv run python scripts/build_submission.py` to
 rebuild the 12-slide deck (`scripts/build_deck.py`, following the sample deck's slide
 sequence and title-bar style), the evaluation DOCX and their PDFs in `submission/`.
 Organizer templates are kept locally in `.local/submission/templates/`. Demo-slide
 screenshots are in `submission/screens/`; evaluation tables are computed from
 `eval/results/`. PDFs require LibreOffice and show its layout; PowerPoint or Word may
-differ slightly. Both documents need human proofreading before upload.
+differ slightly. The committed deck includes the owner's final LibreOffice edits; rebuilding
+regenerates it from `scripts/build_deck.py`.
 
 | Required deliverable | Where |
 | --- | --- |
@@ -26,7 +27,15 @@ differ slightly. Both documents need human proofreading before upload.
 | Evaluation runs, review pages and scores | `eval/results/` |
 | Deployment and data-load verification logs | `verification/` |
 
-## Demonstration questions (hosted research App)
+## Video demo (hosted research App)
+
+The recorded demo uses the climate and agriculture correlation question, which
+fills all five tabs: answer with limits, sources with availability labels, change
+charts, guided exploration (select temperature, precipitation and cover crops,
+refresh NOAA live, check compatibility, run a suggested next step) and the tool
+trace.
+
+## Demonstration questions
 
 1. "Is there a correlation between climate patterns and agricultural practices over
    time in Maryland and the Chesapeake Bay watershed?" — answer explains geography

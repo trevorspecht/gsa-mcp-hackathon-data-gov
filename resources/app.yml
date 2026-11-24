@@ -2,7 +2,7 @@ resources:
   apps:
     datagov_mcp:
       name: ${var.app_name}
-      description: Public data discovery and reviewed county indicator comparisons
+      description: Public data discovery and evidence-backed queries of reviewed datasets
       source_code_path: ../.local/app
       resources:
         - name: sql-warehouse

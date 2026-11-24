@@ -3,15 +3,17 @@ title: "Implementation verification transcript"
 description: "Observed November 18 checks and explicit live deployment blockers"
 status: draft
 tier: 2
-last_updated: "2026-11-18"
+last_updated: "2026-11-23"
 related_files: ["EVALUATION.md", "DATABRICKS.md", "../PROJECT_PLAN.md"]
 ---
 
 # Verification transcript
 
 AI agent: GPT 6 Astra. Mode: scoped edit, owner-approved November 18, 2026.
-Commands and edits are recorded in the session tool history. Actual local logs
-are in ignored `.local/verification/`; this document is the publishable summary.
+Chronological record of checks, starting with the initial build. The cited logs
+are published in [verification/](../verification/README.md); current evaluation
+results are in [eval/results/](../eval/results/README.md). Earlier sections note
+states (for example "no remote CI") that later work superseded.
 
 ## Observed checks
 
@@ -27,7 +29,8 @@ are in ignored `.local/verification/`; this document is the publishable summary.
 
 The final check after follow-on test/documentation changes is captured separately
 under `.local/verification/`; test totals may increase from the initial pass above.
-No remote CI run is claimed. CI configuration awaits explicit approval (BUILD-09).
+At this point no remote CI existed; GitHub CI was added later (BUILD-09) and now
+runs `make check` on every push.
 
 ## Errors found and handled
 

@@ -1,6 +1,7 @@
 """User-run terminal login; reads host/profile without sourcing .env as shell code."""
 
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -20,14 +21,13 @@ def main():
         raise SystemExit(
             "Set DATABRICKS_HOST and DATABRICKS_CONFIG_PROFILE in .env first"
         )
-    cli = (
+    local = (
         Path(__file__).resolve().parents[1]
         / ".local/tools/databricks-1.26.0/databricks"
     )
-    if not cli.is_file():
-        raise SystemExit(
-            "Project-local Databricks CLI is missing; see docs/DATABRICKS.md"
-        )
+    cli = shutil.which("databricks") or (str(local) if local.is_file() else None)
+    if not cli:
+        raise SystemExit("Databricks CLI not found; see docs/DATABRICKS.md")
     env = os.environ.copy()
     # Use the selected workspace/profile without ambient credentials.
     for name in list(env):

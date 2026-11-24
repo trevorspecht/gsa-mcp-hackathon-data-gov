@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     databricks_catalog: str = ""
     databricks_schema: str = ""
     databricks_table: str = "county_indicators"
-    analytics_manifest: Path = Path(".local/data/manifest.json")
+    analytics_manifest: Path = Path("data/reviewed/manifest.json")
     evidence_dir: Path = Path(".local/evidence")
     mcp_transport: Literal["stdio", "http"] = "stdio"
     mcp_port: int = Field(default=8000, ge=1024, le=65535)

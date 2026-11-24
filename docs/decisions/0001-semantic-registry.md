@@ -47,7 +47,7 @@ download caller-selected distribution URLs. Keep historical handoffs out of Git.
 ### Positive Consequences
 
 Broad discovery works while warehouse setup is pending. Reviewed metric IDs and
-SQL templates remain the only analytic dispatch path. Evidence is saved as bounded
+registry entries remain the only analytic dispatch path. Evidence is saved as bounded
 JSON artifacts in an operator-configured local directory, with random IDs.
 
 ### Negative Consequences
@@ -72,6 +72,15 @@ failed profile login cannot fall back to PAT/M2M. Hosted Apps continue using the
 injected service principal. Browser/email verification is completed by the user.
 The CLI is local disposable tooling, not an application/runtime dependency. Live
 login and workspace permission validation remain pending.
+
+## November 22 amendment: generic tools
+
+The registry approach was extended: dataset-specific tools were replaced by nine
+dataset-agnostic tools, and all dataset facts moved to `registry/datasets.json`
+(measures, units, definitions, change rules, geography, sources and connector
+type). Warehouse SQL is generated from validated registry identifiers with bound
+parameters rather than per-dataset SQL templates. The decision drivers above are
+unchanged.
 
 ## References
 

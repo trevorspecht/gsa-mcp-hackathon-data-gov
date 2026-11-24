@@ -278,9 +278,7 @@ def panel_rows():
 
     rows = []
     for name, label in PANELS.items():
-        panel = json.loads(
-            (ROOT / f".local/verification/{name}-eval-panel.json").read_text()
-        )
+        panel = json.loads((ROOT / f"eval/results/{name}-eval-panel.json").read_text())
         runs = panel["runs"]
         seconds = [r["seconds"] for r in runs]
         errors = sum(

@@ -1,7 +1,7 @@
 [project]
 name = "datagov-semantic-mcp"
 version = "0.1.0"
-description = "Broad Data.gov discovery and evidence-backed curated comparisons"
+description = "MCP server for plain-language Data.gov discovery and evidence-backed queries of reviewed datasets"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

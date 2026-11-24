@@ -141,7 +141,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--population", type=Path, required=True)
     parser.add_argument("--laus", type=Path, required=True)
-    parser.add_argument("--output", type=Path, default=Path(".local/data"))
+    parser.add_argument("--output", type=Path, default=Path("data/reviewed"))
     parser.add_argument(
         "--domain-reviewed",
         action="store_true",

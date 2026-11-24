@@ -3,11 +3,17 @@ title: "Evaluation methodology and current evidence"
 description: "Fixed question panel, scoring criteria and honest verification status"
 status: draft
 tier: 2
-last_updated: "2026-11-18"
+last_updated: "2026-11-23"
 related_files: ["../README.md", "DEMO.md"]
 ---
 
 # Evaluation
+
+All runs, HTML review pages and score files referenced below are published in
+[eval/results/](../eval/results/README.md). Paths under `.local/verification/` refer
+to where a run was first written; the same filenames are in `eval/results/`.
+Sections are chronological; the current-system results are in the November 23
+section.
 
 ## Climate/agriculture expansion — November 19
 
@@ -62,9 +68,10 @@ review was not blinded. Human scoring of these runs has not been done. Details:
 ## Run and review
 
 ```sh
-uv run python scripts/run_eval.py          # writes .local/verification/<ts>-eval-panel.json
+uv run python scripts/run_eval.py --questions eval/questions.json --repeats 1
 uv run python scripts/eval_report.py .local/verification/<ts>-eval-panel.json
 open .local/verification/<ts>-eval-review.html
+# after review, copy the panel, review page and score files to eval/results/
 ```
 
 The review page is one offline HTML file. Each run shows the question and

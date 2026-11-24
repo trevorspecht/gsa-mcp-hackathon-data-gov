@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 import httpx
 
 from datagov_mcp.errors import ServiceError
+from datagov_mcp.models import ObservationRequest
 from datagov_mcp.registry import Registry, asset
 from datagov_mcp.tls import verified_context
 
@@ -396,8 +397,6 @@ class Datasets:
     async def change(self, request):
         dataset = self.get(request.dataset_id)
         measures = self.measures(dataset, request.measure_ids)
-        from datagov_mcp.models import ObservationRequest
-
         observed = await self.observations(
             ObservationRequest(
                 dataset_id=request.dataset_id,

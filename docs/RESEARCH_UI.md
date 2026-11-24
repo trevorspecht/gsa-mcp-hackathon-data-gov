@@ -9,19 +9,15 @@ related_files: ["DATABRICKS.md", "SCIENCE.md", "EVALUATION.md"]
 # Data.gov Research App
 
 A separate Streamlit App, `datagov-research-ui`, calls the authenticated MCP App
-through the same bounded Sol agent used for evaluation. It has no direct warehouse
+through the same bounded agent runner used for evaluation (model configured in
+the staged `app.yaml`). It has no direct warehouse
 credentials or grants. App-injected OAuth credentials authenticate its service
 principal. CAN USE was granted on `mcp-datagov-semantic`; model invocation works
 through existing model-service access. An attempted extra model-service grant was
 rejected because the operator lacks MANAGE; no broader privilege was added.
 
-Ranked readiness is **live in the hosted UI** as of November 20, 22:15 UTC.
-Two initial MCP releases failed with Databricks App authentication errors while
-loading package-repository settings; a later owner retry succeeded. The dependent
-UI release then succeeded. A browser test completed UI → Sol → MCP readiness,
-showing a reviewed NOAA Maryland scope and a separate unverified access route.
-Workspace users CAN_USE remained intact. Keyword-score ties use alphabetical
-ordering; this is not semantic suitability ranking, and the answer must still
+Catalog candidates are ranked by keyword overlap with the question (ties are
+alphabetical); this is not semantic suitability ranking, and the answer must still
 explain geography, years and measure compatibility.
 
 ## Interface layout (November 22)
@@ -38,13 +34,15 @@ Results appear in five tabs so the answer is not cluttered:
 4. **Explore further** — select any ready registered dataset to preview its
    observations (optionally refreshing from a registered live publisher route),
    check geography/period compatibility, and run a suggested follow-up question
-   that carries the original question forward.
+   that carries the original question forward. The follow-up answer appears in
+   this tab below its button; the original answer and previews stay in place.
 5. **Evaluation** — raw tool trace and the answer/evidence JSON download.
 
 Charts and tables are built only from structured tool results. No model-generated
 plotting code is executed; no correlation or causal chart is produced. Selection
-does not make unregistered catalog datasets retrievable. Original questions and
-previews persist only within the current UI session, not as general memory.
+does not make unregistered catalog datasets retrievable. The original question,
+previews and follow-up persist only within the current UI session and reset when a
+new question is asked; this is not general conversation memory.
 
 ## Hackathon judge access
 
@@ -81,7 +79,7 @@ production deployment or an approval to expose an unauthenticated server.
 ## Reproduce the private deployment
 
 After reviewing the concrete App and caller permissions, stage using
-`scripts/stage_ui.py`. It writes a wheel, uv project/lock, launcher and non-secret
+`scripts/stage_ui.py` (see also the release procedure in docs/DATABRICKS.md). It writes a wheel, uv project/lock, launcher and non-secret
 App configuration to `.local/ui`. It refuses to overwrite an existing staging
 folder; archive that folder before rebuilding. Import the folder into your own
 workspace path, start the App compute and deploy it. No credentials, data files,

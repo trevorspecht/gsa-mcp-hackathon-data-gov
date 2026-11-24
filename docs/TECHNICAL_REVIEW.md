@@ -8,6 +8,12 @@ related_files: ["VERIFICATION.md", "RESEARCH_UI.md", "SCIENCE.md", "EVALUATION.m
 
 # Technical quality review — November 19
 
+> Historical review of the November 19 system. Since then the six dataset-specific
+> tools were replaced by nine dataset-agnostic tools backed by
+> `registry/datasets.json` (see PROJECT_PLAN.md, "Generic tools and tabbed UI"), the
+> UI was reorganized into tabs, and evaluation results were published in
+> `eval/results/`. The findings and boundaries below remain accurate in substance.
+
 Direct review of new science tooling, preparation, UI, evaluation integration,
 staging and submission generation against the organizer's technical-quality rubric.
 This is AI-assisted code review plus executed tests, not independent certification.

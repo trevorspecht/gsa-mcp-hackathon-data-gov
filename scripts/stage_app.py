@@ -37,7 +37,7 @@ def main():
     (target / ".python-version").write_text("3.12\n")
     subprocess.run(["uv", "lock"], cwd=target, check=True)
     (target / "app.yaml").write_text("command: ['python', '-m', 'datagov_mcp.app']\n")
-    manifest = ROOT / ".local/data/manifest.json"
+    manifest = ROOT / "data/reviewed/manifest.json"
     if manifest.exists():
         data = json.loads(manifest.read_text())
         if data.get("domain_reviewed") is not True or not data.get("loaded_table"):

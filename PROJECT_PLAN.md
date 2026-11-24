@@ -3,11 +3,49 @@ title: "Project plan: data.gov MCP server"
 description: "Working plan, architecture options, open problems, and tracked work for a controlled-query MCP server over catalog.data.gov"
 status: draft
 tier: 1
-last_updated: "2026-11-18"
-related_files: ["RESEARCH_LOG.md", "ACCESS_BLOCKERS.md", "README.md"]
+last_updated: "2026-11-23"
+related_files: ["README.md", "docs/EVALUATION.md", "docs/PORTABILITY.md"]
 ---
 
 # Project plan: data.gov MCP server
+
+## Current status — November 23, 2026
+
+**Hackathon submission complete** (repository, slide deck, evaluation document and
+video demo submitted by the owner). Deliverables are in `submission/`.
+
+- **Server:** nine dataset-agnostic MCP tools; reviewed dataset registry
+  (`registry/datasets.json`) with five worked datasets: Maryland county population
+  and unemployment (Census/BLS, Databricks SQL warehouse), Maryland annual
+  temperature and precipitation (NOAA, optional live refresh), Chesapeake
+  watershed cover-crop and conservation-tillage estimates (USGS).
+- **Apps:** private MCP App and research UI App in the temporary hackathon
+  workspace; workspace users have CAN_USE on the UI. MCP App releases go through
+  the Databricks bundle; the UI is deployed with `databricks apps deploy`.
+- **Evaluation:** 17 runs published in `eval/results/`. Current system: 25/25
+  complete, all 13 numeric checks match; AI reviews (Claude Opus 5.5, then
+  GPT-6 Astra) agree on 19 correct and 6 correct abstentions. Human scoring of the
+  current runs has not been done.
+- **Data:** raw public source files in `data/raw/`; reviewed county snapshot in
+  `data/reviewed/`; published verification logs in `verification/`.
+- **Quality:** 100 tests; `make check` and CI pass on every push. CI does not deploy.
+
+## Next steps (post-hackathon)
+
+1. **Migrate to a long-lived Databricks workspace** before the hackathon workspace
+   expires: follow docs/PORTABILITY.md (destination discovery, Terraform
+   prerequisites, bundle adoption of both Apps, county snapshot load and
+   attestation, first verified release). Optionally enable gated CI deployment.
+2. **Score the current evaluation runs** as a human, using the HTML review pages.
+3. **Add registry datasets and connectors**, prioritizing sources with matching
+   geography and periods so relationship questions can be answered.
+4. **Conversational memory** for follow-up questions (see the section below).
+5. **Durable evidence storage** outside the App's local disk.
+6. **Gateway and spatial-filter live checks** (BUILD-11) and remaining catalog
+   bindings (BUILD-12).
+
+The dated sections below are a chronological record of the build; earlier sections
+describe plans and states that later work superseded.
 
 ## Submission update — November 20
 
@@ -219,9 +257,9 @@ refused before HTTP. User OAuth support exists but interactive login was not run
 | BUILD-05 | Configure warehouse and load curated snapshot | LIVE VERIFIED | Owner-approved load of 72 rows to `users.trevor_specht.county_indicators` (`*-load.txt`); stdio MCP comparison + evidence against real table (`*-stdio-warehouse-e2e.json`) |
 | BUILD-06 | Compare indicators and persist evidence | LIVE VERIFIED | Real-table comparisons via stdio and hosted App; SQL dialect check 0 mismatches vs independent Python |
 | BUILD-07 | Databricks App bundle and private deployment | LIVE VERIFIED | Owner-approved App `mcp-datagov-semantic` RUNNING; SP has USE SCHEMA + SELECT on table only. Fixes: uv-project staging (pip = Py3.11), bare App host normalization |
-| BUILD-08 | Evaluation, demo and submission materials | UPDATED NOV 23 | Deck and evaluation DOCX rebuilt from root organizer templates for generic tools, Nov 22–23 panels (25/25 complete; AI review 19 correct, 6 correct abstentions) and hosted UI screenshots. All 17 runs published in eval/results. Human proofreading and organizer submission pending |
+| BUILD-08 | Evaluation, demo and submission materials | DONE | Deck, evaluation document, PDFs and screenshots in `submission/`; video demo recorded and all materials submitted by the owner Nov 23. All 17 runs published in eval/results |
 | BUILD-09 | Remote repo, license choice and CI configuration | DONE | Pushed to public `trevorspecht/gsa-mcp-hackathon-data-gov` (GPL-3.0 kept from the repo). CI `check` run 44350605532 passed on `main` |
-| BUILD-10 | Live Databricks model-agent evaluation | SOL RUN COMPLETE; HUMAN REVIEW PENDING | Final Sol Responses panel `20261119T152023Z`: 18/18 complete, all 8 comparisons match reference, no incomplete outputs/tool errors. AI review: 13 correct / 5 correct abstentions; M2 citation criterion partial. New scored HTML ready. Earlier attempts and human Opus scores preserved; details in docs/EVALUATION.md |
+| BUILD-10 | Live Databricks model-agent evaluation | DONE; HUMAN SCORING OF CURRENT RUNS PENDING | Final Sol Responses panel `20261119T152023Z`: 18/18 complete, all 8 comparisons match reference, no incomplete outputs/tool errors. AI review: 13 correct / 5 correct abstentions; M2 citation criterion partial. New scored HTML ready. Earlier attempts and human Opus scores preserved; details in docs/EVALUATION.md |
 | BUILD-11 | Gateway and spatial-filter live contract checks | TODO | Direct discovery already verified; gateway requires personal key, spatial filter requires bounded real geometry test |
 | BUILD-12 | Finalize publisher catalog bindings and registry provenance | PARTIAL | BLS bound to Data.gov `DOL-BLS-3060-01`; no Vintage 2024 Census county-totals record exists on catalog.data.gov (only V2013–2019 API records), so Census stays null. Search cards still report queryable=false |
 | BUILD-13 | Support user OAuth profiles for local warehouse access | LIVE VERIFIED | `databricks auth login --profile hackathon` completed on macOS (CLI 1.26.0, keyring storage); agent used it to call the App. OS trust store via `truststore` for the corporate TLS proxy |
@@ -253,7 +291,7 @@ Server and SI Agent Government Hackathon. Nothing here is approved yet.
 > publicly deployed**. Required artifacts: documented GitHub repo, slides, and
 > evaluation documentation. See §6 for rules and §13 for the current proposal.
 > GovInfo's feature page remains unread; Digital Corps report is now reviewed
-> (RESEARCH_LOG.md §13; plan additions in §14).
+> (research log, kept locally; plan additions in §14).
 > Architecture choices remain proposals for discussion.
 
 ---
@@ -473,7 +511,7 @@ confirmation. The page does not mandate a cloud vendor or evaluation framework.
    the warehouse reference, round-trippable with `bundle generate`.
 4. An eval harness built with the template's `mcp-eval` skill, with a small
    question set and recorded pass/fail.
-5. Documentation: README, this plan, `RESEARCH_LOG.md`, `ACCESS_BLOCKERS.md`,
+5. Documentation: README, this plan, `the research log (kept locally)`, the access-blockers log (kept locally),
    and a short demo script.
 6. A verification transcript: lint, tests, security checks, and live end-to-end
    output.
@@ -484,7 +522,7 @@ confirmation. The page does not mandate a cloud vendor or evaluation framework.
 
 **Phase 0 — Confirm.** Event rules and small live API probes are done. Choose
 one mission question, confirm private workspace access and submission logistics,
-and finish the contract checks in RESEARCH_LOG.md §12.
+and finish the contract checks in the research log (kept locally) §12.
 
 **Phase 1 — Foundation.** Clone/adapt the template, rename the package, wire
 `search_datasets` + `describe_dataset` against the live API with caching,
@@ -548,7 +586,7 @@ contract, deferred and blocked work is tracked the moment it is named.
 | --- | --- | --- | --- |
 | WORK-01 | Read event page; align plan with rules | DONE | §6/§7 updated; remaining logistics in WORK-19 |
 | WORK-02 | Read remaining original sources | PARTIAL | Report now read; only GovInfo feature page remains; GitHub docs rechecked |
-| WORK-03 | Live Catalog API contract probe | PARTIAL | Direct search/keywords and gateway search succeeded; further checks in RESEARCH_LOG.md §12 |
+| WORK-03 | Live Catalog API contract probe | PARTIAL | Direct search/keywords and gateway search succeeded; further checks in the research log (kept locally) §12 |
 | WORK-04 | Obtain a personal api.data.gov key via env var | TODO | Before any load beyond exploration |
 | WORK-05 | Read template `.agents/skills/` (`mcp-builder` refs, `mcp-eval`) | PARTIAL | Eval guide read after recreation; builder references remain |
 | WORK-06 | Read `GSA/datagov-catalog/app/dcat_normalizer.py` and search filter modules | PARTIAL | Normalizer read; preserve distribution-level rights; filter modules remain |
@@ -583,7 +621,7 @@ contract, deferred and blocked work is tracked the moment it is named.
 
 **Historical status at 17:52 UTC:** documentation proposal, not implementation
 approval; original sites still failed then. The 20:23 UTC round restored most
-access and supersedes that status; see §13 and RESEARCH_LOG.md §12.
+access and supersedes that status; see §13 and the research log (kept locally) §12.
 
 ### Recommended first demonstration
 
@@ -798,7 +836,7 @@ extension on the same questions. Reserve substantial time for fixes and reruns.
 | WORK-19 | Confirm submission portal/time, repo visibility and template contents | TODO | Participant instructions and organizer attachments reviewed; feeds WORK-18 |
 | WORK-20 | Verify selected Genie product/preview and execution controls | TODO | Workspace tests distinguish curated Agent from One; feeds WORK-14/15 |
 | WORK-21 | Specify goal-oriented tool contracts and metric cards | PROPOSED | Approved schemas map user goals to adapters and evidence; feeds WORK-16/17 |
-| WORK-22 | Read Digital Corps PDF | DONE | 47 pages extracted; findings and limitations in RESEARCH_LOG.md §13 |
+| WORK-22 | Read Digital Corps PDF | DONE | 47 pages extracted; findings and limitations in the research log (kept locally) §13 |
 | WORK-23 | Optionally configure DevHub docs MCP | DEFERRED | User approves setup when implementation starts; endpoint/tools now documented |
 
 WORK-01 is complete and unblocks submission planning. WORK-02 remains partial

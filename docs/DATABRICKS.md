@@ -3,13 +3,14 @@ title: "Databricks sandbox and agent setup"
 description: "Configure the warehouse, authenticated MCP App, and Databricks model agent"
 status: draft
 tier: 2
-last_updated: "2026-11-18"
+last_updated: "2026-11-23"
 related_files: ["../README.md", "DATA.md"]
 ---
 
 # Databricks sandbox and agent setup
 
-Selected client: a **Databricks model agent**. The model calls our nine dataset-agnostic MCP tools;
+Client used here: a **Databricks model agent** (the model is configurable). It calls
+the nine dataset-agnostic MCP tools;
 our MCP server runs in an authenticated Databricks App and queries curated data
 using the App service principal. This is shared access to public datasets, not
 per-user Unity Catalog identity propagation.
@@ -51,9 +52,10 @@ authenticated hosted tool call after every release.
 
 ### Email-code sign-in: local user OAuth
 
-The project-local CLI is installed at `.local/tools/databricks-1.26.0/databricks`
-(Linux ARM64, official release SHA-256 verified). For your own interactive login,
-set these fields in the existing `.env`, preserving the warehouse ID:
+Install the Databricks CLI (macOS: `brew install databricks`; v1.26.0 used here).
+A project-local copy in `.local/tools/` is used only if no CLI is on `PATH`. For
+your own interactive login, set these fields in the existing `.env`, preserving the
+warehouse ID:
 
 ```dotenv
 DATABRICKS_HOST=https://YOUR-WORKSPACE-HOSTNAME
@@ -66,7 +68,6 @@ DATABRICKS_CLIENT_SECRET=
 From an interactive terminal **in the project directory**, run:
 
 ```sh
-export PATH="$PWD/.local/tools/databricks-1.26.0:$PATH"
 uv run python scripts/databricks_login.py
 ```
 
@@ -87,7 +88,7 @@ uv run datagov-setup-check
 ```
 
 Do not run `auth token` to copy credentials into `.env`. The SDK uses the CLI profile
-and refreshes OAuth credentials. Repeat the PATH export in each new terminal. The
+and refreshes OAuth credentials. The
 setup check reports configuration presence only, not whether login is valid.
 Catalog, schema and model endpoint can remain blank until workspace discovery.
 
@@ -109,7 +110,7 @@ Edit the existing ignored `.env`:
 | `DATABRICKS_TOKEN` | Optional local warehouse token; not usable to call an App |
 | `DATABRICKS_CLIENT_ID`, `DATABRICKS_CLIENT_SECRET` | OAuth M2M credentials, alternative to a local warehouse token |
 | `DATABRICKS_MCP_URL` | App HTTPS URL with `/mcp`, available after deployment |
-| `DATABRICKS_MODEL_ENDPOINT` | Available tool-calling chat-completions endpoint name |
+| `DATABRICKS_MODEL_ENDPOINT` | Tool-calling model: a serving endpoint name (`AGENT_API=chat`) or a model service such as `system.ai.gpt-6-1-sol` (`AGENT_API=responses`) |
 | `DATABRICKS_CONFIG_PROFILE` | Named CLI OAuth profile for both local warehouse and agent access |
 
 Run `uv run datagov-setup-check` to list missing settings without printing values.
@@ -118,8 +119,8 @@ Never copy local credentials into the deployment folder.
 
 ## Deployment resource review
 
-`databricks.yml` and `resources/app.yml` propose one App and a reference to an
-existing warehouse. Loading creates one Delta table in the configured existing
+`databricks.yml` and `resources/app.yml` define the MCP App (sandbox target) and
+both Apps (portable target), with a reference to an existing warehouse. Loading creates one Delta table in the configured existing
 schema. Runtime needs warehouse CAN USE plus USE CATALOG, USE SCHEMA and SELECT
 on that table. Loading uses separate operator write permissions. App callers need
 CAN USE on the App. Review those concrete resources and grants before deployment.
