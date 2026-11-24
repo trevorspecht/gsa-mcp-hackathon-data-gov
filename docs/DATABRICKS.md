@@ -1,12 +1,3 @@
----
-title: "Databricks sandbox and agent setup"
-description: "Configure the warehouse, authenticated MCP App, and Databricks model agent"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["../README.md", "DATA.md"]
----
-
 # Databricks sandbox and agent setup
 
 Client used here: a **Databricks model agent** (the model is configurable). It calls

@@ -1,12 +1,3 @@
----
-title: "Implementation verification transcript"
-description: "Observed November 18 checks and explicit live deployment blockers"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["EVALUATION.md", "DATABRICKS.md", "../PROJECT_PLAN.md"]
----
-
 # Verification transcript
 
 AI agent: GPT 6 Astra. Mode: scoped edit, owner-approved November 18, 2026.

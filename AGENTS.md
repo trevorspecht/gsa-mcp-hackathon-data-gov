@@ -1,12 +1,3 @@
----
-title: "Data.gov MCP project instructions"
-description: "Project-specific scope, commands, and verification boundaries"
-status: canonical
-tier: 1
-last_updated: "2026-11-23"
-related_files: ["PROJECT_PLAN.md", "README.md", "docs/DATABRICKS.md"]
----
-
 # Project instructions
 
 This project follows the installed universal behavioral contract. These instructions

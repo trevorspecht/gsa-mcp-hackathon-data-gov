@@ -1,11 +1,3 @@
----
-title: "Pre-submission technical quality review"
-description: "Review scope, verified corrections and remaining prototype limitations"
-status: draft
-tier: 2
-related_files: ["VERIFICATION.md", "RESEARCH_UI.md", "SCIENCE.md", "EVALUATION.md"]
----
-
 # Technical quality review — November 19
 
 > Historical review of the November 19 system. Since then the six dataset-specific

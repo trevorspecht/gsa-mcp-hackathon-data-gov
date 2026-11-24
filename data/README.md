@@ -1,11 +1,3 @@
----
-title: "Data"
-description: "Raw public source files and the reviewed county snapshot"
-status: canonical
-tier: 2
-related_files: ["../docs/DATA.md", "../docs/SCIENCE.md"]
----
-
 # Data
 
 All files are already-public U.S. government data.

@@ -1,11 +1,3 @@
----
-title: "Private research App"
-description: "User-facing discovery, scientific series and evidence display"
-status: draft
-tier: 2
-related_files: ["DATABRICKS.md", "SCIENCE.md", "EVALUATION.md"]
----
-
 # Data.gov Research App
 
 A separate Streamlit App, `datagov-research-ui`, calls the authenticated MCP App

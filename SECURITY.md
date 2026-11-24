@@ -1,12 +1,3 @@
----
-title: "Security reporting and prototype boundaries"
-description: "Private reporting and runtime boundaries for the hackathon prototype"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["docs/DATABRICKS.md", "AGENTS.md"]
----
-
 # Security
 
 Report potential vulnerabilities privately to the repository owner (GitHub:

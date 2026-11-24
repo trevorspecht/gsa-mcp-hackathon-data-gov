@@ -1,11 +1,3 @@
----
-title: "Verification logs"
-description: "Published deployment, data-load and hosted-agent checks cited in docs/VERIFICATION.md"
-status: canonical
-tier: 2
-related_files: ["../docs/VERIFICATION.md"]
----
-
 # Verification logs
 
 Timestamped actual outputs of the live Databricks checks cited in

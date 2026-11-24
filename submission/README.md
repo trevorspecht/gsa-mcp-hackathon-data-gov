@@ -1,11 +1,3 @@
----
-title: "Submission"
-description: "Hackathon slide deck, evaluation document, PDFs and demo screenshots"
-status: canonical
-tier: 2
-related_files: ["../docs/DEMO.md"]
----
-
 # Submission
 
 - `Data.gov-Research-Hackathon.pptx`: 12-slide deck following the organizer sample.

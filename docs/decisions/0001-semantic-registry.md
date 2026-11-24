@@ -1,19 +1,3 @@
----
-title: "Use a reviewed semantic registry for bounded analytics"
-description: "Architecture and dependency choices for the three-day hackathon build"
-status: proposed
-tier: 2
-date: "2026-11-18"
-last_updated: "2026-11-18"
-decision_makers: ["Project owner"]
-category: architecture
-nist_controls: ["AC-6", "SA-11", "SI-10", "AU-3"]
-impact_level: moderate
-ato_relevance: no
-risk_treatment: mitigate
-related_files: ["../../README.md", "../../PROJECT_PLAN.md"]
----
-
 # Use a reviewed semantic registry for bounded analytics
 
 ## Context and Problem Statement

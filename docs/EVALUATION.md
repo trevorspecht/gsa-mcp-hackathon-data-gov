@@ -1,12 +1,3 @@
----
-title: "Evaluation methodology and current evidence"
-description: "Fixed question panel, scoring criteria and honest verification status"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["../README.md", "DEMO.md"]
----
-
 # Evaluation
 
 A six-page visual summary of all runs over time is in

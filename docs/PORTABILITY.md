@@ -1,11 +1,3 @@
----
-title: "Portable Databricks configuration"
-description: "Ownership, staging, protected release gates and post-hackathon migration"
-status: canonical
-tier: 1
-related_files: ["../databricks.yml", "../infra/main.tf", "../scripts/stage_release.py", "DATABRICKS.md"]
----
-
 # Portable configuration — prepared, not migrated
 
 ## Migration checklist (new Databricks workspace)

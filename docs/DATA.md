@@ -1,12 +1,3 @@
----
-title: "Curated source preparation"
-description: "Reproducible Maryland county population and unemployment snapshot workflow"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["DATABRICKS.md", "../data/README.md"]
----
-
 # Curated source preparation
 
 The county snapshot was prepared from real publisher files on November 18 and

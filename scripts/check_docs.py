@@ -1,21 +1,26 @@
-"""Check authored Markdown frontmatter and local related-file links."""
+"""Check committed Markdown: a title heading, balanced code fences, working links."""
 
+import re
+import subprocess
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parents[1]
-paths = list(ROOT.glob("*.md")) + list((ROOT / "docs").rglob("*.md"))
+paths = [
+    ROOT / name
+    for name in subprocess.run(
+        ["git", "ls-files", "*.md"], cwd=ROOT, capture_output=True, text=True
+    ).stdout.split()
+]
 for path in paths:
     text = path.read_text()
-    if not text.startswith("---\n"):
-        raise SystemExit(f"FAIL missing frontmatter: {path.name}")
-    metadata = yaml.safe_load(text.split("---", 2)[1])
-    if not {"title", "description", "status", "tier"} <= metadata.keys():
-        raise SystemExit(f"FAIL incomplete frontmatter: {path.name}")
-    for link in metadata.get("related_files", []):
-        if not (path.parent / link).exists():
-            raise SystemExit(f"FAIL related link: {path.name}: {link}")
+    name = path.relative_to(ROOT)
+    if not text.lstrip().startswith("# "):
+        raise SystemExit(f"FAIL missing title heading: {name}")
     if sum(line.startswith("```") for line in text.splitlines()) % 2:
-        raise SystemExit(f"FAIL unbalanced fences: {path.name}")
-print(f"PASS Markdown structure and related links: {len(paths)} files")
+        raise SystemExit(f"FAIL unbalanced fences: {name}")
+    for target in re.findall(r"\]\(([^)#\s]+)(?:#[^)]*)?\)", text):
+        if "://" in target or target.startswith("mailto:"):
+            continue
+        if not (path.parent / target).exists():
+            raise SystemExit(f"FAIL broken link: {name}: {target}")
+print(f"PASS Markdown titles, fences and local links: {len(paths)} files")

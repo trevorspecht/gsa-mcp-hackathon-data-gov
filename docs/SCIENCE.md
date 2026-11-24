@@ -1,11 +1,3 @@
----
-title: "Climate and agriculture demonstration"
-description: "Reviewed historical series, units, boundaries and scientific limitations"
-status: draft
-tier: 2
-related_files: ["DATA.md", "EVALUATION.md", "../registry/science.json"]
----
-
 # Climate and agriculture
 
 This example supports exploration of climate observations and changing agricultural

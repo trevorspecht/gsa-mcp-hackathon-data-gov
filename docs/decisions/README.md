@@ -1,12 +1,3 @@
----
-title: "Architecture decisions"
-description: "Index of project architecture decision records"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["0001-semantic-registry.md"]
----
-
 # Decisions
 
 | ID | Decision | Status | Date |

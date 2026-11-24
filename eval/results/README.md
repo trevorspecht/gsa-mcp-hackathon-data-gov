@@ -1,11 +1,3 @@
----
-title: "Evaluation results"
-description: "Every saved evaluation run, review page and score file, including failures"
-status: canonical
-tier: 2
-related_files: ["../../docs/EVALUATION.md"]
----
-
 # Evaluation results
 
 **Start here:** [EVALUATION-SUMMARY.pdf](EVALUATION-SUMMARY.pdf) is a six-page visual

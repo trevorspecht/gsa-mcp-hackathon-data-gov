@@ -1,11 +1,3 @@
----
-title: "Reviewer guide"
-description: "Where to find the evidence for each judging criterion without running the live Apps"
-status: canonical
-tier: 1
-related_files: ["README.md", "eval/results/README.md", "submission/README.md", "verification/README.md"]
----
-
 # Reviewer guide
 
 The hosted Databricks Apps were demonstrated during the hackathon; the hackathon

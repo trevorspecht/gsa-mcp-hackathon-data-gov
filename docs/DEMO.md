@@ -1,12 +1,3 @@
----
-title: "Hackathon submission and demonstration"
-description: "Submitted deliverables, how to rebuild them and the demo questions"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["EVALUATION.md", "RESEARCH_UI.md", "../submission/README.md"]
----
-
 # Submission artifacts
 
 Submitted by the owner on November 23, 2026 (deadline 11:59 p.m. Eastern),

@@ -1,12 +1,3 @@
----
-title: "Contributing"
-description: "Verification and review expectations for AI-assisted project changes"
-status: draft
-tier: 2
-last_updated: "2026-11-23"
-related_files: ["AGENTS.md", "SECURITY.md"]
----
-
 # Contributing
 
 Track scoped work in `PROJECT_PLAN.md`. Use branches and reviewed pull requests on

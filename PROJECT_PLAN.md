@@ -1,12 +1,3 @@
----
-title: "Project plan: data.gov MCP server"
-description: "Working plan, architecture options, open problems, and tracked work for a controlled-query MCP server over catalog.data.gov"
-status: draft
-tier: 1
-last_updated: "2026-11-23"
-related_files: ["README.md", "docs/EVALUATION.md", "docs/PORTABILITY.md"]
----
-
 # Project plan: data.gov MCP server
 
 ## Current status — November 23, 2026
